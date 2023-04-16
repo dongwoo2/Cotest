@@ -1,3 +1,5 @@
+package backjoon;
+
 import java.util.Scanner;
 
 public class time { //2884번

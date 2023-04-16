@@ -1,3 +1,5 @@
+package backjoon;
+
 import java.util.Scanner;
 
 //4344번

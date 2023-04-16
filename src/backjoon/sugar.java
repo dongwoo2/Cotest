@@ -1,3 +1,5 @@
+package backjoon;
+
 import java.util.Scanner;
 
 public class sugar { //2839번
