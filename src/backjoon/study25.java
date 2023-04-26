@@ -4,6 +4,12 @@ import java.util.Scanner;
 
 public class study25 {
 
+    public static int addNum(int a, int b) {
+        int result = a + b;
+        return result;
+    }
+
+
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
@@ -20,5 +26,9 @@ public class study25 {
         System.out.println("sub = " + sub);
         System.out.println("mult = " + mult);
         System.out.println("mod = " + mod);
+
+        System.out.println("addNum(5,8) = " + addNum(5,8));
+
+
     }
 }
