@@ -16,17 +16,17 @@ public class b2588_2 {
 
         StringBuilder sb = new StringBuilder();
 
-        sb.append(A * (B % 10));
+        sb.append(A * (B % 10)); // ex 385) 5
         sb.append('\n');
 
-        sb.append(A * (B % 100)/10);
+        sb.append(A * (B % 100)/10); // 8
         sb.append('\n');
 
-        sb.append(A * (B / 100));
+        sb.append(A * (B / 100)); // 3
         sb.append('\n');
 
         sb.append(A * B);
 
-        System.out.println("sb = " + sb);
+        System.out.println(sb);
     }
 }
