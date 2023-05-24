@@ -5,6 +5,9 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class b10430 {
+    public static int dong(int a, int b){
+        return a+b;
+    }
 
     public static void main(String[] args) throws IOException {
 
@@ -20,6 +23,7 @@ public class b10430 {
         System.out.println(  (A%C + B%C)%C );
         System.out.println( (A*B)%C );
         System.out.println( (A%C * B%C)%C );
+        System.out.println(dong(1,4));
     }
 
 }
