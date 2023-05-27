@@ -11,8 +11,8 @@ public class plus {
 
         int n = sc.nextInt();
         int k = sc.nextInt();
-        pl(n,k);
         System.out.println(pl(n,k));
+        System.out.println(mi(n,k));
 //
 //        int sum = 0;
 //
@@ -26,5 +26,9 @@ public class plus {
        int t = x+y;
        int v = x-y;
         return t + v;
+    }
+
+    public static int mi(int x,int y){
+        return x-y;
     }
 }
