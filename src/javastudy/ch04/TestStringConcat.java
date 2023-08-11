@@ -6,7 +6,7 @@ public class TestStringConcat {
 
         String s1 = "hello";
         String s2 = "world";
-        StringConcatImpl.concat1 = new StringConcatImpl();
-        concat1.makeString(s1, s2);
+//        StringConcatImpl.concat1 = new StringConcatImpl();
+//        concat1.makeString(s1, s2);
     }
 }
