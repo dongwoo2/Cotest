@@ -93,59 +93,44 @@ public class eight11 {
         Scanner sc = new Scanner(System.in);
         int a = sc.nextInt();
         int b = sc.nextInt();
-        int c = 0;
-        int d = 0;
-        int e = 0;
-        int f = 0;
-        int g = 0;
+        int c, d, e, f, g;
 
-//     if(b>a){
-//         c = a + b;
-//     }else {
-//         c = (a+b) - 300;
-//     }
-//        d = a + b + c;
-//        e = d * 3;
-//        f = (d + e) + 5000;
-//        g = f * 2;
-
-
-
-        if(5000<=a && a<=10000){
+        if (a >= 5000 && a <= 10000) { // a의 범위가 올바른지 확인
             System.out.println(a + "는 5000이상 10000이하의 숫자입니다.");
-            if(b>=4000){
-                System.out.println(b + "는 4000 이상의 숫자가 들어있고," + a +  "보다 클 수도 있고, 작을 수도 있습니다.");
-                if(b>a){
+            if (b >= 4000) { // b의 범위가 올바른지 확인
+                System.out.println(b + "는 4000 이상의 숫자가 들어있고," + a + "보다 클 수도 있고, 작을 수도 있습니다.");
+                if (b > a) {
                     System.out.println(" 단, b가 a보다 크다면 c는 "+ a +"와 "+ b +"의 합입니다.");
                     c = a + b;
-                }else {
-                    c = (a+b) - 300;
+                } else {
                     System.out.println( b + "가 "+ a +"보다 작다면 c는 " + a + "와 "+ b +"의 합에서 -300입니다. ");
+                    c = a + b - 300;
                 }
-                int d1 = (a+b+c);
-                if(d != d1){
-                    System.out.println(" d가 잘못되었습니다. ");
-                }else {
-                    System.out.println(d+ "는 " +a+ " 와 " + b + "와"  + c + "를  합친수 입니다.");
+                d = a + b + c;
+                System.out.println(d+ "는 " +a+ " 와 " + b + "와" + c + "를 합친수 입니다.");
+                if (d * 3 > a + b + c) { // e의 조건을 확인
+                    e = a + b + c;
+                    System.out.println(e+ "는 " +a+ " 와 " + b + "와" + c + "를 합친 수에서 3배보다 작습니다.");
+                } else {
+                    e = -1; // 잘못된 값임을 표시하기 위해 -1을 넣어줌
+                    System.out.println(" e가 잘못되었습니다. ");
                 }
-                if(e > d*3){
-                    System.out.println("e가 잘못되었습니다.");
-                }else {
-
+                f = a + b + c + d + e + 5000;
+                System.out.println(f + " 는 나머지 " + a +"," + b +","+ c +"," + d +"," + e + "를 합친 숫자보다 5000이 더 큽니다." );
+                g = f * 2;
+                System.out.println(g + "는" + f + "의 두 배 입니다.");
+                System.out.println("모든 변수가 올바르게 입력되었습니다.");
+            } else {
+                if (b < a) {
+                    System.out.println("b와 a의 관계에 문제가 있습니다. c의 값이 잘못됩니다.");
+                } else {
+                    System.out.println("b의 범위가 올바르지 않습니다.");
                 }
-                int f1 = (d + e) + 5000;
-                if(f < f1){
-                    System.out.println("f가 잘못되었습니다.");
-                }
-                int g1 = f1*2;
-                if(g != g1){
-                    System.out.println("g가 잘못되었습니다.");
-                }
-
             }
-        }else {
-            System.out.println("a가 잘못되었습니다.");
+        } else {
+            System.out.println("a의 범위가 올바르지 않습니다.");
         }
+
     }
 
 }
