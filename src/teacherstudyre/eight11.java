@@ -1,6 +1,7 @@
 package teacherstudyre;
 
 import java.util.Scanner;
+import java.util.function.BiFunction;
 
 /*
 
@@ -51,6 +52,43 @@ import java.util.Scanner;
 
  */
 /*
+
+
+    public static void main(String[] args) {
+
+        int a = 1000, b = 2000;
+        int sum;
+        //1
+        sum = mydata1(a, b);
+        System.out.println("sum = " + sum);
+        //2
+        sum = mydata2(a, b);
+        System.out.println("sum = " + sum);
+    }
+
+    public static int mydata1(int a, int b) {
+        return a + b;
+    }
+
+    public static int mydata2(int a, int b) {
+        return mydata3(a, b);
+    }
+    public static int mydata3(int a, int b) {
+        return a * b;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
    Scanner sc = new Scanner(System.in);
 
            System.out.println(" 숫자를 입력해주세요 ");
@@ -87,72 +125,110 @@ import java.util.Scanner;
            }
 
 
+        Scanner sc = new Scanner(System.in);
+        System.out.println(" 다음 세 가지 중 고르시오 \n 1.감자 2.옥수수 3. 수박 " );
+        int ch = sc.nextInt();
+        int ch1 = 0;
+        int ch2 = 0;
+        int money = 0;
+        int money1;
+
+        if(ch == 1){
+            System.out.println(" 1번 감자를 선택하였습니다 " );
+            System.out.println(" 1천원어치, 2천원어치, 3천원어치 " );
+            ch1 = sc.nextInt();
+            if(ch1 == 1) {
+                money = 1000;
+            } else if (ch1 == 2) {
+                money = 2000;
+            }else if (ch1 == 3) {
+                money = 3000;
+            }
+        }else if (ch == 2){
+            System.out.println(" 2번 옥수수를 선택하였습니다 " );
+            System.out.println(" 4천원어치, 5천원어치, 6천원어치 " );
+            ch1 = sc.nextInt();
+            if(ch1 == 1) {
+                money = 4000;
+            } else if (ch1 == 2) {
+                money = 5000;
+            }else if (ch1 == 3) {
+                money = 6000;
+            }
+        }else if (ch == 3){
+            System.out.println(" 3번 수박을 선택하였습니다 " );
+            System.out.println(" 10000천원어치, 20000천원어치, 30000천원어치 " );
+            ch1 = sc.nextInt();
+            if(ch1 == 1) {
+                money = 10000;
+            } else if (ch1 == 2) {
+                money = 20000;
+            }else if (ch1 == 3) {
+                money = 30000;
+            }
+        }
+
+        System.out.println(" \n 몇 개를 주문하시겠습니까?");
+        ch2 = sc.nextInt();
+        System.out.println("총 금액은 " + (money * ch2) + "원 입니다.");
+
+        1. 효율성
+        2. 코드 유지/보수
+        3. 코드의 재사용성
+        4. 중복의 최소화
  */
+@FunctionalInterface
+interface FrFunction{
+    int cal(int a, int b);
+}
 public class eight11 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int a = sc.nextInt();
-        int b = sc.nextInt();
-        int c = 0;
-        int d = 0;
-        int e;
-        int f;
-        int g;
+        System.out.println(" 다음 세 가지 중 고르시오 \n 1.감자 2.옥수수 3. 수박 " );
+        int ch = sc.nextInt();
+        int ch1 = 0;
+        int ch2 = 0;
+        int money = 0;
+        if(ch == 1){
+            System.out.println(" 1번 감자를 선택하였습니다. ");
+            System.out.println(" 1천원어치, 2천원어치, 3천원어치 " );
+            ch1 = sc.nextInt();
 
-        if (a >= 5000 && a <= 10000 && b >= 4000) {
-            System.out.println(a + "는 5000이상 10000이하의 숫자입니다.");
-            System.out.println(b + "는 4000 이상의 숫자가 들어있고," + a + "보다 클 수도 있고, 작을 수도 있습니다.");
-            if (b > a) {
-                c = a + b;
-                System.out.println(" 단, b가 a보다 크다면 c는 "+ a +"와 "+ b +"의 합입니다.");
-            } else {
-                c = a + b - 300;
-                System.out.println( b + "가 "+ a +"보다 작다면 c는 " + a + "와 "+ b +"의 합에서 -300입니다. ");
+            if(ch1 == 1){
+                money = 1000;
+            } else if (ch1 == 2) {
+                money = 2000;
+            } else if (ch1 == 3) {
+                money = 3000;
             }
-            d = a + b + c;
-            System.out.println(d+ "는 " +a+ " 와 " + b + "와" + c + "를 합친수 입니다.");
-            if (d * 3 > a + b + c) {
-                e = a + b + c;
-                System.out.println(e+ "는 " +a+ " 와 " + b + "와" + c + "를 합친 수에서 3배보다 작습니다.");
-            } else {
-                e = -1;
-                System.out.println("e가 잘못되었습니다.");
+        } else if (ch == 2) {
+            System.out.println(" 2번 옥수수를 선택하였습니다. ");
+            System.out.println(" 4천원어치, 5천원어치, 6천원어치 " );
+            ch1 = sc.nextInt();
+            if(ch1 == 1){
+                money = 4000;
+            } else if (ch1 == 2) {
+                money = 5000;
+            } else if (ch1 == 3) {
+                money = 6000;
             }
-            f = a + b + c + d + e + 5000;
-            System.out.println(f + " 는 나머지 " + a +"," + b +","+ c +"," + d +"," + e + "를 합친 숫자보다 5000이 더 큽니다." );
-            if (f > a + b + c + d + e) {
-                g = f * 2;
-                System.out.println("g는 f의 두 배인 " + g + "입니다.");
-            } else {
-                System.out.println("f의 값이 조건에 맞지 않습니다.");
+        } else if (ch == 3) {
+            System.out.println(" 3번 수박을 선택하였습니다. ");
+            System.out.println(" 10000천원어치, 20000천원어치, 30000천원어치 " );
+            ch1 = sc.nextInt();
+            if(ch1 == 1){
+                money = 10000;
+            } else if (ch1 == 2) {
+                money = 20000;
+            } else if (ch1 == 3) {
+                money = 30000;
             }
-            System.out.println("모든 변수가 올바르게 입력되었습니다.");
-        } else {
-            if (!(a >= 5000 && a <= 10000)) {
-                System.out.println("a의 범위가 올바르지 않습니다.");
-                if (b < 4000) {
-                    System.out.println("b의 범위가 올바르지 않습니다.");
-                    if (c <= 0) {
-                        System.out.println("c의 값이 잘못되었습니다.");
-                        if (d <= 0) {
-                            System.out.println("d의 값이 잘못되었습니다.");
-                            System.out.println("모두 잘못되었습니다.");
-                        }
-                    }
-                }
-            } else {
-                if(b < 4000) {
-                    System.out.println("b의 범위가 올바르지 않습니다.");
-                }
-                if (c <= 0) {
-                    System.out.println("c의 값이 잘못되었습니다.");
-                    if (d <= 0) {
-                        System.out.println("d의 값이 잘못되었습니다.");
-                    }
-                }
-            }
-            // System.out.println("모두 잘못되었습니다.");
         }
-    }
+        FrFunction f1 = (a,b) -> {return a*b;};
+        System.out.println(" \n 몇 개를 주문하시겠습니까?");
+        ch2 = sc.nextInt();
+        System.out.println("총 금액은 " + (f1.cal(money,ch2)) + "원 입니다.");
 
+
+    }
 }
