@@ -176,8 +176,7 @@ import java.util.function.BiFunction;
         2. 코드 유지/보수
         3. 코드의 재사용성
         4. 중복의 최소화
- */
-@FunctionalInterface
+        @FunctionalInterface
 interface FrFunction{
     int cal(int a, int b);
 }
@@ -232,3 +231,63 @@ public class eight11 {
 
     }
 }
+ */
+@FunctionalInterface
+interface FrFunction{
+    int cal(int a, int b);
+}
+@FunctionalInterface
+interface FrFunction2{
+    int cal2(int a);
+}
+public class eight11 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println(" 다음 세 가지 중 고르시오 \n 1.감자 2.옥수수 3. 수박 " );
+        int ch = sc.nextInt();
+        int ch1 = 0;
+        int ch2 = 0;
+        int money = 0;
+        int menuNumber = ch == 1?1:(ch==2?2:(ch==3?3:0));
+
+        FrFunction2 allprice;
+
+        if(menuNumber == 0){
+            System.out.println("유효한 메뉴가 아닙니다.");
+            return;
+        }
+        if(menuNumber == 1){
+            System.out.println(" 1번 감자를 선택하였습니다. ");
+            System.out.println(" 1천원어치, 2천원어치, 3천원어치 " );
+
+            allprice = (count) -> count*1000;
+
+        } else if (menuNumber == 2) {
+            System.out.println(" 2번 옥수수를 선택하였습니다. ");
+            System.out.println(" 4천원어치, 5천원어치, 6천원어치 " );
+
+            allprice = (count) -> (count+3)*1000;
+        } else if (menuNumber == 3) {
+            System.out.println(" 3번 수박을 선택하였습니다. ");
+            System.out.println(" 10000천원어치, 20000천원어치, 30000천원어치 " );
+
+            allprice = (count) -> count*10000;
+        }
+        else{
+            allprice = null;
+        }
+        if(allprice != null){
+            ch1 = sc.nextInt();
+
+
+
+            FrFunction f1 = (a,b) -> {return a*b;};
+            System.out.println(" \n 몇 개를 주문하시겠습니까?");
+            ch2 = sc.nextInt();
+            money = allprice.cal2(ch1);
+            System.out.println("총 금액은 " + (f1.cal(money,ch2)) + "원 입니다.");
+        }
+
+    }
+}
+
