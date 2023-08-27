@@ -230,20 +230,30 @@ public class eight11 {
 
 
     }
+
 }
- */
-@FunctionalInterface
-interface FrFunction{
-    int cal(int a, int b);
-}
-@FunctionalInterface
-interface FrFunction2{
-    int cal2(int a);
-}
-public class eight11 {
-    public static void main(String[] args) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         Scanner sc = new Scanner(System.in);
-        System.out.println(" 다음 세 가지 중 고르시오 \n 1.감자 2.옥수수 3. 수박 " );
+        System.out.println(" 다음 세 가지 중 고르시오 \n 1.감자 2.옥수수 3. 수박 4. 호박" );
         int ch = sc.nextInt();
         int ch1 = 0;
         int ch2 = 0;
@@ -288,6 +298,161 @@ public class eight11 {
             System.out.println("총 금액은 " + (f1.cal(money,ch2)) + "원 입니다.");
         }
 
+
+
+@FunctionalInterface
+interface FrFunction{
+    int cal(int a, int b);
+}
+@FunctionalInterface
+interface FrFunction2{
+    int cal2(int a);
+}
+ public static void main(String[] args) {
+        foodSelect();
+    }
+    public static int foodSelect(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("1. 감자 2. 옥수수 3. 수박 ");
+        int select = sc.nextInt();
+
+        if(select == 1){
+            foodPriceSelect("감자",1000,2000,3000);
+        }
+        if(select == 2){
+            foodPriceSelect("옥수수",4000,5000,6000);
+        }
+        if(select == 3){
+            foodPriceSelect("수박",10000,20000,30000);
+        }
+
+        return select;
+    }
+    public static int foodPriceSelect(String food, int price1, int price2, int price3){
+        Scanner sc = new Scanner(System.in);
+        int allprice = 0;
+        System.out.println(food + "를 선택하였습니다.");
+        System.out.println(price1 + " " + price2 + " " + price3);
+        int select2 = sc.nextInt();
+        System.out.println(" 몇 개를 주문하시겠습니까? ");
+        int count = sc.nextInt();
+
+        if(select2 == 1) {
+            allprice = price1*count;
+        }
+        if(select2 == 2){
+            allprice = price2*count;
+        }
+        if(select2 == 3){
+            allprice = price3*count;
+        }
+        System.out.println("총 가격은" + allprice + " 원 입니다.");
+        return allprice;
+
+    }
+     public static void main(String[] args) {
+        scoreselect();
+    }
+    public static int scoreselect(){
+        Scanner sc = new Scanner(System.in);
+        System.out.print("점수 :");
+        int score = sc.nextInt();
+        String crd = credit(score);
+
+        System.out.print(" 학점 : " );
+        String credit2 = sc.next();
+        System.out.println("credit2 = " + credit2);
+        System.out.println("crd = " + crd);
+        if(crd.equals(credit2)){
+            System.out.println(" 올바른 학점입니다. ");
+        } else  {
+            System.out.println(" 올바르지 않은 학점입니다. ");
+        }
+        return score; //여기 보이드도 생각해보자 굳이 리턴을 할 필요가 있나
+    }
+
+    public static String credit(int score) {
+
+
+        String edit = "";
+        if(score >= 100){
+            //System.out.println(" A ");
+             edit = "A";
+        } else if (score >= 90) {
+            //System.out.println(" B " );
+             edit = "B";
+        } else if (score >= 80) {
+            //System.out.println(" C ");
+             edit = "C";
+        } else if (score >= 70) {
+            //.out.println(" D ");
+             edit = "D";
+        } else if (score >= 60) {
+            //.out.println(" E ");
+             edit = "E";
+        } else if (score >= 50) {
+            //System.out.println(" F ");
+             edit = "F";
+        }
+
+        return edit;
+    }
+ */
+public class eight11 {
+
+    public static void main(String[] args) {
+        rocksegerrpaper();
+    }
+    public static void rocksegerrpaper(){
+        Scanner sc = new Scanner(System.in);
+        String one = sc.next();
+        String two = sc.next();
+        String three = sc.next();
+        String four = sc.next();
+
+        String rock,segger,paper;
+
+    }
+    public static String rsp(String one,String two, String three, String four) {
+
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
