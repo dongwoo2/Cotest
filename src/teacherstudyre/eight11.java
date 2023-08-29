@@ -397,23 +397,453 @@ interface FrFunction2{
 
         return edit;
     }
+
+
+
+        Scanner sc = new Scanner(System.in);
+        String 철수,영희;
+        int money = 10000;
+        int plus = 0;
+        int plus2 = 0;
+        int plus3 = 0;
+        int plus4 = 0;
+        int plus5 = 0;
+        int plus6 = 0;
+        int choice1 = 0;
+        int choice2 = 0;
+        int choice3 = 0;
+        int choice4 = 0;
+        int choice5 = 0;
+        int choice6 = 0;
+        int choice7 = 0;
+        int choice8 = 0;
+
+        System.out.println(" 추가받을 용돈을 적으시오 ");
+        plus = sc.nextInt();
+        money += plus;
+        System.out.println("money = " + money);
+
+        System.out.println("떡볶이 값을 입력하시오" );
+        int 떡볶이 = sc.nextInt();
+        System.out.println("우동 값을 입력하시오" );
+        int 우동 = sc.nextInt();
+        System.out.println("과자 값을 입력하시오" );
+        int 과자 = sc.nextInt();
+        System.out.println("순대 값을 입력하시오" );
+        int 순대 = sc.nextInt();
+        System.out.println("어묵 값을 입력하시오" );
+        int 어묵 = sc.nextInt();
+
+        System.out.println(" 떡볶이를 몇 개 주문하시겠습니까? " );
+        choice1 = sc.nextInt();
+
+        if(money <= 떡볶이 * choice1){
+
+            money -=떡볶이 * choice1;
+            System.out.println("돈이 " + money + "만큼 부족합니다.");
+            System.out.println(" 추가받을 용돈을 적으시오 ");
+            plus2 = sc.nextInt();
+            money += plus2;
+            System.out.println("추가적으로 " + plus2 + " 만큼 용돈을받아" + money + " 원이 되었습니다." );
+            System.out.println("떡볶이는" +떡볶이 + "원 입니다." + "남은돈은" + money + " 입니다.");
+            System.out.println(" 우동을 몇 개 주문하시겠습니까? " );
+            choice5 = sc.nextInt();
+
+            if(money <= 우동 * choice5){
+                money -=우동 * choice5;
+                System.out.println("돈이 " + money + "만큼 부족합니다.");
+                System.out.println(" 이미 용돈을 받았습니다. 주인장에게 쫓겨납니다 " );
+            } else {
+                money -= 우동 * choice5;
+                System.out.println(" 우동은" + 우동 + "원이고" + " 남은 돈은" + money + " 원 입니다.");
+                System.out.println(" 과자를 몇 개 주문하시겠습니까? " );
+                choice6 = sc.nextInt();
+
+                if(money <= 과자*choice6){
+                    money -= 과자 * choice6;
+                    System.out.println("돈이 " + money + "만큼 부족합니다.");
+                    System.out.println(" 이미 용돈을 받았습니다. 주인장에게 쫓겨납니다 " );
+                } else {
+                    money -= 과자 * choice6;
+                    System.out.println(" 과자는" + 과자 + "원이고" + " 남은 돈은" + money + " 원 입니다.");
+                    System.out.println(" 순대를 몇 개 주문하시겠습니까? " );
+                    choice7 = sc.nextInt();
+                    if(money <= 순대 * choice7){
+                        money -= 순대 * choice7;
+                        System.out.println("돈이 " + money + "만큼 부족합니다.");
+                        System.out.println(" 이미 용돈을 받았습니다. 주인장에게 쫓겨납니다 " );
+                    }else {
+                        money -= 순대 * choice7;
+                        System.out.println(" 순대는" + 순대 + "원이고" + " 남은 돈은" + money + " 원 입니다.");
+                        System.out.println(" 어묵을 몇 개 주문하시겠습니까? " );
+                        choice8 = sc.nextInt();
+                        if(money<= 어묵 * choice8){
+                            money -= 어묵 * choice8;
+                            System.out.println("돈이 " + money + "만큼 부족합니다.");
+                            System.out.println(" 이미 용돈을 받았습니다. 주인장에게 쫓겨납니다 " );
+                        }else {
+                            money -= 어묵 * choice8;
+                            System.out.println(" 어묵은" + 어묵 + "원이고" + " 남은 돈은" + money + " 원 입니다.");
+                        }
+                    }
+                }
+            }
+
+        } else {
+            money -=떡볶이 * choice1;
+            System.out.println(" 떡볶이는" + 떡볶이 + "원이고" + " 남은 돈은" + money + " 원 입니다.");
+            System.out.println(" 우동을 몇 개 주문하시겠습니까? " );
+            choice3 = sc.nextInt();
+
+            if(money <= 우동 * choice3){
+                money -= 우동 * choice3;
+                System.out.println("돈이 " + money + "만큼 부족합니다.");
+                System.out.println(" 추가받을 용돈을 적으시오 ");
+                plus3 = sc.nextInt();
+                money += plus3;
+                System.out.println("추가적으로 " + plus3 + " 만큼 용돈을받아" + money + " 원이 되었습니다." );
+                System.out.println("우동은" + 우동 + "원 입니다." + "남은돈은" + money + " 입니다.");
+                System.out.println(" 과자를 몇 개 주문하시겠습니까? " );
+                choice2 = sc.nextInt();
+                if (money <= 과자 * choice2) {
+                    money -= 과자 * choice2;
+                    System.out.println("돈이 " + money + "만큼 부족합니다.");
+                    System.out.println(" 이미 용돈을 받았습니다. 주인장에게 쫓겨납니다 ");
+                } else {
+                    money -= 과자 * choice2;
+                    System.out.println("과자는" + 과자 + "원 입니다." + "남은돈은" + money + " 입니다.");
+                    System.out.println("순대 몇 개 주문? ");
+                    choice1=sc.nextInt();
+                    if (money <= 순대 * choice1) {
+                        money -= 순대 * choice1;
+                        System.out.println("돈이 " + money + "만큼 부족합니다.");
+                        System.out.println(" 이미 용돈을 받았습니다. 주인장에게 쫓겨납니다 ");
+                    } else {
+                        money -= 순대 * choice1;
+                        System.out.println("순대는" + 순대 + "원 입니다." + "남은돈은" + money + " 입니다.");
+                        System.out.println(" 어묵을 몇 개 주문하시겠습니까? " );
+                        choice2=sc.nextInt();
+                        if (money <= 어묵 * choice2) {
+                            money -= 어묵 * choice2;
+                            System.out.println("돈이 " + money + "만큼 부족합니다.");
+                            System.out.println(" 이미 용돈을 받았습니다. 주인장에게 쫓겨납니다 ");
+                        } else {
+                            money -= 어묵 * choice2;
+                            System.out.println("어묵은" + 어묵 + "원 입니다." + "남은돈은" + money + " 입니다.");
+                        }
+                    }
+                }
+            }else {
+                money -= 우동 * choice3;
+                System.out.println(" 우동은" + 우동 + "원이고" + " 남은 돈은" + money + " 원 입니다.");
+
+                System.out.println(" 과자를 몇 개 주문하시겠습니까? " );
+                choice4 = sc.nextInt();
+                if(money <= 과자*choice4){
+                    money -= 과자 * choice4;
+                    System.out.println("돈이 " + money + "만큼 부족합니다.");
+                    System.out.println(" 추가받을 용돈을 적으시오 ");
+                    plus4 = sc.nextInt();
+                    money += plus4;
+                    System.out.println("추가적으로 " + plus4 + " 만큼 용돈을받아" + money + " 원이 되었습니다." );
+                    System.out.println("과자는" + 과자 + "원 입니다." + "남은돈은" + money + " 입니다.");
+                    System.out.println(" 순대를 몇 개 주문하시겠습니까? " );
+                    choice1 = sc.nextInt();
+                    if (money <= 순대 * choice1) {
+                        money -= 순대 * choice1;
+                        System.out.println("돈이 " + money + "만큼 부족합니다.");
+                        System.out.println(" 이미 용돈을 받았습니다. 주인장에게 쫓겨납니다 ");
+                    } else {
+                        money -= 순대 * choice1;
+                        System.out.println("순대는" + 순대 + "원 입니다." + "남은돈은" + money + " 입니다.");
+                        System.out.println(" 어묵를 몇 개 주문하시겠습니까? " );
+                        choice1 = sc.nextInt();
+
+                        if (money <= 어묵 * choice1) {
+                            money -= 어묵 * choice1;
+                            System.out.println("돈이 " + money + "만큼 부족합니다.");
+                            System.out.println(" 이미 용돈을 받았습니다. 주인장에게 쫓겨납니다 ");
+                        } else {
+                            money -= 어묵 * choice1;
+                            System.out.println("어묵은" + 어묵 + "원 입니다." + "남은돈은" + money + " 입니다.");
+                        }
+                    }
+                } else {
+                    money -= 과자 * choice4;
+                    System.out.println(" 과자는" + 과자 + "원이고" + " 남은 돈은" + money + " 원 입니다.");
+                    System.out.println(" 순대를 몇 개 주문하시겠습니까? " );
+                    choice1=sc.nextInt();
+
+                    if (money <= 순대 * choice1) {
+                        money -=순대 * choice1;
+                        System.out.println("돈이 " + money + "만큼 부족합니다.");
+                        System.out.println(" 추가받을 용돈을 적으시오 ");
+                        plus3 = sc.nextInt();
+                        money += plus3;
+                        System.out.println("추가적으로 " + plus3 + " 만큼 용돈을받아" + money + " 원이 되었습니다." );
+                        System.out.println("순대는" + 순대 + "원 입니다." + "남은돈은" + money + " 입니다.");
+                        System.out.println(" 어묵을 몇 개 주문하시겠습니까? " );
+                        choice2 = sc.nextInt();
+                        if (money <= 어묵 * choice2) {
+                            money -=어묵 * choice2;
+                            System.out.println("돈이 " + money + "만큼 부족합니다.");
+                            System.out.println(" 이미 용돈을 받았습니다 주인장에게 쫓겨납니다. ");
+                        }else {
+                            money -= 어묵 * choice2;
+                            System.out.println(" 어묵은" + 어묵 + "원이고" + " 남은 돈은" + money + " 원 입니다.");
+                        }
+
+//                        if (money <= 어묵 * choice2) {
+//                            money -=어묵 * choice2;
+//                            System.out.println("돈이 " + money + "만큼 부족합니다.");
+//                            System.out.println(" 이미 용돈을 받았습니다 주인장에게 쫓겨납니다. ");
+//                        }
+                    }else {
+                        money -=순대 * choice1;
+                        System.out.println(" 순대는" + 순대 + "원이고" + " 남은 돈은" + money + " 원 입니다.");
+                        System.out.println(" 어묵을 몇 개 주문하시겠습니까? " );
+                        choice2 = sc.nextInt();
+
+                        if (money <= 어묵 * choice2) {
+                            money -= 어묵 * choice2;
+                            System.out.println("돈이 " + money + "만큼 부족합니다.");
+                            System.out.println(" 추가받을 용돈을 적으시오 ");
+                            plus3 = sc.nextInt();
+                            money += plus3;
+                            System.out.println("추가적으로 " + plus3 + " 만큼 용돈을받아" + money + " 원이 되었습니다.");
+                            System.out.println("어묵은" + 어묵 + "원 입니다." + "남은돈은" + money + " 입니다.");
+                        } else {
+                            money -= 어묵 * choice2;
+                            System.out.println(" 어묵은" + 어묵 + "원이고" + " 남은 돈은" + money + " 원 입니다.");
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//2번째 방식
+
+        Scanner sc = new Scanner(System.in);
+        int Ejr, dnehd, rhkwk, rlghl = 0, rotn, gkq = 10000, dydehs;
+        int rlghl2 = 0;
+        System.out.println("추가 용돈 : ");
+        dydehs = sc.nextInt();
+        gkq = gkq + dydehs;
+        System.out.println("총 금액은 " + gkq + "원입니다.");
+
+        System.out.println("떡볶이 가격 : ");
+        Ejr = sc.nextInt();
+        System.out.println("우동 가격 : ");
+        dnehd = sc.nextInt();
+        System.out.println("과자 가격 : ");
+        rhkwk = sc.nextInt();
+
+        if (rlghl2 == 0) {
+            System.out.println("떡볶이 개수 : ");
+            rotn = sc.nextInt();
+            Ejr = Ejr * rotn;
+            gkq = gkq - Ejr;
+            if (gkq < 0) {
+                if (rlghl != 0) {
+                    System.out.println("이미 용돈을 추가받았기 때문에 쫓겨납니다.");
+                    rlghl2 = 1;
+                }
+                if (rlghl == 0) {
+                    System.out.println("현재 " + gkq + "원이 부족합니다.\n\n추가 용돈 : ");
+                    dydehs = sc.nextInt();
+                    gkq = gkq + dydehs;
+                    gkq = gkq + Ejr;
+                    System.out.println("현재 " + gkq + "원입니다.");
+                    gkq = gkq - Ejr;
+                    rlghl = rlghl + 1;
+                }
+            }
+            if (rlghl2 == 0) {
+                System.out.println("떡볶이를 주문하고 " + gkq + "원이 되었습니다.");
+            }
+        }
+
+
+        if (rlghl2 == 0) {
+            System.out.println("우동 개수 : ");
+            rotn = sc.nextInt();
+            dnehd = dnehd * rotn;
+            gkq = gkq - dnehd;
+            if (gkq < 0) {
+                if (rlghl != 0) {
+                    System.out.println("이미 용돈을 추가받았기 때문에 쫓겨납니다.");
+                    rlghl2 = 1;
+                }
+                if (rlghl == 0) {
+                    System.out.println("현재 " + gkq + "원이 부족합니다.\n\n추가 용돈 : ");
+                    dydehs = sc.nextInt();
+                    gkq = gkq + dydehs;
+                    gkq = gkq + dnehd;
+                    System.out.println("현재 " + gkq + "원입니다.");
+                    gkq = gkq - dnehd;
+                    rlghl = rlghl + 1;
+                }
+            }
+            if (rlghl2 == 0) {
+                System.out.println("우동을 주문하고 " + gkq + "원이 되었습니다.");
+            }
+        }
+
+
+        if (rlghl2 == 0) {
+            System.out.println("과자 개수 : ");
+            rotn = sc.nextInt();
+            rhkwk = rhkwk * rotn;
+            gkq = gkq - rhkwk;
+            if (gkq < 0) {
+                if (rlghl != 0) {
+                    System.out.println("이미 용돈을 추가받았기 때문에 쫓겨납니다.");
+                    rlghl2 = 1;
+                }
+                if (rlghl == 0) {
+                    System.out.println("현재 " + gkq + "원이 부족합니다.\n\n추가 용돈 : ");
+                    dydehs = sc.nextInt();
+                    gkq = gkq + dydehs;
+                    gkq = gkq + rhkwk;
+                    System.out.println("현재 " + gkq + "원입니다.");
+                    gkq = gkq - rhkwk;
+                    rlghl = rlghl + 1;
+                }
+            }
+            if (rlghl2 == 0) {
+                System.out.println("과자를 주문하고 " + gkq + "원이 되었습니다.");
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  */
 public class eight11 {
 
     public static void main(String[] args) {
-        rocksegerrpaper();
-    }
-    public static void rocksegerrpaper(){
         Scanner sc = new Scanner(System.in);
-        String one = sc.next();
-        String two = sc.next();
-        String three = sc.next();
-        String four = sc.next();
+        int Ejr, dnehd, rhkwk, rlghl = 0, rotn, gkq = 10000, dydehs;
 
-        String rock,segger,paper;
+        System.out.println("추가 용돈 : ");
+        dydehs = sc.nextInt();
+        gkq = gkq + dydehs;
+        System.out.println("총 금액은 " + gkq + "원입니다.");
 
-    }
-    public static String rsp(String one,String two, String three, String four) {
+        System.out.println("떡볶이 가격 : ");
+        Ejr = sc.nextInt();
+        System.out.println("우동 가격 : ");
+        dnehd = sc.nextInt();
+        System.out.println("과자 가격 : ");
+        rhkwk = sc.nextInt();
+
+        System.out.println("떡볶이 개수 : ");
+        rotn = sc.nextInt();
+        Ejr = Ejr * rotn;
+        gkq = gkq - Ejr;
+
+        if(gkq < 0){
+            if(rlghl != 0){
+                System.out.println("이미 용돈을 추가받았기 때문에 쫓겨납니다.");
+                return;
+            }
+            if(rlghl == 0){
+                System.out.println("현재 " + gkq + "원이 부족합니다.\n\n추가 용돈 : ");
+                dydehs = sc.nextInt();
+                gkq = gkq + dydehs;
+                gkq = gkq + Ejr;
+                System.out.println("현재 " + gkq + "원입니다.");
+                gkq = gkq - Ejr;
+                rlghl = rlghl + 1;
+            }
+        }
+        System.out.println("떡볶이를 주문하고 " + gkq + "원이 되었습니다.");
+
+
+
+
+
+
+
+        System.out.println("우동 개수 : ");
+        rotn = sc.nextInt();
+        dnehd = dnehd * rotn;
+        gkq = gkq - dnehd;
+
+        if(gkq < 0){
+            if(rlghl != 0){
+                System.out.println("이미 용돈을 추가받았기 때문에 쫓겨납니다.");
+                return;
+            }
+            if(rlghl == 0){
+                System.out.println("현재 " + gkq + "원이 부족합니다.\n\n추가 용돈 : ");
+                dydehs = sc.nextInt();
+                gkq = gkq + dydehs;
+                gkq = gkq + dnehd;
+                System.out.println("현재 " + gkq + "원입니다.");
+                gkq = gkq - dnehd;
+                rlghl = rlghl + 1;
+            }
+        }
+        System.out.println("우동을 주문하고 " + gkq + "원이 되었습니다.");
+
+
+
+
+
+
+
+        System.out.println("과자 개수 : ");
+        rotn = sc.nextInt();
+        rhkwk = rhkwk * rotn;
+        gkq = gkq - rhkwk;
+
+        if(gkq < 0){
+            if(rlghl != 0){
+                System.out.println("이미 용돈을 추가받았기 때문에 쫓겨납니다.");
+                return;
+            }
+            if(rlghl == 0){
+                System.out.println("현재 " + gkq + "원이 부족합니다.\n\n추가 용돈 : ");
+                dydehs = sc.nextInt();
+                gkq = gkq + dydehs;
+                gkq = gkq + rhkwk;
+                System.out.println("현재 " + gkq + "원입니다.");
+                gkq = gkq - rhkwk;
+                rlghl = rlghl + 1;
+            }
+        }
+        System.out.println("과자를 주문하고 " + gkq + "원이 되었습니다.");
+
+
 
     }
 }
