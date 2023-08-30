@@ -744,9 +744,6 @@ interface FrFunction2{
 
 
 
-
-
- */
 public class eight11 {
 
     public static void main(String[] args) {
@@ -848,6 +845,108 @@ public class eight11 {
     }
 }
 
+
+ */
+public class eight11 {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int Ricake, woodong, chip, choice = 0, count, money = 10000, plusmoney;
+
+        System.out.println("추가 용돈 : ");
+        plusmoney = sc.nextInt();
+        money = money + plusmoney;
+        System.out.println("총 금액은 " + money + "원입니다.");
+
+        System.out.println("떡볶이 가격 : ");
+        Ricake = sc.nextInt();
+        System.out.println("우동 가격 : ");
+        woodong = sc.nextInt();
+        System.out.println("과자 가격 : ");
+        chip = sc.nextInt();
+
+        System.out.println("떡볶이 개수 : ");
+        count = sc.nextInt();
+        Ricake = Ricake * count;
+        money = money - Ricake;
+
+        if(money < 0){
+            if(choice != 0){
+                System.out.println("이미 용돈을 추가받았기 때문에 쫓겨납니다.");
+                return;
+            }
+            if(choice == 0){
+                System.out.println("현재 " + money + "원이 부족합니다.\n\n추가 용돈 : ");
+                plusmoney = sc.nextInt();
+                money = money + plusmoney;
+                money = money + Ricake;
+                System.out.println("현재 " + money + "원입니다.");
+                money = money - Ricake;
+                choice = choice + 1;
+            }
+        }
+        System.out.println("떡볶이를 주문하고 " + money + "원이 되었습니다.");
+
+
+
+
+
+
+
+        System.out.println("우동 개수 : ");
+        count = sc.nextInt();
+        woodong = woodong * count;
+        money = money - woodong;
+
+        if(money < 0){
+            if(choice != 0){
+                System.out.println("이미 용돈을 추가받았기 때문에 쫓겨납니다.");
+                return;
+            }
+            if(choice == 0){
+                System.out.println("현재 " + money + "원이 부족합니다.\n\n추가 용돈 : ");
+                plusmoney = sc.nextInt();
+                money = money + plusmoney;
+                money = money + woodong;
+                System.out.println("현재 " + money + "원입니다.");
+                money = money - woodong;
+                choice = choice + 1;
+            }
+        }
+        System.out.println("우동을 주문하고 " + money + "원이 되었습니다.");
+
+
+
+
+
+
+
+        System.out.println("과자 개수 : ");
+        count = sc.nextInt();
+        chip = chip * count;
+        money = money - chip;
+
+        if(money < 0){
+            if(choice != 0){
+                System.out.println("이미 용돈을 추가받았기 때문에 쫓겨납니다.");
+                return;
+            }
+            if(choice == 0){
+                System.out.println("현재 " + money + "원이 부족합니다.\n\n추가 용돈 : ");
+                plusmoney = sc.nextInt();
+                money = money + plusmoney;
+                money = money + chip;
+                System.out.println("현재 " + money + "원입니다.");
+                money = money - chip;
+                choice = choice + 1;
+            }
+        }
+        System.out.println("과자를 주문하고 " + money + "원이 되었습니다.");
+
+
+
+    }
+}
 
 
 
