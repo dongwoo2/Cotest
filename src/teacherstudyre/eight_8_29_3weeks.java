@@ -1,4 +1,4 @@
-package practice;
+package teacherstudyre;
 
 import java.util.Scanner;
 
