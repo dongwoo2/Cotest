@@ -53,15 +53,6 @@ public class Study1022_2 {
                 if (k == 0 || i == 21) {
                     System.out.println(t + " * " + j + " = " + s);
                 }
-//                if(t == 118 && num == 1) {
-//                    i = i - 1;
-//                    num++;
-//                }
-//                if(t == 220 && num2 == 1) {
-//                    i = i - 1;
-//                    num2++;
-//                }
-
             }
         }
 
