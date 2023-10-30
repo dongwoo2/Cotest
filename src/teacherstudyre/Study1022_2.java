@@ -57,4 +57,10 @@ public class Study1022_2 {
         }
 
     }
+
+    public static int solution() {
+        int t = 0;
+
+        return t;
+    }
 }
