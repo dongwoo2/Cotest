@@ -18,14 +18,29 @@ public class Study1029_1_2 {
                     if (b == 150) {
                         for(c = 1; c <= b*2; c++) {
                             saw(i, b, c);
-                            if(c == 300) {
-
-                            }
                         }
+             for(; c >= -500; c--) {
+                 saw(i,b,c);
+                 if(c == -500) {
+                     for(; i >= -500 && b >= -500;) {
+                         i--;
+                         b--;
+                         saw(i,b,c);
+                         if(i==-500){
+                             i++;
+                         }
+                     }
+                 }
+             }
+
+//             for(; i>=-500 && b >=-500; i--,b--) {
+//                 saw(i,b,c);
+//             }
                     }
                 }
             }
         }
+
     }
 
     public static void saw(int i, int b, int c) {
