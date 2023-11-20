@@ -18,6 +18,8 @@ public class Study1119_1 {
         int hint = 0;
         int hint1Count = 0;
         int panelty = 0;
+        int turn = 1;
+        int oriA = 0;
 
         int cnt = 0;
         answer = numbers(answer);
@@ -32,9 +34,10 @@ public class Study1119_1 {
         System.out.println("1.플레이어가 제시한 숫자보다 크거나 작을 시 컴퓨터가 알려줍니다.그럼 게임을 시작하겠습니다. ");
         System.out.println(oneman + "님 부터 시작합니다. ");
         while (cnt != 1) {
-            if(hint == 1 && panelty == 0) {
+
+            if((hint == 1 || hint == 2) && panelty == 0) {
                 hint1(answer);
-                hint2(answer);
+                hint2(oriA,turn);
                 hint++;
             }
             if(hint == 2 && cnt == 0 && panelty == 0) { //힌트를 주었으나 답을 못맞추었을때
@@ -52,33 +55,39 @@ public class Study1119_1 {
                 if(hint1Count <3) {
                     panelty++;
                 }
-                if()
+
             }
             System.out.print(oneman + "님이 입력할 번호 : ");
             int one = sc.nextInt();
-            compare(one,answer, oneman);
             if(one == answer) {
-                if(count1%5 == 0) {
+                oriA = turn+4;
+                if(turn%5 == 0) {
                     answer += 1200;
                     hint++;
-                } else if (count1%7 == 0) {
+                } else if (turn%7 == 0) {
                     answer -= 560;
                     hint++;
                 } else {
                     cnt++;
                 }
             } else {
-                count1 ++;
+                if(turn/8 >= 1) {
+                    System.out.println(rule3(answer));
+                }
+                if(turn/10 >= 1) {
+                    System.out.println(rule4(answer));
+                }
             }
-            
+            compare(one,answer, oneman);
+
             System.out.print(twoman + "님이 입력할 번호 : ");
             int two = sc.nextInt();
-            compare(two,answer, twoman);
             if(two == answer) {
-                if(count2%5 == 0) {
+                oriA = turn+4;
+                if(turn%5 == 0) {
                     answer += 1200;
                     hint++;
-                }else if(count2%7 == 0) {
+                }else if(turn%7 == 0) {
                     answer -= 560;
                     hint++;
                 }
@@ -86,8 +95,16 @@ public class Study1119_1 {
                     cnt++;
                 }
             } else {
-                count2 ++;
+                if(turn/8 >= 1) {
+                    System.out.println(rule3(answer));
+                }
+                if(turn/10 >= 1) {
+                    System.out.println(rule4(answer));
+                }
             }
+            compare(two,answer, twoman);
+
+            turn++;
         }
 
     }
@@ -120,17 +137,27 @@ public class Study1119_1 {
 
     public static void hint1(int answer) {
         int cnt = 0;
-        for(int i = 1;  i < answer; i++) {
-            if (i >= 20) {
-                if (answer % i == 0) {
+        for(int i = answer;  i >= 20; i--) {
 
+            if (answer % i == 0) {
+                System.out.println("정답이 " + i + "의 배수입니다.");
+                cnt++;
 
+                if(cnt == 5) {
+                    break;
                 }
+            } else {
             }
+
+
         }
     }
-    public static void hint2(int answer) {
-
+    public static void hint2(int ori, int turn) {
+        if(ori >= turn) {
+            System.out.println("이전 최근 5턴 중에서 정답이 존재합니다.");
+        } else {
+            System.out.println("이전 최근 5턴 중에서 정답이 존재하지 않습니다.");
+        }
 
     }
     public static int hint3(int answer, int count) {
@@ -144,9 +171,29 @@ public class Study1119_1 {
         return answer;
     }
     public static int hint4(int h1count, int h2count) {
-         int pt = 0;
+        int pt = 0;
 
+        return pt;
 
     }
+    public static int rule3(int answer) {
+        int sum = 0;
+        int mok = 0;
+        while (answer > 0){
+            sum += answer%10;
+            mok = answer/10;
+            answer = mok;
+        }
+        return sum;
+    }
+    public static int rule4(int answer) {
+        String anleng = Integer.toString(answer);
+
+        int solu = anleng.length();
+
+        return solu;
+
+    }
+
 
 }
