@@ -10,6 +10,7 @@ public class Study1119_1 {
 
     public static void solution() {
         Scanner sc = new Scanner(System.in);
+        System.out.println(100%26);
         int answer = 0;
         String oneman = "";
         String twoman = "";
@@ -20,6 +21,7 @@ public class Study1119_1 {
         int panelty = 0;
         int turn = 1;
         int oriA = 0;
+        int k = 0,t = 0;
 
         int cnt = 0;
         answer = numbers(answer);
@@ -36,7 +38,7 @@ public class Study1119_1 {
         while (cnt != 1) {
 
             if((hint == 1 || hint == 2) && panelty == 0) {
-                hint1(answer);
+                hint1(answer,k);
                 hint2(oriA,turn);
                 hint++;
             }
@@ -62,9 +64,11 @@ public class Study1119_1 {
             if(one == answer) {
                 oriA = turn+4;
                 if(turn%5 == 0) {
+                    k++;
                     answer += 1200;
                     hint++;
                 } else if (turn%7 == 0) {
+
                     answer -= 560;
                     hint++;
                 } else {
@@ -85,9 +89,11 @@ public class Study1119_1 {
             if(two == answer) {
                 oriA = turn+4;
                 if(turn%5 == 0) {
+                    k++;
                     answer += 1200;
                     hint++;
                 }else if(turn%7 == 0) {
+
                     answer -= 560;
                     hint++;
                 }
@@ -135,22 +141,26 @@ public class Study1119_1 {
         }
     }
 
-    public static void hint1(int answer) {
+    public static int hint1(int answer,int k) {
         int cnt = 0;
-        for(int i = answer;  i >= 20; i--) {
+        if(k == 0) {
+            answer += 560;
+        } else if (k == 1) {
+            answer -= 1200;
+        }
+        for(int i = 20;  i <= answer; i++) {
 
-            if (answer % i == 0) {
+            if (answer % i == 0 && cnt < 5) {
                 System.out.println("정답이 " + i + "의 배수입니다.");
                 cnt++;
 
-                if(cnt == 5) {
-                    break;
-                }
-            } else {
+
+            } else if(answer % i != 0 && i == answer-1) {
+                System.out.println(" 더 이상 일치하는 배수가 없습니다. ");
             }
 
-
         }
+        return cnt;
     }
     public static void hint2(int ori, int turn) {
         if(ori >= turn) {
