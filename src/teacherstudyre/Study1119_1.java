@@ -10,7 +10,6 @@ public class Study1119_1 {
 
     public static void solution() {
         Scanner sc = new Scanner(System.in);
-        System.out.println(100%26);
         int answer = 0;
         String oneman = "";
         String twoman = "";
@@ -87,7 +86,10 @@ public class Study1119_1 {
                     System.out.println(rule4(answer));
                 }
             }
-            compare(one,answer, oneman);
+            cnt = compare(one,answer, oneman);
+            if(cnt == 1) {
+                break;
+            }
 
             if(count2 > 0 && panelty == 0) {
                 hint1Count = hint1(answer,k);
@@ -128,8 +130,10 @@ public class Study1119_1 {
                     System.out.println(rule4(answer));
                 }
             }
-            compare(two,answer, twoman);
-
+            cnt = compare(two,answer, twoman);
+            if(cnt == 1) {
+                break;
+            }
             if(panelty > 0) {
                 panelty--;
             }
@@ -154,14 +158,19 @@ public class Study1119_1 {
         return answer;
     }
 
-    public static void compare(int num,int answer,String man) {
+    public static int compare(int num,int answer,String man) {
+        int cnt = 0;
         if(num > answer) {
             System.out.println(man+"님이 입력하신 숫자가 답보다 더 큽니다.");
+            return cnt;
         } else if (num < answer) {
             System.out.println(man+"님이 입력하신 숫자가 답보다 더 작습니다.");
+            return cnt;
         } else {
             System.out.println(" 정답입니다!! 완벽하십니다!! 멋지세요!! ");
             System.out.println(man + "님 승리!!");
+            cnt++;
+            return cnt;
         }
     }
 
