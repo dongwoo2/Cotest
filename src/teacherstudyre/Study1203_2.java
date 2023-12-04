@@ -13,28 +13,29 @@ public class Study1203_2 {
         int cnt = 1;
         int start = 0;
         int money = 0;
-        if(start > 0) {
-            while (cnt != 0) {
+        System.out.println("1.Bank 2.Food 3.End");
+
+        while (cnt != 0) {
+            if(start == 0) {
+                money = bank(money);
+                start++;
+            } else {
+                System.out.println("1.Bank 2.Food 3.End");
                 int choice = sc2.nextInt();
                 if (choice == 1) {
-                    money = bank();
+                    money = bank(money);
                 }if (choice == 2) {
                     food(money);
                 } else if (choice == 3) {
                     cnt = 0;
                 }
-                money = bank();
-                food(money);
             }
-        } else if(start == 0) {
-            money = bank();
-            food(money);
         }
+
     }
-    public static int bank() {
+    public static int bank(int money) {
         int lastchance = 0;
         int answer = 0;
-        int money = 0;
         int moneyplus = 0;
         int count = 0;
         int choice = 0;
@@ -104,7 +105,7 @@ public class Study1203_2 {
                 }
             }
             while(next2 != 0) {
-                System.out.println("1.계좌 조회. 2.계좌 입금 3.계좌 출금");
+                System.out.println("1.계좌 조회. 2.계좌 입금 3.계좌 출금 4.종료");
                 choice = sc.nextInt();
                 if(choice == 1) {
                     count = selectcard(count, money);
@@ -118,12 +119,14 @@ public class Study1203_2 {
                     System.out.println("금액을 입력하시오");
                     moneyplus = sc.nextInt();
                     money = cardmoney(count,choice,money,moneyplus);
+                } else if(choice == 4) {
+                    next2 = 0;
                 }
 
             }
 
         }
-                return money;
+        return money;
     }
 
     public static void food(int money) {
@@ -136,8 +139,12 @@ public class Study1203_2 {
         int cnt = 0;
         int fCount = 0;
         int numoney = 0;
-        if(money > 0) { // 일단은 하드코딩 하는데 동적으로 어떻게 변화시킬지 고민해야함
-            if (money < 100000) {
+        if(money > 0) {
+            if (money < 10000) {
+                fishprice = fishprice/100;
+                cornprice = cornprice/100;
+                friprice = friprice/100;
+            } else if (money > 10000 && money < 100000) {
                 fishprice = fishprice/10;
                 cornprice = cornprice/10;
                 friprice = friprice/10;
@@ -330,4 +337,6 @@ public class Study1203_2 {
     }
 
 }
+
+
 
