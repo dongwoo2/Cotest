@@ -1,5 +1,8 @@
 package teacherstudyre;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Study1126_1 {
@@ -15,6 +18,7 @@ public class Study1126_1 {
         int fish = 0, corn = 0, fri =0;
         int cnt = 0;
         int fCount = 0;
+        ArrayList<String> array = new ArrayList<>();
 
 
         while (cnt != 1) {
@@ -71,6 +75,15 @@ public class Study1126_1 {
             return money;
         }
     }
+
+    public static ArrayList<String> foodchoice2(int choice) {
+        ArrayList<String> take = new ArrayList<>();
+        if(choice == 1) {
+            take.add("nice");
+        }
+        return take;
+    }
+
 
     public static int foodcount(int fish, int corn, int fri) {
         int count = 0;
