@@ -19,6 +19,7 @@ public class Study1217_1 {
         int[] p = new int[n];
         int[] pp = new int[n];
         int[] count = new int[2];
+        int totalamount = 0;
         boolean flag = true;
 
         while (flag) {
@@ -26,8 +27,9 @@ public class Study1217_1 {
                 System.out.println(i + 1 + "번째 손님 추가할 금액 : ");
                 money = sc.nextInt();
                 p[i] = p[i] + money;
-                pp[i] += money;
-                summoney += money;
+                pp[i] = pp[i] + p[i]; //초기 값 p[i] 가 중간에 값이 바뀌기에 초기값이 필요함
+                summoney += pp[i]; // 최초금액
+
             }
             howmoney(p);
             System.out.println("누구 돈을 빼겠습니까?");
@@ -44,15 +46,19 @@ public class Study1217_1 {
 
                 System.out.println("마지막 남은 돈은 얼마입니까? : " + count[0]);
                 System.out.println("현 재 몇 번 까지 존재합니까? " + count[1]);
-                System.out.println("처음에 3명이 가지고 있었던 금액은 얼마입니까?");
+                System.out.println("처음에 " + n + "명이 가지고 있었던 금액은 얼마입니까?");
                 for (int i = 0; i < pp.length; i++) {
                     System.out.println(i + 1 + "번째 손님의 처음 금액 : " + pp[i]);
                 }
 
                 System.out.println("현재 가지고 있는 금액은 " + count[0] + "원 이고 최초금액은 " + summoney + "원 입니다");
-                summoney -= count[0];
-                System.out.println("차액은 : " + summoney + "원 입니다");
-
+                totalamount = summoney -= count[0];
+                System.out.println("차액은 : " + totalamount + "원 입니다");
+                totalamount = 0;
+                summoney = 0;
+                for(int i = 0; i < pp.length; i++) {
+                    pp[i] = 0;
+                }
 
 
             }
@@ -72,12 +78,11 @@ public class Study1217_1 {
         }
         p[choice] = p[choice] - money;
         if(p[choice] == 0) {
-            p[choice] = p[choice + 1];
-            p[choice + 1] = 0;
+            for (int i = choice; i < p.length - 1; i++) {
+                p[i] = p[i + 1];
+            }
+            p[p.length - 1] = 0;
 
-            // 3번째 인덱스가 2번째 인덱스로 이동하는 로직이 없음
-            // 1번째꺼를 빼면 2번째는 이동하는데 그 다음은 이동하지 않음
-            //
         }
 
 
@@ -94,10 +99,10 @@ public class Study1217_1 {
                 cnt++;
             }
         }
-        arr[0] = money;
-        arr[1] = cnt;
+//        arr[0] = money;
+//        arr[1] = cnt;
 
-        return arr;
+        return new int[]{money,cnt};
     }
 
 
