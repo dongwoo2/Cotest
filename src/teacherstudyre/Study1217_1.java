@@ -16,6 +16,7 @@ public class Study1217_1 {
         int money = 0;
         int allmoney = 0;
         int summoney = 0;
+        int check = 0;
         int[] p = new int[n];
         int[] pp = new int[n];
         int[] count = new int[2];
@@ -23,24 +24,32 @@ public class Study1217_1 {
         boolean flag = true;
 
         while (flag) {
-            for (int i = 0; i < n; i++) {
-                System.out.println(i + 1 + "번째 손님 추가할 금액 : ");
-                money = sc.nextInt();
-                p[i] = p[i] + money;
-                pp[i] = pp[i] + p[i]; //초기 값 p[i] 가 중간에 값이 바뀌기에 초기값이 필요함
-                summoney += pp[i]; // 최초금액
-
+            if(check == 0) {
+                for (int i = 0; i < n; i++) {
+                    System.out.println(i + 1 + "번째 손님 추가할 금액 : ");
+                    money = sc.nextInt();
+                    p[i] = p[i] + money;
+                    pp[i] = pp[i] + p[i]; //초기 값 p[i] 가 중간에 값이 바뀌기에 초기값이 필요함
+                    summoney += pp[i]; // 최초금액
+                }
             }
+            check++;
             howmoney(p);
+            System.out.println("1.돈 빼기 2.금액확인");
+            choice = sc.nextInt();
+            if(choice == 1) {
             System.out.println("누구 돈을 빼겠습니까?");
             choice = sc.nextInt();
             System.out.println("얼마를 빼겠습니까? ");
             money = sc.nextInt();
-            if (choice == 0 && money == 0) {
-                System.out.println("프로그램이 종료됩니다.");
-                flag = false;
-            } else {
                 p = outmoney(choice, money, p);
+                if (choice == 0 && money == 0) {
+                    System.out.println("프로그램이 종료됩니다.");
+                    flag = false;
+                }
+            }
+                 else if(choice == 2) {
+
                 howmoney(p);
                 count = allmoney(p);
 
@@ -72,12 +81,12 @@ public class Study1217_1 {
         }
     }
 
-    public static int [] outmoney(int choice, int money, int[]p) {
+    public static int [] outmoney(int choice, int money, int[]p) { // 돈 빠진거 리턴
         if(choice != 0) {
             choice -= 1;
         }
         p[choice] = p[choice] - money;
-        if(p[choice] == 0) {
+        if(p[choice] == 0 || p[choice] < 0) {
             for (int i = choice; i < p.length - 1; i++) {
                 p[i] = p[i + 1];
             }
