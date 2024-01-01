@@ -14,7 +14,7 @@ public class Study1222_2 {
         System.out.println("배열 갯수 입력:");
         int n = sc.nextInt();
         int arr[] = new int[n];
-        int brr[] = new int[n];1
+        int brr[] = new int[n];
         int answer = Integer.MIN_VALUE;
 
         for(int i = 0; i < n; i++) {

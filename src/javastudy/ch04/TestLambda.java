@@ -17,10 +17,12 @@ public class TestLambda {
         myString.showString("hello3");
     }
     public static void showMyString(PrintString str){
+
         str.showString("hello2");
     }
 
     public static PrintString returnString(){
+
         return s -> System.out.println(s + ", world");
     }
 }
