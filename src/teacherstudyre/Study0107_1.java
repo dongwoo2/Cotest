@@ -32,9 +32,9 @@ public class Study0107_1 {
         int gubun = 0;
         boolean flag = true;
         boolean flag2 = true;
-        int people[] = new int[1000];
-        int daypeople[] = new int [300];
-        fprice[0] = 5000; fprice[1] = 3000; fprice[2] = 1000;
+        int people[] = new int[1006]; // 사람들이 무엇을 구입했는지 대한 전체적인 정보
+        int daypeople[] = new int [300]; // 당일에 온 사람 수
+        fprice[0] = 5000; fprice[1] = 3000; fprice[2] = 1000; // 음식가격
 
 
         while (flag2 != false) {
@@ -85,12 +85,13 @@ public class Study0107_1 {
                     }
 
                     if(ch1 == 5 && ch4 == 0) {
+                        daypeople[day]++;
+                        people = insertpeople(f1, f2, f3, money, point, se1, allseque, people,arr);
                         flag = false;
                         flag2 = false;
                         se2++;
                     } else if(ch4 == 0 && ch1 == 4) {
                         people = insertpeople(f1, f2, f3, money, point, se1, allseque, people,arr);
-
 
                         f1 = 0;
                         f2 = 0;
@@ -113,7 +114,7 @@ public class Study0107_1 {
 
                 } else if(ch1 == 6) {
                     paymoney = f1*fprice[0] + f2*fprice[1] + f3*fprice[2];
-                    if(paymoney >= 100000) {
+                    if(paymoney >= 10000) {
                         point = point(paymoney);
                         System.out.println("포인트가" + point + "원 만큼 적립되었습니다.");
                     }else {
@@ -170,51 +171,46 @@ public class Study0107_1 {
             fprice[1] = fPrice[1];
             fprice[2] = fPrice[2];
         }
-        if(choice == 1) { // 베이컨
-            if(money >= fprice[0]){
-                money -= fprice[0];
-                f1++;
-            } else{
-                System.out.println("돈이 부족합니다");
-                return new int[]{money,0,0,0};
-            }
-        } else if (choice == 2) { // 아이스크림
-            if(money >= fprice[1]){
-                money -= fprice[1];
-                f2++;
-            } else{
-                System.out.println("돈이 부족합니다");
-                return new int[]{money,0,0,0};
-            }
-        } else if (choice == 3) { // 감자콩
-            if(money >= fprice[2]){
-                money -= fprice[2];
-                f3++;
-            } else{
-                System.out.println("돈이 부족합니다");
-                return new int[]{money,0,0,0};
-            }
+        if(choice == 1 && money >= fprice[0]) { // 베이컨
+            money -= fprice[0];
+            f1++;
+        } else if (choice == 2 && money >= fprice[1]) { // 아이스크림
+            money -= fprice[1];
+            f2++;
+        } else if (choice == 3 && money >= fprice[2]) { // 감자콩
+            money -= fprice[2];
+            f3++;
+        } else {
+            System.out.println("돈이 부족합니다");
+            return new int[]{money,0,0,0};
         }
         return new int[]{money,f1,f2,f3};
     }
 
     public int point(int paymoney) {
         int point = 0;
-        if(paymoney >= 100000) {
-            int t = paymoney/100000;
+        if(paymoney >= 10000) {
+            int t = paymoney/10000;
             point = (t*1000);
         }
         return point;
     }
 
-    public void icecream(int f2) {
-        int need = (f2 % 10);
-        System.out.println("현재 아이스크림의 갯수는 " + f2 + "개 이며" + need + "개 가 필요합니다.");
+    public void icecream(int f2) { //icecream check method
+        int need = 0;
+        int cnt = 0;
+        if(f2 < 10) {
+            need = 10 - f2;
+        } else {
+            cnt = (f2 % 10);
+            need = 10 - cnt;
+        }
+        System.out.println("현재 아이스크림의 갯수는 " + f2 + "개 이며 " + need + "개 가 필요합니다.");
     }
 
-    public void gamza(int f2, int f3) {
+    public void gamza(int f2, int f3) { //gamza check method
         int need = f2 -f3;
-        System.out.println("현재 감자콩의 갯수는 " + f3 + "개 이며" + need + "개 가 필요합니다.");
+        System.out.println("현재 감자콩의 갯수는 " + f3 + "개 이며 " + need + "개 가 필요합니다.");
     }
 
     public int selpeople(int seque) {
@@ -252,6 +248,7 @@ public class Study0107_1 {
         int firstday = 0;
         int lastday = 0;
         int foodsize=fPrice.length+1;
+        int daycnt = 0;
         int[]foodcnt = new int[foodsize];
         for(int t = 1, b = 1; t <= day && b <= month; t++) {
             System.out.print(t + " : " + b + "월 " + t + "일  ");
@@ -285,13 +282,16 @@ public class Study0107_1 {
         }
         for(int i = firstday, psun = 1; i < lastday; i += 7,psun++) {
             if(people[i] != 0 || people[i+1] != 0 || people[i+2] != 0 || people[i+3] != 0 || people[i+4] != 0 || people[i+5] != 0){
-                System.out.println("["+month + "월" + k + "일"+"]");
-                if(foodcnt[1] > 0)
-                    System.out.println("베이컨 x " + foodcnt[1] + " = " + fPrice[0]*foodcnt[1]);
-                if(foodcnt[2] > 0)
-                    System.out.println("아이스크림 x " + foodcnt[2] + " = " + fPrice[1]*foodcnt[2]);
-                if(foodcnt[3] > 0)
-                    System.out.println("감자콩 x " + foodcnt[3] + " = " + fPrice[2]*foodcnt[3]);
+                if(daycnt == 0) {
+                    System.out.println("["+month + "월" + k + "일"+"]");
+                    daycnt++;
+                    if(foodcnt[1] > 0)
+                        System.out.println("베이컨 x " + foodcnt[1] + " = " + fPrice[0]*foodcnt[1]);
+                    if(foodcnt[2] > 0)
+                        System.out.println("아이스크림 x " + foodcnt[2] + " = " + fPrice[1]*foodcnt[2]);
+                    if(foodcnt[3] > 0)
+                        System.out.println("감자콩 x " + foodcnt[3] + " = " + fPrice[2]*foodcnt[3]);
+                }
                 System.out.println("================================================================");
                 System.out.println(psun + "번 째 사람");
                 if(people[i+5] != 0) {
@@ -301,8 +301,9 @@ public class Study0107_1 {
                 System.out.println("베이컨 : "+people[i+1]);
                 System.out.println("아이스 : "+people[i+2]);
                 System.out.println("감자콩 : "+people[i+3]);
-                if(people[i+4] > 0)
+                if(people[i+4] > 0) {
                     System.out.println("포인트 : "+people[i+4]);
+                }
                 System.out.println("남은금액 : " + people[i+6]);
                 System.out.println("================================================================");
             }
@@ -351,4 +352,4 @@ public class Study0107_1 {
 
 
 }
-
+]
