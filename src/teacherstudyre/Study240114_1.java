@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 public class Study240114_1 {
     static Scanner sc = new Scanner(System.in);
-
     public static void main(String[] args) {
         solution();
     }
@@ -23,6 +22,15 @@ public class Study240114_1 {
         int borrowcount = 0; // 돈 빌리는 횟수 카운트
         int borrowpeople = 0; // 돈 빌려줘야 할 사람
         int menureturn[] = new int[3];
+        int receiptlist[] = new int[1000]; // 영수증 리스트 담아줄 수 있게
+        // 1.원래가지고 있던 돈 - 1 ,0
+        // 2.사먹은 음식 - 5 , 1~5
+        // 3.현재 가지고 있는 돈 - 1 , 6
+        // 4.빚 진 금액 - 1 , 7
+        // 5.빚을 청산하고 남은 금액 - 1 , 8
+        // 6.미납 된 금액 - 1 , 9
+        // 7.빌려준금액 - 1 , 10
+        //
 
 
         while (flag) {
@@ -129,7 +137,13 @@ public class Study240114_1 {
     // 총 11칸의 배열이 필요함
     // 1번 손님이 쌓여야되는 리스트를 한 번에 모아서 receipt 함수는 보여주는것만 배열을 모아주는
     // 로직은 밖에서 해야할듯 함
-    public static int[] receipt() {
+    public static int[] receiptlist() {
+
+    }
+
+    // 필요한 매개변수 인자
+    // 돈을 갚기 위해 써야 할 돈
+    public static int[] paybackmoney() { // 돈 갚는 함수
 
     }
 
