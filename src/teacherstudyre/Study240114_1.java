@@ -54,6 +54,7 @@ public class Study240114_1 {
                         System.out.println("다시 선택하시겠습니까? \n1.예 2.아니오");
                         ch = sc.nextInt();
                         if (ch == 2) {
+                            receiptlist(); //여기다가 넣어야함 인서트 되는거
                             System.out.println("다음 손님으로 넘어갑니다");
                             peoplecnt++;
                             flag2 = false;
