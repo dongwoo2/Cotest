@@ -17,9 +17,10 @@ public class Study240114_1 {
         int n = sc.nextInt();
         int people[] = new int[n];
         people = peoplemoney(people);
+        int otherman = 0;
         int peoplecnt = 1;
         int menuprice[] = new int[]{1000, 2000, 3000, 4000, 5000};
-        int foodcnt[] = new int[menuprice.length];
+        int foodcnt[] = new int[100];
         int borrowcount = 0; // 돈 빌리는 횟수 카운트
         int borrowpeople = 0; // 돈 빌려줘야 할 사람
         int menureturn[] = new int[3];
@@ -44,6 +45,14 @@ public class Study240114_1 {
             System.out.println(peoplecnt + "번째 손님입니다.");
             borrowcount = 0;
             borrowpeople = 0;
+            firstmoney = people[peoplecnt];
+            // 음식갯수도 사람마다 다를거니까 초기화
+            // 근데 다른 사람을 제어한다는 과정이 있을 때는 초기화 되어서는 안됨
+            // 다른 사람으로 갔을 떄도 foodcnt가 되어야 하는데 이게 쪼금 어렵네
+            // 다른 사람 제어로 이동했을 경우에 그 사람도 음식을 주문할 수 있는데 음식을 그냥 초기화시키지말고 음식의 갯수도
+            // 배열순서대로 넣어서 고정값으로 해버릴까 그게 나을수도 있겠다
+            // 근데 영수증에 한 사람 한 사람 씩 넣을려고 하다보니까 그것도 어렵네
+            // 그렇지만 음식만큼은 따로 계산해서 넣으면 될 거 같다
 
             while(flag2) {
                 menu(se); // 손님 제어 후 다음 손님으로 돌아가기 생겨서 인자 전달
@@ -54,7 +63,7 @@ public class Study240114_1 {
                         System.out.println("다시 선택하시겠습니까? \n1.예 2.아니오");
                         ch = sc.nextInt();
                         if (ch == 2) {
-                            receiptlist(); //여기다가 넣어야함 인서트 되는거
+                            receiptinsert(firstmoney,foodcnt,people,debtmoney,debtwpay,debtnotpay,borrowmoney,peoplecnt,receiptlist); //여기다가 넣어야함 인서트 되는거
                             System.out.println("다음 손님으로 넘어갑니다");
                             peoplecnt++;
                             flag2 = false;
@@ -67,15 +76,26 @@ public class Study240114_1 {
                         menureturn = menuchoice(ch, people, peoplecnt, menuprice, borrowpeople, foodcnt);
                         people[peoplecnt] = menureturn[0];
                         people[borrowpeople] = menureturn[1];
-                        foodcnt[ch - 1] = menureturn[2];
+                        foodcnt[(ch - 1) * peoplecnt] = menureturn[2];
                     }
                 } else if (ch == 6) { // 돈 갚기
 
                 } else if (ch == 7) { // 다음손님
-                    peoplecnt++;
-                } else if (ch == 8) {
+                    if(se != 0) {
+                        System.out.println("이전 손님으로 돌아가기밖에 선택하실 수 없습니다.");
+                    } else {
+                        peoplecnt++;
+                    }
+                    
+                } else if (ch == 8) { // 손님제어
                     System.out.println("몇 번째 손님을 선택하시겠습니까?");
+                    otherman = peoplecnt;
                     peoplecnt = sc.nextInt();
+                    se++;
+                } else if(ch == 11) { //이전 손님으로 돌아가기
+                    peoplecnt = otherman;
+                    flag2 = false;
+                    se = 0;
                 }
             }
         }
@@ -86,7 +106,7 @@ public class Study240114_1 {
         if (se == 0) {
             System.out.println("1.파스타[1000원] 2.스테이크[2000원] 3.비빔밥[3000원] 4.김치찌개[4000원] 5.오므라이스[5000원] 6.돈 갚기 7.다음손님 8.손님 선택 9.환불 10.종료");
         } else {
-            System.out.println("1.파스타[1000원] 2.스테이크[2000원] 3.비빔밥[3000원] 4.김치찌개[4000원] 5.오므라이스[5000원] 6.돈 갚기 7.다음손님 8.손님 선택 9.이전 손님으로 돌아가기 10.환불 11.종료");
+            System.out.println("1.파스타[1000원] 2.스테이크[2000원] 3.비빔밥[3000원] 4.김치찌개[4000원] 5.오므라이스[5000원] 6.돈 갚기 7.다음손님 8.손님 선택 9. 환불 10.종료 11.이전손님으로 돌아가기");
         }
     }
 
@@ -107,8 +127,8 @@ public class Study240114_1 {
 
         if (people[peoplecnt] >= menuprice[ch]) {
             people[peoplecnt] -= menuprice[ch];
-            foodcnt[ch]++;
-            return new int[]{people[peoplecnt], people[borrowpeople], foodcnt[ch]};
+            foodcnt[ch*peoplecnt]++;
+            return new int[]{people[peoplecnt], people[borrowpeople], foodcnt[ch*peoplecnt]};
         } else {
             System.out.println("금액이 부족합니다.");
             System.out.println("돈을 빌리시겠습니까? \n 1.예 2.아니오");
@@ -119,7 +139,7 @@ public class Study240114_1 {
             }
         }
 //        return new int[]{people[peoplecnt], foodcnt[ch]};
-        return new int[]{people[peoplecnt], people[borrowpeople], foodcnt[ch]};
+        return new int[]{people[peoplecnt], people[borrowpeople], foodcnt[ch*peoplecnt]};
     }
 
     public static int[] borrowmoney(int peoplecnt, int people[], int borrowpeople) { //리턴 되어야하는 값은 돈을 빌려준 사람이 빌려준만큼 빠진돈과 빌린 사람이 가진 돈
@@ -155,13 +175,13 @@ public class Study240114_1 {
 
     public static int[] receiptinsert(int firstmoney, int foodcnt[], int people[], int debtmoney, int debtpay, int debtnotpay, int borrowmoney, int peoplecnt, int receiptlist[]) { // 영수증에 넣어주는 함수
         if(peoplecnt != 1) {
-            for(int i = peoplecnt * 11; i < peoplecnt * 11 + 11; i++) {
+            for(int i = peoplecnt * 11; i < peoplecnt * 11 + 1; i++) {
                 receiptlist[i] = firstmoney;
-                receiptlist[i+1] = foodcnt[0];
-                receiptlist[i+2] = foodcnt[1];
-                receiptlist[i+3] = foodcnt[2];
-                receiptlist[i+4] = foodcnt[3];
-                receiptlist[i+5] = foodcnt[4];
+                receiptlist[i+1] = foodcnt[i];
+                receiptlist[i+2] = foodcnt[i+1];
+                receiptlist[i+3] = foodcnt[i+2];
+                receiptlist[i+4] = foodcnt[i+3];
+                receiptlist[i+5] = foodcnt[i+4];
                 receiptlist[i+6] = people[peoplecnt];
                 receiptlist[i+7] = debtmoney;
                 receiptlist[i+8] = debtpay;
