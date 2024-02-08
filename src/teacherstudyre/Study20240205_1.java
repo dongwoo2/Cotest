@@ -21,18 +21,21 @@ public class Study20240205_1 {
         while (true) { // 3개의 모든 개미가 도착하면 끝
             // 개미 하나 하나 따로 분리해서 더하고 넣고 하는게 더 좋을 거 같네
             minute++;
-            if(ant1 != ant2 && ant2 > ant1 && se1 == 0) { // 정상진행
+            if (ant1 > 0 && ant1 <= 24 && se1 == 0 && ant1 != ant2) {
                 ant1++;
-                ant2--;
-                if(ant1 == ant2) { //
-                    se1++;
-                }
-
-            } else if (ant1 != ant2 && ant2 > ant1 && se1 != 0) {
+            } else if (ant1 > 0 && ant1 <= 24 && se1 != 0 && ant1 != ant2) {
                 ant1--;
-                ant2++;
             }
 
+            if(ant2 > 0 && ant2 <= 24 && se2 == 0 && ant2 != ant1) {
+                ant2++;
+            } else if(ant2 > 0 && ant2 <= 24 && se2 != 0 && ant2 != ant1) {
+                ant2--;
+            }
+            if(ant1 == ant2) {
+                se1++;
+                se2++;
+            }
 
         }
     }
