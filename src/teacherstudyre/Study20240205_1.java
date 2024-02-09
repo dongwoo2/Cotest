@@ -17,6 +17,9 @@ public class Study20240205_1 {
         int se3 = 0;
         //se가 0이라면 정상적으로 진행 아니라면 반대로 진행
         int minute = 0; // 분
+        int one = 0;
+        int two = 0;
+        int three = 0;
 
         while (true) { // 3개의 모든 개미가 도착하면 끝
             // 개미 하나 하나 따로 분리해서 더하고 넣고 하는게 더 좋을 거 같네
@@ -35,6 +38,19 @@ public class Study20240205_1 {
             if(ant1 == ant2) {
                 se1++;
                 se2++;
+            }
+            if(ant3 > 0 && ant3 <= 24 && se3 == 0 && ant3 != ant2) {
+                ant3++;
+            } else if (ant3 > 0 && ant3 <= 24 && se3 != 0 && ant3 != ant2) {
+                ant3--;
+            }
+            if(ant1 == 0 || ant1 > 24) {
+                ant1 = 99;
+                if(one != 0) {
+                    if(two != 0) {
+                        three = minute;
+                    }
+                }
             }
 
         }
