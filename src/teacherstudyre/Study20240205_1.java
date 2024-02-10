@@ -52,6 +52,16 @@ public class Study20240205_1 {
                     }
                 }
             }
+            if(ant2 < 0 || ant2 > 24) {
+                ant2 = 99;
+                if(one != 0) {
+                    if(two != 0) {
+                        three = minute;
+                    } else if(two == 0) {
+                        two = minute;
+                    }
+                }
+            }
 
         }
     }
