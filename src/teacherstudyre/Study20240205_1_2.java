@@ -37,6 +37,9 @@ public class Study20240205_1_2 {
                     ants[i] = temp;
                         // 부딪친 개미의 진행 방향을 반대로 변경
                     }
+                if(ants[i] < 0 || ants[i] > 24) {
+                    
+
                 }
 
             }
