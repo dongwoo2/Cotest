@@ -8,6 +8,8 @@ public class Study20240205_1_2 {
         Random random = new Random();
         int[] ants = new int[4];
         int[] touchs = new int[4];
+        int[] ranking = new int[3];
+        int touch = 0;
         ants[0] = 100; // 오류방지
 
 
@@ -21,6 +23,9 @@ public class Study20240205_1_2 {
         while (ants[1] == ants[2]) {
             ants[1] = ants[2] - random.nextInt(ants[2]);
         }
+        touchs[1] = random.nextInt(2);
+        touchs[2] = random.nextInt(2);
+        touchs[3] = random.nextInt(2);
         System.out.println("ants1 = " + ants[1]);
         System.out.println("ants2 = " + ants[2]);
         System.out.println("ants3 = " + ants[3]);
@@ -29,16 +34,43 @@ public class Study20240205_1_2 {
         while (flag) {
             minute++;
             for (int i = 1; i <= 3; i++) {
-                ants[i]++; // 개미 이동
-                if (ants[i] == ants[i - 1] || ants[i] == ants[i + 1]) {
-                    // 개미가 부딪치는 경우
-                    int temp = ants[i - 1];
-                    ants[i - 1] = ants[i];
-                    ants[i] = temp;
-                        // 부딪친 개미의 진행 방향을 반대로 변경
+                 // 개미 이동
+                if ((ants[i] - ants[i - 1]) == 1) {
+                    if(touchs[i] == 0) {
+                        touchs[i]++;
+                    } else {
+                        touchs[i] = 0;
                     }
+                    if(touchs[i-1] == 0) {
+                        touchs[i - 1]++;
+                    } else {
+                        touchs[i-1] = 0;
+                    }
+
+                    } else { // 개미가 움직이는 방향도 랜덤으로 해볼까? 정해놓지 말고?
+                    if(i == 1 && touchs[i] == 0) {
+                        ants[i]++;
+                    } else if(i == 1 && touchs[i] != 0) {
+                        ants[i]--;
+                    }
+
+                    if (i == 2 && touchs[i] == 0) {
+                        ants[i]--;
+                    } else if(i == 2 && touchs[i] != 0) {
+                        ants[i]++;
+                    }
+                    if (i == 3 && touchs[i] == 0) {
+                        ants[i]++;
+                    } else if(i == 3 && touchs[i] != 0) {
+                        ants[i]--;
+                    }
+                }
+
+
                 if(ants[i] < 0 || ants[i] > 24) {
-                    
+                    if(ranking[1] == 0) {
+                        
+                    }
 
                 }
 
