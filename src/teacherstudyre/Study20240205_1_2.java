@@ -6,10 +6,10 @@ public class Study20240205_1_2 {
 
     public static void main(String[] args) {
         Random random = new Random();
-        int[] ants = new int[4];
-        int[] touchs = new int[4];
-        int[] ranking = new int[4];
-        int[] rankingtime = new int[4];
+        int[] ants = new int[5];
+        int[] touchs = new int[5];
+        int[] ranking = new int[5];
+        int[] rankingtime = new int[5];
         int rankingcheck = 0;
         int touch = 0;
         ants[0] = 100; // 오류방지
@@ -18,52 +18,48 @@ public class Study20240205_1_2 {
         // 개미 초기 위치 설정
         ants[3] = random.nextInt(24);
         ants[2] = ants[3] - random.nextInt(ants[3]);
-        while (ants[2] == ants[3]) {
+        while (ants[2] == ants[3] && ants[2] > ants[3]) {
             ants[2] = ants[3] - random.nextInt(ants[3]);
         }
         ants[1] = ants[2] - random.nextInt(ants[2]);
-        while (ants[1] == ants[2]) {
+        while (ants[1] == ants[2] && ants[1] > ants[2]) {
             ants[1] = ants[2] - random.nextInt(ants[2]);
         }
         touchs[1] = random.nextInt(2);
         touchs[2] = random.nextInt(2);
         touchs[3] = random.nextInt(2);
         System.out.println("ants1 = " + ants[1]);
+        System.out.println("touchs1 = " + touchs[1]);
         System.out.println("ants2 = " + ants[2]);
+        System.out.println("touchs2 = " + touchs[2]);
         System.out.println("ants3 = " + ants[3]);
+        System.out.println("touchs3 = " + touchs[3]);
         int minute = 0;
         boolean flag = true;
         while (flag) {
             minute++;
+            System.out.println("================" +minute + "분");
+            // 마지막에 확인 하고
             for (int i = 1; i <= 3; i++) {
                  // 개미 이동
-                if ((ants[i] - ants[i - 1]) == 1) {
-                    if(touchs[i] == 0) {
-                        touchs[i]++;
+                if((ants[i] > 0 && ants[i] < 24) && ants[i] != ants[i+1]) {
+                    if(touchs[i] != 0) {
+                        ants[i]--;
                     } else {
+                        ants[i]++;
+                    }
+                } else if((ants[i] > 0 && ants[i] < 24) && ants[i] == ants[i+1]) {
+                    ants[i] -= 1;
+                    ants[i+1] += 1;
+                    if(touchs[i] != 0) {
                         touchs[i] = 0;
-                    }
-                    if(touchs[i-1] == 0) {
-                        touchs[i - 1]++;
                     } else {
-                        touchs[i-1] = 0;
+                        touchs[i]++;
                     }
-
-                    } else { // 개미가 움직이는 방향도 랜덤으로 해볼까? 정해놓지 말고?
-                    if(i == 1 && touchs[i] == 0) { //1번 개미
-                        ants[i]++;
-                    } else if(i == 1 && touchs[i] != 0) {
-                        ants[i]--;
-                    }
-                    if (i == 2 && touchs[i] == 0) { //2번 개미
-                        ants[i]--;
-                    } else if(i == 2 && touchs[i] != 0) {
-                        ants[i]++;
-                    }
-                    if (i == 3 && touchs[i] == 0) { //3번 개미
-                        ants[i]++;
-                    } else if(i == 3 && touchs[i] != 0) {
-                        ants[i]--;
+                    if(touchs[i+1] != 0) {
+                        touchs[i+1] = 0;
+                    } else {
+                        touchs[i+1]++;
                     }
                 }
 
@@ -89,12 +85,63 @@ public class Study20240205_1_2 {
                 }
 
                 System.out.println("ants[" +i+"] : " + ants[i]);
+
+
+
+                if(i == 99 && (ants[1] == ants[2])) { // 마지막에 확인
+                    if(touchs[1] == 0) {
+                        touchs[1]++;
+                    } else {
+                        touchs[1] = 0;
+                    }
+                    if(touchs[2] == 0) {
+                        touchs[2]++;
+                    } else {
+                        touchs[2] = 0;
+                    }
+                } else if(i == 3 && (ants[2] == ants[3])) { // 마지막에 확인
+                    if(touchs[2] == 0) {
+                        touchs[2]++;
+                    } else {
+                        touchs[2] = 0;
+                    }
+                    if(touchs[3] == 0) {
+                        touchs[3]++;
+                    } else {
+                        touchs[3] = 0;
+                    }
+                }
+                if(i == 3 && touchs[1] == 0 && touchs[2] == 0) {
+
+                }
             }
         }
         System.out.println("1등 : " +  ranking[1] + "번 개미\n도착시간 : " + rankingtime[1]);
         System.out.println("2등 : " +  ranking[2] + "번 개미\n도착시간 : " + rankingtime[2]);
         System.out.println("3등 : " +  ranking[3] + "번 개미\n도착시간 : " + rankingtime[3]);
     }
+
+    public static void met(int[] ants , int i , int [] touchs) { // 처음에 조건을 잡는게 맞음
+        if(ants[i - 1] + 1 != ants[i]) {
+            if(touchs[i] != 0) {
+                ants[i]--;
+            } else {
+                ants[i]++;
+            }
+        } else if (ants[i - 1] + 1 == ants[i]) { // 부딪침
+            if(touchs[i] != 0) {
+                touchs[i] = 0;
+            } else if(touchs[i] == 0) {
+                touchs[i]++;
+            }
+            if(touchs[i] != 0) {
+                ants[i]--;
+            } else {
+                ants[i]++;
+            }
+        }
+    }
+
 }
 
 
