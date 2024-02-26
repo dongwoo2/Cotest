@@ -15,6 +15,7 @@ public class Study20240225_1 {
         int CCAG = 0;
         int AGCC = 0;
         int i = 0;
+        int k = 0;
         
         String [] cas = new String[5];
         String cas2 = "";
@@ -42,17 +43,18 @@ public class Study20240225_1 {
         cas[2] += tt2[2];
         cas[3] += tt2[3];
         for(int j = 3, s = 3; j < tt2.length; j++) {
-            int k = 0;
             k++;
             if(k > 1) {
                 if (!cas[s].equals("")) {
+                    System.out.println("들어옴");
                     for (int t = 1; t <= 4; t++) {
                         if(t == 4) {
+                            System.out.println(" t가 4라면 ");
                             cas[t - 1] = tt2[j];
                         } else if (t < 4) {
                             cas[t - 1] = cas[t];
                         }
-                        System.out.println("cas[t] = " + cas[t]);
+                        System.out.println("cas["+ (t-1) +"] = " + cas[t]);
                     }
 //                    cas[3] = tt2[j];
                 }
@@ -62,12 +64,11 @@ public class Study20240225_1 {
                 System.out.println("cas2 = " + cas2);
             }
 
-            cas2 = "";
-            if(cas2.equals(TAGG)){
+            if(cas2.equals("TAGG")){
                 TAGG++;
-            } else if(cas2.equals(CCAG)) {
+            } else if(cas2.equals("CCAG")) {
                 CCAG++;
-            } else if (cas2.equals(AGCC)) {
+            } else if (cas2.equals("AGCC")) {
                 AGCC++;
             }
 
