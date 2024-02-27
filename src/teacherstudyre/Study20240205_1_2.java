@@ -10,6 +10,7 @@ public class Study20240205_1_2 {
         int[] touchs = new int[5];
         int[] ranking = new int[5];
         int[] rankingtime = new int[5];
+        ants[4] = 150;
         int rankingcheck = 0;
         int touch = 0;
         ants[0] = 100; // 오류방지
@@ -18,11 +19,11 @@ public class Study20240205_1_2 {
         // 개미 초기 위치 설정
         ants[3] = random.nextInt(24);
         ants[2] = ants[3] - random.nextInt(ants[3]);
-        while (ants[2] == ants[3] && ants[2] > ants[3]) {
+        while (ants[2] == ants[3] || ants[2] > ants[3]) {
             ants[2] = ants[3] - random.nextInt(ants[3]);
         }
         ants[1] = ants[2] - random.nextInt(ants[2]);
-        while (ants[1] == ants[2] && ants[1] > ants[2]) {
+        while (ants[1] == ants[2] || ants[1] > ants[2]) {
             ants[1] = ants[2] - random.nextInt(ants[2]);
         }
         touchs[1] = random.nextInt(2);
@@ -42,15 +43,30 @@ public class Study20240205_1_2 {
             // 마지막에 확인 하고
             for (int i = 1; i <= 3; i++) {
                  // 개미 이동
-                if((ants[i] > 0 && ants[i] < 24) && ants[i] != ants[i+1]) {
+                if((ants[i] > 0 && ants[i] < 24) && (ants[i] != ants[i+1] + 1) && (ants[i] + 1 != ants[i+1])) {
                     if(touchs[i] != 0) {
                         ants[i]--;
                     } else {
                         ants[i]++;
                     }
-                } else if((ants[i] > 0 && ants[i] < 24) && ants[i] == ants[i+1]) {
+                    // 만약 부딪쳤을 때 제자리에 있어야 한다면
+                    // ants[i] -= 1 주석처리하고 ants[i+1]에도 부딪혀서 부딪친거 확인해주는 변수 체크 후 다음순서로 진행안되게 하면 됨
+                } else if(((ants[i] > 0 && ants[i] < 24) && (ants[i] == ants[i+1])) || ((ants[i] > 0 && ants[i] < 24) && (ants[i] + 1 == ants[i+1] && (touchs[i] == 0 && touchs[i+1] != 0)))) {
                     ants[i] -= 1;
-                    ants[i+1] += 1;
+//                    ants[i+1] += 1;
+                    if(touchs[i] != 0) {
+                        touchs[i] = 0;
+                    } else {
+                        touchs[i]++;
+                    }
+                    if(touchs[i+1] != 0) {
+                        touchs[i+1] = 0;
+                    } else {
+                        touchs[i+1]++;
+                    }
+                } else if((ants[i] + 1 == ants[i+1]) && (touchs[i] == 0 && touchs[i+1] == 1)) { // 위에랑 소스 중복 함수로 뺴기
+                    ants[i] -= 1;
+//                    ants[i+1] += 1;
                     if(touchs[i] != 0) {
                         touchs[i] = 0;
                     } else {
