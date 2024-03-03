@@ -68,7 +68,7 @@ public class Study20240225_1 {
                 TAGG++;
             } else if(cas2.equals("CCAG")) {
                 CCAG++;
-            } else if (cas2.equals("AGCC")) {
+            } else if (cas2.equals("AGCC")) { // equals를 문자형태가 아닌 변수 그 자체로 불러와서 오류가 났음
                 AGCC++;
             }
 
