@@ -13,11 +13,16 @@ public class Study20240303_1 {
     public static void solution() {
         int n = random.nextInt(50) + 50;
         int ch = random.nextInt(3) + 1;
-        int k = n/3; // 홀수 일 경우 짝수 일 경우 생각해야함
+        int k = n / 3; // 홀수 일 경우 짝수 일 경우 생각해야함
         int t = 0;
         int removecnt = 0;
+        int choice = 0;
+        int cardnum = 0;
+        int choicecnt = 8;
         int cardcnt[] = new int[n];
-        for(int i = 0; i < cardcnt.length; i++) {
+        boolean flag = true;
+        boolean flag2 = true;
+        for (int i = 0; i < cardcnt.length; i++) {
             cardcnt[i] = random.nextInt(9999) + 1;
             System.out.println("i = " + i);
             System.out.println(cardcnt[i]);
@@ -25,45 +30,47 @@ public class Study20240303_1 {
 
         cardcnt = removecard(cardcnt, removecnt, k);
 
-        int cardcnt2[] = new int[k];
-        for(int j = 0; j < cardcnt.length; j++) {
-            if (cardcnt[j] != 0) {
-
+        for(int i = 0; i < cardcnt.length; i++){
+            if(cardcnt[i] != 0) {
+                System.out.println(i + "번 째 카드가 남아있습니다.");
             }
         }
 
-        if(ch == 1) { // 3으로 나눠서 앞 부분만
-            System.out.println("앞 쪽 3분의 1부분만 남았습니다.");
-            System.out.println("몇 번째 카드를 고르시겠습니까?");
-            t = sc.nextInt();
-            if(t > k) { // 크면 안됨 앞 부분이니까
-                System.out.println("잘못된 카드를 고르셨습니다. ");
+        System.out.println("카드를 선택하세요");
+        choice = sc.nextInt();
+        while (flag) {
+            if (cardcnt[choice] == 0) {
+                System.out.println("잘못된 선택 다시선택하십쇼");
+                choice = sc.nextInt();
             } else {
+                while(flag2) {
+                    System.out.println("숫자를 찍아보시오");
+                    cardnum = sc.nextInt();
+                    if(cardcnt[choice] < cardnum) {
+                        System.out.println("down");
+                        choicecnt--;
+                        if(choicecnt == 3) {
 
-            }
-            while(cardcnt[t] < 100 && cardcnt[t] > 8000 && (cardcnt[t] % 4 != 0 || cardcnt[t] % 5 != 0 || cardcnt[t] % 6 != 0)) {
-               t = random.nextInt(k);
-            }
-        } else if (ch == 2) { // 얘는 중간 부분만
-            t = sc.nextInt();
-            if(t < k && t > k * 2) { // 중간 부분이니까 크면 안되고
+                        } else if (choicecnt == 2) {
 
+                        }
+                    } else if(cardcnt[choice] < cardnum) {
+                        System.out.println("up");
+                        choicecnt--;
+                        if(choicecnt == 3) {
+
+                        } else if (choicecnt == 2) {
+
+                        }
+                    } else {
+                        System.out.println("정답입니다!");
+                        flag2 = false;
+                        flag = false;
+                    }
+                }
             }
-            t = random.nextInt(k) + k; // 그리고 앞 부분 빼기 다시 k로 빼기
-            while(cardcnt[t] < 100 && cardcnt[t] > 8000 && (cardcnt[t] % 4 != 0 || cardcnt[t] % 5 != 0 || cardcnt[t] % 6 != 0)) {
-                t = random.nextInt(k) + k;
-            }
-        } else { // 얘는 끝 부분만
-            t = random.nextInt(k) + k * 2;
-            while(cardcnt[t] < 100 && cardcnt[t] > 8000 && (cardcnt[t] % 4 != 0 || cardcnt[t] % 5 != 0 || cardcnt[t] % 6 != 0)) {
-                t = random.nextInt(k) + k * 2;
-            }
-            // 앞에 두 부분 빼면됨
+
         }
-
-
-
-
     }
 
     public static int[] removecard(int cardcnt[], int removecnt, int k) {
@@ -81,4 +88,13 @@ public class Study20240303_1 {
         return cardcnt;
     }
 
-}
+    public static int hint3(int[] cardcnt,int choice) {
+        return choice;
+    }
+
+    public static int hint2(int[] cardcnt,int choice) {
+        return choice;
+    }
+
+
+    }
