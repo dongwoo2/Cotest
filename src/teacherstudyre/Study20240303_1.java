@@ -46,7 +46,12 @@ public class Study20240303_1 {
                 while(flag2) {
                     System.out.println("숫자를 찍아보시오");
                     cardnum = sc.nextInt();
-                    if(cardcnt[choice] < cardnum) {
+                    for(int h = 0; h < 5; h++) {
+                        if(cardcnt[choice] == cardnum+h) {
+
+                        }
+                    }
+                    if(cardcnt[choice]  > cardnum) {
                         System.out.println("down");
                         choicecnt--;
                         if(choicecnt == 3) {
@@ -88,11 +93,15 @@ public class Study20240303_1 {
         return cardcnt;
     }
 
-    public static int hint3(int[] cardcnt,int choice) {
+    public static int hint3(int[] cardcnt,int choice) { // ?의 배수
         return choice;
     }
 
-    public static int hint2(int[] cardcnt,int choice) {
+    public static int hint2(int[] cardcnt,int choice) { // 정확히 ? 자리입니다.
+        return choice;
+    }
+
+    public static int hint1(int[] cardcnt,int choice) { // 3의 배수이지만 ? 가 들어가지 않습니다
         return choice;
     }
 
