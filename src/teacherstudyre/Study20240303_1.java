@@ -46,31 +46,41 @@ public class Study20240303_1 {
                 while(flag2) {
                     System.out.println("숫자를 찍아보시오");
                     cardnum = sc.nextInt();
-                    for(int h = 0; h < 5; h++) {
-                        if(cardcnt[choice] == cardnum+h) {
-
-                        }
-                    }
-                    if(cardcnt[choice]  > cardnum) {
-                        System.out.println("down");
-                        choicecnt--;
-                        if(choicecnt == 3) {
-
-                        } else if (choicecnt == 2) {
-
-                        }
-                    } else if(cardcnt[choice] < cardnum) {
-                        System.out.println("up");
-                        choicecnt--;
-                        if(choicecnt == 3) {
-
-                        } else if (choicecnt == 2) {
-
-                        }
-                    } else {
+                    if(cardnum >= (cardcnt[choice] - 5) && (cardnum <= cardcnt[choice] + 5)) {
                         System.out.println("정답입니다!");
                         flag2 = false;
                         flag = false;
+                    }
+                    else if(cardcnt[choice] + 5 > cardnum) {
+                        System.out.println("up");
+                        choicecnt--;
+                        if(choicecnt == 3) {
+                            hint3(cardcnt,choice);
+                        } else if (choicecnt == 2) {
+                            hint2(cardcnt,choice);
+                        } else if (choicecnt == 1) {
+                            hint1(cardcnt,choice);
+                        } else if (choicecnt == 0) {
+                            System.out.println("모든 기회를 잃었습니다 종료.");
+                            System.out.println("정답은" + cardcnt[choice] + "입니다.");
+                            flag2 = false;
+                            flag = false;
+                        }
+                    } else if(cardcnt[choice] -5 < cardnum) {
+                        System.out.println("down");
+                        choicecnt--;
+                        if(choicecnt == 3) {
+                            hint3(cardcnt,choice);
+                        } else if (choicecnt == 2) {
+                            hint2(cardcnt,choice);
+                        } else if (choicecnt == 1) {
+                            hint1(cardcnt,choice);
+                        } else if (choicecnt == 0) {
+                            System.out.println("모든 기회를 잃었습니다 종료.");
+                            System.out.println("정답은" + cardcnt[choice] + "입니다.");
+                            flag2 = false;
+                            flag = false;
+                        }
                     }
                 }
             }
@@ -93,16 +103,36 @@ public class Study20240303_1 {
         return cardcnt;
     }
 
-    public static int hint3(int[] cardcnt,int choice) { // ?의 배수
-        return choice;
+    public static void hint3(int[] cardcnt,int choice) { // ?의 배수
+        if(cardcnt[choice] % 2 == 0) {
+            System.out.println("2의 배수입니다.");
+        } else if(cardcnt[choice] % 3 == 0) {
+            System.out.println("3의 배수 입니다.");
+        } else if(cardcnt[choice] % 5 == 0) {
+            System.out.println("5의 배수 입니다.");
+        } else if(cardcnt[choice] % 7 == 0) {
+            System.out.println("7의 배수 입니다.");
+        }
     }
 
-    public static int hint2(int[] cardcnt,int choice) { // 정확히 ? 자리입니다.
-        return choice;
+    public static void hint2(int[] cardcnt,int choice) { // 정확히 ? 자리입니다.
+        if(cardcnt[choice] > 999) {
+            System.out.println("숫자는 정확히 4자리입니다.");
+        } else {
+            System.out.println("숫자는 정확히 3자리입니다.");
+        }
     }
 
-    public static int hint1(int[] cardcnt,int choice) { // 3의 배수이지만 ? 가 들어가지 않습니다
-        return choice;
+    public static void hint1(int[] cardcnt,int choice) { // 3의 배수이지만 ? 가 들어가지 않습니다
+        if(cardcnt[choice] % 2 == 0) {
+            System.out.println("2의 배수이기에 짝수 입니다.");
+        } else if (cardcnt[choice] % 3 == 0 && cardcnt[choice] % 2 != 0)  {
+            System.out.println("3의 배수이지만 2의 배수가 들어가지 않습니다.");
+        } else if (cardcnt[choice] % 5 == 0 && cardcnt[choice] % 7 != 0)  {
+            System.out.println("5의 배수이지만 7의 배수가 들어가지 않습니다.");
+        } else if (cardcnt[choice] % 3 == 0 && cardcnt[choice] % 7 != 0)  {
+            System.out.println("3의 배수이지만 7의 배수가 들어가지 않습니다.");
+        }
     }
 
 
