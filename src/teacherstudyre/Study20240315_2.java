@@ -26,9 +26,15 @@ public class Study20240315_2 {
         int k = 1;
         for(int i = 0; i < n.length; i++) {
             int nl = n[i];
+            k = 1;
             for(int j = 0; j < nl; j++) {
-                k += 2;
-                ncnt[i] = k;
+                if(nl == 1) {
+                    ncnt[i] = k;
+                } else {
+                    k += 2;
+                    ncnt[i] = k;
+                }
+
             }
             System.out.println(ncnt[i]);
 
