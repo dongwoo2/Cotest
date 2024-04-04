@@ -13,11 +13,15 @@ public class Study20240322_2 {
         int age = 0;
         int movein_age = 0;
         int choice = 0;
+        int choho = 0;
         int choice1 = 0;
+        int choho1 = 0;
         System.out.println("몇 동 까지 있습니까?");
         choice = sc.nextInt();
+        choho = choice;
         System.out.println("몇 호 까지 있습니까?");
         choice1 = sc.nextInt();
+        choho1 = choice1;
         int[][] apartage = new int[choice][choice1];
         boolean flag = true;
 
@@ -49,7 +53,7 @@ public class Study20240322_2 {
                 choice1 = sc.nextInt();
                 System.out.print("나이:");
                 movein_age = sc.nextInt();
-                apartage = moveinage(apartage, choice, choice1, movein_age);
+                apartage = moveinage(apartage, choice, choice1, movein_age,choho,choho1);
                 allapart(apartage);
             } else {
                 flag = false;
@@ -64,25 +68,23 @@ public class Study20240322_2 {
     }
 
 
-    public static int[][] moveinage(int[][] apartage, int choice, int choice1, int movein_age) {
+    public static int[][] moveinage(int[][] apartage, int choice, int choice1, int movein_age, int choho, int choho1) {
         int length = 0;
         int cnt = 0;
         int cnt1 = 0;
         int plus = 0;
         int ho = choice1;
+        boolean flag = true;
         choice--;
         choice1--;
-        if (apartage[choice].length % 2 != 0) {
+        int original = apartage[choice][choice1];
+        if (apartage[choice].length % 2 != 0) { //홀수 짝수
             length = (apartage[choice].length / 2) + 1;
         } else {
             length = (apartage[choice].length / 2);
         }
         if (ho > length) { // 크면 오른쪽으로
-            for (int i = 0; i < apartage.length; i++) {
-                for (int j = 0; j < apartage[i].length; j++) {
-                }
-            }
-            while (true) {
+            while (flag) {
                 plus++;
                 ho++;
                 if (plus == 1) { //바꾸는중에 넣어야할 거 같은데 층 바꾸는 걸
@@ -93,10 +95,15 @@ public class Study20240322_2 {
                         apartage[choice][choice1 + 1] = cnt;
                     } else { // 층 바꿔야 할 때
                         choice++;
-                        cnt1 = choice1;
-                        choice1 = 0;
-                        apartage[choice][choice1] = apartage[choice-1][cnt1];
-                        ho = 0;
+                        if(choice+1 <= choho) { //층이 제일 높은 층보다 작을 때
+                            cnt1 = choice1;
+                            choice1 = 0;
+                            apartage[choice][choice1] = apartage[choice-1][cnt1];
+                            ho = 0;
+                        } else {
+                            flag = false;
+                        }
+
                     }
 
                 } else { //2번째
@@ -104,17 +111,60 @@ public class Study20240322_2 {
                          choice1++;
                          apartage[choice][choice1] = apartage[choice][choice1-1];
                      } else {
-                         choice++;
-                         cnt1 = choice1;
-                         choice1 = 0;
-                         apartage[choice][choice1] = apartage[choice-1][cnt1];
-                         ho = 0;
+                         if(choice+1 <= choho) {
+                             choice++;
+                            cnt1 = choice1;
+                            choice1 = 0;
+                            apartage[choice][choice1] = apartage[choice-1][cnt1];
+                            ho = 0;
+                         } else {
+                             flag = false;
+                         }
                      }
                 }
 
             }
         } else { // 같거나 작으면 왼쪽으로
+            while (flag) {
+                plus++;
+                ho--; // 층이 바뀌어버리면 호가 다시 커져야한다
+                if (plus == 1) { //바꾸는중에 넣어야할 거 같은데 층 바꾸는 걸
+                    cnt = apartage[choice][choice1]; // 원래 층
+                    apartage[choice][choice1] = movein_age;
 
+                    if(apartage[choice].length != ho) { // 층 안바꿔도 될 떄
+                        apartage[choice][choice1 - 1] = cnt;
+                    } else { // 층 바꿔야 할 때
+                        choice--;
+                        if(choice >= 0) { //층이 제일 낮은 층보다 낮아지면 안됨
+                            cnt1 = choice1;
+                            choice1 = 0;
+                            apartage[choice][choice1] = apartage[choice+1][cnt1];
+                            ho = apartage[choice].length;
+                        } else {
+                            flag = false;
+                        }
+
+                    }
+
+                } else { //2번째
+                    if(apartage[choice].length != ho) {
+                        choice1--;
+                        apartage[choice][choice1] = apartage[choice][choice1+1];
+                    } else {
+                        if(choice >= 0) {
+                            choice--;
+                            cnt1 = choice1;
+                            choice1 = apartage[0].length-1;
+                            apartage[choice][choice1] = apartage[choice-1][cnt1];
+                            ho = apartage[choice].length-1;
+                        } else {
+                            flag = false;
+                        }
+                    }
+                }
+
+            }
         }
 
         //apartage[choice-1][choice1-1] = movein_age;
