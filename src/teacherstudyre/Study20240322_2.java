@@ -129,36 +129,12 @@ public class Study20240322_2 {
         } else { // 같거나 작으면 왼쪽으로
             while (flag) {
                     plus++;
-                    ho--;
-                    if(ho == 0) {
-                        ho = apartage[choice].length;
-                    }
 
-                    if(choice1 < 0 && choice >= 1 && cnt2 > 0) { // 층을 바꾸어야 할 때
-                        choice--;
-                        choice1 = 0;
-                        if(plus == 1)  { //처음
-                            cnt = movein_age; // 상대를 바뀌게 해주어야하는 값
-                            cnt1 = apartage[choice][choice1]; // 바뀐 사람이 가지고있는 원래값
-                            apartage[choice][choho1] = cnt;
-                            cnt = cnt1;
-                            choice1 = apartage[choice].length-1;
-                            cnt2 = 0;
-                        } else { // 두 번째
-                            if(plus > 1) {
-                                cnt = cnt1;
-                            } else {
-                                cnt = apartage[choice+1][choice1];
-                            }
-                            cnt1 = apartage[choice][choho1-1];
-                            apartage[choice][choho1-1] = cnt;
-                            cnt = cnt1;
-                            choice1 = apartage[choice].length-1;
-                            cnt2 = 0;
-                        }
-                    } else if(choice1 == 0 && choice == 0){ // 끝났을 때
+                    if(choice1 == 0 && choice == 0) {
+                        apartage[choice][choice1] = cnt1;
                         flag = false;
-                    } else if(choice1 >= 0){ // 층을 안바꾸고 진행가능할 때
+                        // plus == 1인 상황도 만들어야함
+                    } else if(choice1 >= 1) {
                         if(plus == 1) {
                             cnt = movein_age;
                             cnt1 = apartage[choice][choice1];
@@ -166,22 +142,43 @@ public class Study20240322_2 {
                             choice1--;
                             System.out.println("choice1 = " + choice1);
                             System.out.println("apartage[choice] = " + apartage[choice].length);
-                            if(choice1 < 0) {
-                                cnt2++;
-                            }
+
                         } else {
                             cnt = apartage[choice][choice1];
+                            if(cnt2 != 0) {
+                                cnt1 = cnt2;
+                                cnt2 = 0;
+                            }
                             apartage[choice][choice1] = cnt1;
                             cnt1 = cnt;
                             choice1--;
                             System.out.println("choice1 = " + choice1);
-                            if(choice1 < 0) {
-                                cnt2++;
-                            }
+
                         }
+                    } else if(choice1 == 0) {
+                        if(choice >= 1) {
+                            if(plus == 1) {
+                                cnt = movein_age;
+                                cnt1 = apartage[choice][choice1];
+                                apartage[choice][choice1] = cnt;
+                                System.out.println("choice1 = " + choice1);
+                                System.out.println("apartage[choice] = " + apartage[choice].length);
 
+                            } else {
+                                cnt = apartage[choice-1][choho1-1];
+                                cnt2 = apartage[choice][choice1];
+                                apartage[choice][choice1] = cnt1;
+                                System.out.println("choice1 = " + choice1);
+                                choice--;
+                                choice1 = choho1 - 1;
+                                if(choice < 0) {
+                                    flag = false;
+                                }
+                            }
+                        } else {
+                            flag = false;
+                        }
                     }
-
             }
         }
 
