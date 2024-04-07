@@ -88,51 +88,74 @@ public class Study20240322_2 {
         if (ho > length) { // 크면 오른쪽으로
             while (flag) {
                 plus++;
-                ho++;
-                if (plus == 1) { //바꾸는중에 넣어야할 거 같은데 층 바꾸는 걸
-                    cnt = apartage[choice][choice1]; // 원래 층
-                    apartage[choice][choice1] = movein_age;
 
-                    if(apartage[choice].length >= ho) { // 층 안바꿔도 될 떄
-                        apartage[choice][choice1 + 1] = cnt;
-                    } else { // 층 바꿔야 할 때
-                        choice++;
-                        if(choice+1 <= choho) { //층이 제일 높은 층보다 작을 때
-                            cnt1 = choice1;
-                            choice1 = 0;
-                            apartage[choice][choice1] = apartage[choice-1][cnt1];
-                            ho = 0;
-                        } else {
-                            flag = false;
+                if(choice1 == 0 && choice == 0) {
+                    if(plus == 1) {
+                        apartage[choice][choice1] = movein_age;
+                        flag = false;
+                    } else {
+                        apartage[choice][choice1] = cnt1;
+                        flag = false;
+                    }
+                    // plus == 1인 상황도 만들어야함
+                } else if(choice1 <= choho1-1) {
+                    if(plus == 1) {
+                        cnt = movein_age;
+                        cnt1 = apartage[choice][choice1];
+                        apartage[choice][choice1] = cnt;
+                        choice1++;
+                        System.out.println("choice1 = " + choice1);
+                        System.out.println("apartage[choice] = " + apartage[choice].length);
+
+                    } else {
+                        cnt = apartage[choice][choice1];
+                        if(cnt2 != 0) {
+                            cnt1 = cnt2;
+                            cnt2 = 0;
                         }
+                        apartage[choice][choice1] = cnt1;
+                        cnt1 = cnt;
+                        choice1++;
+                        System.out.println("choice1 = " + choice1);
 
                     }
+                } else if(choice1 == choho1) {
+                    if(choice <= choho1-1) {
+                        if(plus == 1) {
+                            cnt = movein_age;
+                            cnt1 = apartage[choice][choice1];
+                            apartage[choice][choice1] = cnt;
+                            System.out.println("choice1 = " + choice1);
+                            System.out.println("apartage[choice] = " + apartage[choice].length);
 
-                } else { //2번째
-                     if(apartage[choice].length >= ho) {
-                         choice1++;
-                         apartage[choice][choice1] = apartage[choice][choice1-1];
-                     } else {
-                         if(choice+1 <= choho) {
-                             choice++;
-                            cnt1 = choice1;
-                            choice1 = 0;
-                            apartage[choice][choice1] = apartage[choice-1][cnt1];
-                            ho = 0;
-                         } else {
-                             flag = false;
-                         }
-                     }
+                        } else {
+                            cnt = apartage[choice-1][choho1-1];
+                            cnt2 = apartage[choice][choice1];
+                            apartage[choice][choice1] = cnt1;
+                            System.out.println("choice1 = " + choice1);
+                            choice++;
+                            choice1 = choho1 - 1;
+                            if(choice < 0) {
+                                flag = false;
+                            }
+                        }
+                    } else {
+                        flag = false;
+                    }
                 }
-
             }
         } else { // 같거나 작으면 왼쪽으로
             while (flag) {
                     plus++;
 
                     if(choice1 == 0 && choice == 0) {
-                        apartage[choice][choice1] = cnt1;
-                        flag = false;
+                        if(plus == 1) {
+                            apartage[choice][choice1] = movein_age;
+                            flag = false;
+                        } else {
+                            apartage[choice][choice1] = cnt1;
+                            flag = false;
+                        }
                         // plus == 1인 상황도 만들어야함
                     } else if(choice1 >= 1) {
                         if(plus == 1) {
