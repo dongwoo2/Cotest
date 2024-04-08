@@ -89,7 +89,7 @@ public class Study20240322_2 {
             while (flag) {
                 plus++;
 
-                if(choice1 == 0 && choice == 0) {
+                if(choice1 == choho1-1 && choice == choho-1) { // 마지막 부분
                     if(plus == 1) {
                         apartage[choice][choice1] = movein_age;
                         flag = false;
@@ -97,15 +97,12 @@ public class Study20240322_2 {
                         apartage[choice][choice1] = cnt1;
                         flag = false;
                     }
-                    // plus == 1인 상황도 만들어야함
-                } else if(choice1 <= choho1-1) {
+                } else if(choice1 <= choho1-2) { // 층 안바꾸고 진행하는 부분
                     if(plus == 1) {
-                        cnt = movein_age;
-                        cnt1 = apartage[choice][choice1];
-                        apartage[choice][choice1] = cnt;
+                        cnt1 = movein_age;
+                        cnt = apartage[choice][choice1];
+                        apartage[choice][choice1] = cnt1;
                         choice1++;
-                        System.out.println("choice1 = " + choice1);
-                        System.out.println("apartage[choice] = " + apartage[choice].length);
 
                     } else {
                         cnt = apartage[choice][choice1];
@@ -116,26 +113,26 @@ public class Study20240322_2 {
                         apartage[choice][choice1] = cnt1;
                         cnt1 = cnt;
                         choice1++;
-                        System.out.println("choice1 = " + choice1);
 
                     }
-                } else if(choice1 == choho1) {
-                    if(choice <= choho1-1) {
+                } else if(choice1 == choho1 -1) { // 층 바꿔야 할 때
+                    if(choice <= choho-2) {
                         if(plus == 1) {
                             cnt = movein_age;
-                            cnt1 = apartage[choice][choice1];
+                            cnt2 = apartage[choice][choice1];
                             apartage[choice][choice1] = cnt;
-                            System.out.println("choice1 = " + choice1);
-                            System.out.println("apartage[choice] = " + apartage[choice].length);
-
+                            choice++;
+                            choice1 = 0;
+                            if(choice > choho-1) {
+                                flag = false;
+                            }
                         } else {
-                            cnt = apartage[choice-1][choho1-1];
+                            cnt = apartage[choice+1][0];
                             cnt2 = apartage[choice][choice1];
                             apartage[choice][choice1] = cnt1;
-                            System.out.println("choice1 = " + choice1);
                             choice++;
-                            choice1 = choho1 - 1;
-                            if(choice < 0) {
+                            choice1 = 0;
+                            if(choice > choho-1) {
                                 flag = false;
                             }
                         }
@@ -160,11 +157,9 @@ public class Study20240322_2 {
                     } else if(choice1 >= 1) {
                         if(plus == 1) {
                             cnt = movein_age;
-                            cnt1 = apartage[choice][choice1];
+                            cnt2 = apartage[choice][choice1];
                             apartage[choice][choice1] = cnt;
                             choice1--;
-                            System.out.println("choice1 = " + choice1);
-                            System.out.println("apartage[choice] = " + apartage[choice].length);
 
                         } else {
                             cnt = apartage[choice][choice1];
@@ -175,23 +170,23 @@ public class Study20240322_2 {
                             apartage[choice][choice1] = cnt1;
                             cnt1 = cnt;
                             choice1--;
-                            System.out.println("choice1 = " + choice1);
 
                         }
                     } else if(choice1 == 0) {
                         if(choice >= 1) {
                             if(plus == 1) {
                                 cnt = movein_age;
-                                cnt1 = apartage[choice][choice1];
+                                cnt2 = apartage[choice][choice1];
                                 apartage[choice][choice1] = cnt;
-                                System.out.println("choice1 = " + choice1);
-                                System.out.println("apartage[choice] = " + apartage[choice].length);
-
+                                choice--;
+                                choice1 = choho1 - 1;
+                                if(choice < 0) {
+                                    flag = false;
+                                }
                             } else {
                                 cnt = apartage[choice-1][choho1-1];
                                 cnt2 = apartage[choice][choice1];
                                 apartage[choice][choice1] = cnt1;
-                                System.out.println("choice1 = " + choice1);
                                 choice--;
                                 choice1 = choho1 - 1;
                                 if(choice < 0) {
