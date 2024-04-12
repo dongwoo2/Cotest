@@ -73,7 +73,6 @@ public class Study20240322_2 {
         int cnt = movein_age;
         int cnt1 = 0;
         int cnt2 = 0;
-        int cnt3 = 0;
         int plus = 0;
         int ho = choice1;
         boolean flag = true;
