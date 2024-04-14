@@ -25,8 +25,11 @@ public class Study20240412_1 {
         boolean flag = true;
         int choice = 0;
         int allmoney = 0; // 수입;
+        System.out.println("오늘 손님은 몇 명 입니까?");
         int people = sc.nextInt();
         int people1 = 0;
+        int check = 0;
+        int check2 = 0;
 
         weaponsort = weaponkind(weaponsort);
         weaponitem = weaponset(weaponsort,weaponitem);
@@ -36,27 +39,37 @@ public class Study20240412_1 {
         wweight = wweight(wweight,weaponsort);
         wpower = wpower(wpower,weaponsort);
         wprice = wprice(wprice, wdurability, wspeed, wweight, wpower);
-        allweapon(weaponitem,wprice);
+
+
 
         while (flag) {
-            System.out.println(people1+1 + "번 째 손님입니다.");
-            for(int i = 0; i < wdurability.length; i++) {
-                for(int j = 0; j < wdurability.length; j++) {
-                    if(wprice[i][j] < 3) {
-                        wprice[i][j] += 1;
-                        if(wprice[i][j] == 3) {
-                            wprice[i][j] = wprice2[i][j];
-                            weaponitem[i][j] = weaponitem[i][j];
+            allweapon(weaponitem,wprice);
+            if(check == 0) {
+                System.out.println(people1+1 + "번 째 손님입니다.");
+                check = 0;
+            }
+            if(check2 == 0) {
+                for (int i = 0; i < wdurability.length; i++) {
+                    for (int j = 0; j < wdurability.length; j++) {
+                        if (wprice[i][j] < 3) {
+                            wprice[i][j] += 1;
+                            if (wprice[i][j] == 3) {
+                                wprice[i][j] = wprice2[i][j];
+                                weaponitem[i][j] = weaponitem2[i][j];
+                            }
                         }
                     }
                 }
+                check2 = 0;
             }
             System.out.println("어떤 무기를 구입하시겠습니까?");
             choice = sc.nextInt();
+            choice--;
             int c1 = choice/10;
             int c2 = choice%10;
             if(weaponitem[c1][c2].equals("판매완료")) {
-                System.out.println("판매완료된 상품입니다.");
+                System.out.println("판매완료된 상품입니다."); //판매완료된 상품일 때도 카운트가 올라가는 문제 이것도 체크로 해결
+                check2++;
             } else {
                 weaponitem2[c1][c2] = weaponitem[c1][c2]; // 대체
                 wprice2[c1][c2] = wprice[c1][c2]; // 대체
@@ -66,11 +79,12 @@ public class Study20240412_1 {
                 System.out.println("주문이 완료되었습니다. 추가 주문하시겠습니까? 1.예 2.아니오");
                 int choice2 = sc.nextInt();
                 if(choice2 == 1) {
-
+                    check++;
                 } else {
-                    people++;
+                    people1++;
                     if(people1 == people) {
                         flag = false;
+                        System.out.println("오늘 하루 총 판매액은 " + allmoney +"원 입니다.");
                     } else {
                         System.out.println("다음 손님으로 넘어갑니다.");
                     }
@@ -140,9 +154,17 @@ public class Study20240412_1 {
                 if(i == 0) {
                     System.out.print((j+1) + ". " + weapon[i][j] +" : " + wprice[i][j] + " ");
                 } else if(i == 1) {
-                    System.out.print((i) + (j) + ". " + weapon[i][j] + " : " + wprice[i][j] + " ");
+                    if(j == 9) {
+                        System.out.print((i+1) +"0" + ". " + weapon[i][j] + " : " + wprice[i][j] + " ");
+                    } else {
+                        System.out.print((i) + "" + (j + 1) + ". " + weapon[i][j] + " : " + wprice[i][j] + " ");
+                    }
                 } else {
-                    System.out.print((i+1) + (j) + ". " + weapon[i][j] + " : " + wprice[i][j] + " ");
+                    if(j == 9) {
+                    System.out.print((i+1) +"0" + ". " + weapon[i][j] + " : " + wprice[i][j] + " ");
+                } else {
+                        System.out.print((i) + "" + (j + 1) + ". " + weapon[i][j] + " : " + wprice[i][j] + " ");
+                    }
                 }
             }
         }
