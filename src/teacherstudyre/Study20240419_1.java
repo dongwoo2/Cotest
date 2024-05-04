@@ -24,9 +24,9 @@ public class Study20240419_1 {
         int wprice[][] = new int[10][10]; // 무기 가격
         int wprice2[][] = new int[10][10]; // 무기 가격
         int wamount[][] = new int[10][10]; // 무기 수량
-        int manpower = 0;  // 힘
-        int manspeed = 0; // 민첩성
-        int manstamina = 0; // 지구력
+        int manspeed = 0; // 민첩성 - 스피드
+        int manstamina = 0; // 지구력 - 무게
+        int manpower = 0;  // 힘 - 공격력
         boolean flag = true;
         int choice = 0;
         int allmoney = 0; // 수입;
@@ -47,25 +47,22 @@ public class Study20240419_1 {
         wprice = wprice(wprice, wdurability, wspeed, wweight, wpower);
         wamount = wamount(wamount); // 이제 물품이 0개가 되면 3턴뒤에 다시 생기는 걸로 만들기
 
-        // 구매자 스텟 만들기 힘,민첩성,지구력 3개 그냥 랜덤돌리자
+        // 구매자 스텟 만들기 힘,민첩성,지구력
 
 
         System.out.println("1.판매자 로그인 2.구매자 로그인");
         choice = sc.nextInt();
-        login(choice);
+        if(choice == 1) {
+            while (flag) { // 판매자
 
+            }
+        } else {
+            while (flag) { // 구매자
 
-    }
-
-
-
-    public static void login(int check) {
-        if(check == 1) {// 판매자 로그인
-        
-        } else if (check == 2) { // 구메자 로그인 기본통계 생성
-
+            }
         }
     }
+
 
     public static void manstat(int manpower, int manspeed, int manstamina) { // 구매자 스텟 확인
 
