@@ -22,7 +22,7 @@ public class Study20240419_1 {
         int wweight[][] = new int[10][10]; // 무게
         int wpower[][] = new int[10][10]; // 공격력
         int wprice[][] = new int[10][10]; // 무기 가격
-        int wprice2[][] = new int[10][10]; // 무기 가격
+        int wprice2[][] = new int[10][10]; // 할인무기 가격
         int wamount[][] = new int[10][10]; // 무기 수량
         int manspeed = 0; // 민첩성 - 스피드
         int manstamina = 0; // 지구력 - 무게
@@ -36,9 +36,10 @@ public class Study20240419_1 {
         int check = 0;
         int check2 = 0;
         int login = 0;
+        int promotionday = 0; // 프로모션 만료일 변수
 
         weaponsort = weaponkind(weaponsort);
-        weaponitem = weaponset(weaponsort,weaponitem);
+        weaponitem = weaponset(weaponsort, weaponitem);
 
         wdurability = wdurability(wdurability);
         wspeed = wspeed(wspeed);
@@ -49,20 +50,62 @@ public class Study20240419_1 {
 
         // 구매자 스텟 만들기 힘,민첩성,지구력
 
+        while (flag) {
+            System.out.println("1.판매자 로그인 2.구매자 로그인");
+            choice = sc.nextInt();
+            if (choice == 1) {
+                while (flag) { // 판매자
+                    System.out.println("1.항목 인벤토리 보기 2.새 항목 추가하기 3.항목 제거하기 4.항목 재고 업데이트 5. 프로모션 설정 6.판매 보고서");
+                    choice = sc.nextInt();
+                    if(choice == 1) {
+                        allweapon(weaponitem,wprice);
+                    } else if(choice == 2) {
+                        System.out.println("어디에 항목을 추가하시겠습니까?");
+                        choice = sc.nextInt();
+                        weaponitem = newweapon1(weaponitem,wprice,choice); // 이름
+                        wprice = newweapon2(weaponitem,wprice,choice); // 가격
+                    } else if(choice == 3) {
+                        System.out.println("어떤 항목을 삭제하시겠습니까?");
+                        choice = sc.nextInt();
+                        weaponitem = outweapon1(weaponitem,wprice,choice); // 이름
+                        wprice = outweapon2(weaponitem,wprice,choice); // 가격
+                    } else if(choice == 4) {
+                        System.out.println("어떤 항목을 업데이트 하시겠습니까?");
+                        choice = sc.nextInt();
+                        wamount = amountweapon1(wamount,choice);
 
-        System.out.println("1.판매자 로그인 2.구매자 로그인");
-        choice = sc.nextInt();
-        if(choice == 1) {
-            while (flag) { // 판매자
+                    } else if(choice == 5) {// 만료일 할인한 거 다시 되돌리는 설정
+                        System.out.println("1.할인 2.1+1 이벤트");
+                        choice = sc.nextInt();
+                        if(choice == 1) {
 
-            }
-        } else {
-            while (flag) { // 구매자
+                        } else if(choice == 2) {
 
+                        }
+                        System.out.println("프로모션 기간을 얼마나 설정하시겠습니까?");
+                    } else if(choice == 6) {// 판매 보고소
+                        System.out.println("1.하루 판매 보고서 2.프로모션 기간 판매 보고서");
+                    }
+                }
+            } else if (choice == 2) {
+                while (flag) { // 구매자
+
+                }
+            } else {
+                System.out.println("다시 선택해주세요.");
             }
         }
     }
 
+    public static int[][] discount(int [][] wprice) {
+        System.out.println("몇 % 할인을 하시겠습니까?");
+        int choice = sc.nextInt();
+        for(int i = 0; i < wprice.length; i++) {
+            for(int j = 0; j < wprice.length; j++) {
+                wprice[i][j] = wprice[i][j]
+            }
+        }
+    }
 
     public static void manstat(int manpower, int manspeed, int manstamina) { // 구매자 스텟 확인
 
@@ -138,7 +181,7 @@ public class Study20240419_1 {
         }
     }
 
-    public static int[][] newweapon1(String[][] weapon, int[][]wprice, int choice) { //항목추가 가격
+    public static int[][] newweapon2(String[][] weapon, int[][]wprice, int choice) { //항목추가 가격
        // allweapon(weapon,wprice);
        // System.out.println("어떤 항목을 추가하시겠습니까?");
         System.out.println("순서대로 스피드, 내구성, 무게, 파워 설정을 해주십시오");
@@ -155,7 +198,7 @@ public class Study20240419_1 {
         return wprice;
     }
 
-    public static String[][] newweapon2(String[][] weapon, int[][]wprice, int choice) { //항목추가 이름 이름 추가가 먼저 되어야함1
+    public static String[][] newweapon1(String[][] weapon, int[][]wprice, int choice) { //항목추가 이름 이름 추가가 먼저 되어야함1
         System.out.println("무기 이름을 지어주세요.");
         choice--;
         int c1 = choice/10;
@@ -164,7 +207,7 @@ public class Study20240419_1 {
         return weapon;
     }
 
-    public static int[][] outweapon1(String[][] weapon, int[][]wprice, int choice) { //항목제거 가격
+    public static int[][] outweapon2(String[][] weapon, int[][]wprice, int choice) { //항목제거 가격
         choice--;
         int c1 = choice/10;
         int c2 = choice%10;
@@ -172,7 +215,7 @@ public class Study20240419_1 {
         return wprice;
     }
 
-    public static String[][] outweapon2(String[][] weapon, int[][]wprice, int choice) { //항목제거 이름
+    public static String[][] outweapon1(String[][] weapon, int[][]wprice, int choice) { //항목제거 이름
         choice--;
         int c1 = choice/10;
         int c2 = choice%10;
@@ -460,6 +503,7 @@ public class Study20240419_1 {
         return wprice;
     }
 
+    /*
     public static void weaponbuy(String[][] weaponitem, int[][] wprice, int choice) {
         int c1 = choice/10;
         int c2 = choice%10;
@@ -467,7 +511,9 @@ public class Study20240419_1 {
         wprice[c1][c2] = 0;
     }
 
-    public static int[][] wamount(int wamount[][]){ // 공격력
+     */
+
+    public static int[][] wamount(int wamount[][]){ // 무기 재고
         int k = 0;
         for(int i = 0; i < wamount.length; i++) {
             for(int j = 0; j < wamount.length; j++) {
