@@ -83,6 +83,7 @@ public class Study20240419_1 {
 
                         }
                         System.out.println("프로모션 기간을 얼마나 설정하시겠습니까?");
+                        promotionday = sc.nextInt();
                     } else if(choice == 6) {// 판매 보고소
                         System.out.println("1.하루 판매 보고서 2.프로모션 기간 판매 보고서");
                     }
@@ -102,9 +103,10 @@ public class Study20240419_1 {
         int choice = sc.nextInt();
         for(int i = 0; i < wprice.length; i++) {
             for(int j = 0; j < wprice.length; j++) {
-                wprice[i][j] = wprice[i][j]
+                wprice[i][j] = wprice[i][j] - (wprice[i][j] * choice / 100);
             }
         }
+        return wprice;
     }
 
     public static void manstat(int manpower, int manspeed, int manstamina) { // 구매자 스텟 확인
