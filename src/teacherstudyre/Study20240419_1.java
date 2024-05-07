@@ -24,6 +24,7 @@ public class Study20240419_1 {
         int wprice[][] = new int[10][10]; // 무기 가격
         int wprice2[][] = new int[10][10]; // 할인무기 가격
         int wamount[][] = new int[10][10]; // 무기 수량
+        int daymoney[] = new int[10];
         int manspeed = 0; // 민첩성 - 스피드
         int manstamina = 0; // 지구력 - 무게
         int manpower = 0;  // 힘 - 공격력
@@ -37,6 +38,7 @@ public class Study20240419_1 {
         int check2 = 0;
         int login = 0;
         int promotionday = 0; // 프로모션 만료일 변수
+        int dispercent = 0;
 
         weaponsort = weaponkind(weaponsort);
         weaponitem = weaponset(weaponsort, weaponitem);
@@ -58,7 +60,12 @@ public class Study20240419_1 {
                     System.out.println("1.항목 인벤토리 보기 2.새 항목 추가하기 3.항목 제거하기 4.항목 재고 업데이트 5. 프로모션 설정 6.판매 보고서");
                     choice = sc.nextInt();
                     if(choice == 1) {
-                        allweapon(weaponitem,wprice);
+                        if(promotionday == 0) {
+                            allweapon(weaponitem,wprice,wamount);
+                        } else {
+                            allweapon(weaponitem,wprice2,wamount);
+                        }
+
                     } else if(choice == 2) {
                         System.out.println("어디에 항목을 추가하시겠습니까?");
                         choice = sc.nextInt();
@@ -78,19 +85,40 @@ public class Study20240419_1 {
                         System.out.println("1.할인 2.1+1 이벤트");
                         choice = sc.nextInt();
                         if(choice == 1) {
-
+                            System.out.println("몇 % 할인을 하시겠습니까?");
+                            dispercent = sc.nextInt(); // 나중에 % 할인중입니다를 쓰기 위함
+                            wprice2 = discount(wprice,dispercent); // 할인이 있는 기간에는 wprice2로 가격진행
+                            System.out.println("프로모션 기간을 얼마나 설정하시겠습니까?");
+                            promotionday = sc.nextInt();
                         } else if(choice == 2) {
 
+                        } else {
+                            System.out.println("잘못 선택 다시 골라주십쇼.");
                         }
-                        System.out.println("프로모션 기간을 얼마나 설정하시겠습니까?");
-                        promotionday = sc.nextInt();
+
+
                     } else if(choice == 6) {// 판매 보고소
                         System.out.println("1.하루 판매 보고서 2.프로모션 기간 판매 보고서");
                     }
                 }
             } else if (choice == 2) {
                 while (flag) { // 구매자
+                    System.out.println("구매자의 스텟을 셋팅해주세요");
+                    manpower = manstatpower(manpower);
+                    manspeed = manstatspeed(manspeed);
+                    manstamina = manstatstamina(manstamina);
 
+                    System.out.println("1.구매하기 2.구매내역보기 3.기본통계보기 4.다음 날");
+                    choice = sc.nextInt();
+                    if(choice == 1) {
+                        System.out.println("몇 번째 아이템을 구마하시겠습니까?");
+                        if(promotionday != 0) { // 프로모션을 진행하고 있다면
+
+                        } else {
+
+                        }
+
+                    }
                 }
             } else {
                 System.out.println("다시 선택해주세요.");
@@ -98,20 +126,38 @@ public class Study20240419_1 {
         }
     }
 
-    public static int[][] discount(int [][] wprice) {
-        System.out.println("몇 % 할인을 하시겠습니까?");
-        int choice = sc.nextInt();
+    public static int[][] discount(int [][] wprice, int dispercent) {
+
         for(int i = 0; i < wprice.length; i++) {
             for(int j = 0; j < wprice.length; j++) {
-                wprice[i][j] = wprice[i][j] - (wprice[i][j] * choice / 100);
+                wprice[i][j] = wprice[i][j] - (wprice[i][j] * dispercent / 100);
             }
         }
         return wprice;
     }
 
-    public static void manstat(int manpower, int manspeed, int manstamina) { // 구매자 스텟 확인
+    public static void oneplus() {
 
     }
+    public static int manstatpower(int manpower) { // 힘 스텟 셋팅
+        System.out.println("힘을 셋팅해주세요");
+        manpower = sc.nextInt();
+        return manpower;
+    }
+
+    public static int manstatspeed(int manspeed) { // 스피드 스텟 셋팅
+        System.out.println("스피드를 셋팅해주세요");
+        manspeed = sc.nextInt();
+        return manspeed;
+    }
+
+
+    public static int manstatstamina(int manstamina) { // 스테미나 스텟 셋팅
+        System.out.println("지구력을 셋팅해주세요");
+        manstamina = sc.nextInt();
+        return manstamina;
+    }
+
 
     public static String[] weaponkind(String weaponsort[]) {
 
@@ -159,24 +205,24 @@ public class Study20240419_1 {
         return weaponitem;
     }
 
-    public static void allweapon(String[][] weapon, int[][]wprice) {
+    public static void allweapon(String[][] weapon, int[][]wprice, int[][]wamount) {
 
         for (int i = 0; i < weapon.length; i++) {
             System.out.println(" ");
             for (int j = 0; j < weapon[i].length; j++) {
                 if(i == 0) {
-                    System.out.print((j+1) + ". " + weapon[i][j] +" : " + wprice[i][j] + " ");
+                    System.out.print((j+1) + ". " + weapon[i][j] +"("+wamount[i][j] + ")" +" : " + wprice[i][j] + " ");
                 } else if(i == 1) {
                     if(j == 9) {
-                        System.out.print((i+1) +"0" + ". " + weapon[i][j] + " : " + wprice[i][j] + " ");
+                        System.out.print((i+1) +"0" + ". " + weapon[i][j] +"("+wamount[i][j] + ")" + " : " + wprice[i][j] + " ");
                     } else {
-                        System.out.print((i) + "" + (j + 1) + ". " + weapon[i][j] + " : " + wprice[i][j] + " ");
+                        System.out.print((i) + "" + (j + 1) + ". " + weapon[i][j] +"("+wamount[i][j] + ")" + " : " + wprice[i][j] + " ");
                     }
                 } else {
                     if(j == 9) {
-                        System.out.print((i+1) +"0" + ". " + weapon[i][j] + " : " + wprice[i][j] + " ");
+                        System.out.print((i+1) +"0" + ". " + weapon[i][j] +"("+wamount[i][j] + ")" + " : " + wprice[i][j] + " ");
                     } else {
-                        System.out.print((i) + "" + (j + 1) + ". " + weapon[i][j] + " : " + wprice[i][j] + " ");
+                        System.out.print((i) + "" + (j + 1) + ". " + weapon[i][j] +"("+wamount[i][j] + ")" + " : " + wprice[i][j] + " ");
                     }
                 }
             }
@@ -505,21 +551,36 @@ public class Study20240419_1 {
         return wprice;
     }
 
-    /*
-    public static void weaponbuy(String[][] weaponitem, int[][] wprice, int choice) {
+
+    public static int[][] weaponbuy(int choice,int [][]wamount) {
         int c1 = choice/10;
         int c2 = choice%10;
-        weaponitem[c1][c2] = "판매완료";
-        wprice[c1][c2] = 0;
+        if(wamount[c1][c2] != 0) {
+            wamount[c1][c2] = wamount[c1][c2] - 1;
+        } else {
+            System.out.println("품절입니다.");
+        }
+        return wamount;
     }
 
-     */
+    public static int[] weaponmoney(int choice, int [][]wprice, int [][]wamount,int[]daymoney, int day) {
+        int c1 = choice/10;
+        int c2 = choice%10;
+        if(wamount[c1][c2] != 0) {
+            daymoney[day] += wprice[c1][c2];
+        } else {
+            System.out.println("품절입니다.");
+        }
+        return daymoney;
+    }
+
+
 
     public static int[][] wamount(int wamount[][]){ // 무기 재고
         int k = 0;
         for(int i = 0; i < wamount.length; i++) {
             for(int j = 0; j < wamount.length; j++) {
-                wamount[i][j] = 1;
+                wamount[i][j] = 3;
             }
         }
         return wamount;
