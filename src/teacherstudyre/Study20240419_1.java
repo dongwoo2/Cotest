@@ -113,6 +113,7 @@ public class Study20240419_1 {
                     if(choice == 1) {
                         System.out.println("몇 번째 아이템을 구마하시겠습니까?");
                         if(promotionday != 0) { // 프로모션을 진행하고 있다면
+                            // 프로모션 진행시 설정을 한 개만 해야할 듯 중복 프로모션이 가능하게 할려면 promotion day를 설정해서 if문의 수를 늘려야함
 
                         } else {
 
