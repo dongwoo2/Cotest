@@ -17,6 +17,7 @@ public class Study20240419_1 {
         String weaponsort[] = new String[10];
         String weaponitem[][] = new String[10][10];
         String weaponitem2[][] = new String[10][10]; // 대체품
+        String onemanpurchase[][] = new String[30][30]; // 구매내역을 보기 위한 변수 어떤것을 구매했는지 알 수 있게
         int wdurability[][] = new int[10][10]; // 내구도
         int wspeed[][] = new int[10][10]; // 스피드
         int wweight[][] = new int[10][10]; // 무게
@@ -25,10 +26,12 @@ public class Study20240419_1 {
         int wprice2[][] = new int[10][10]; // 할인무기 가격
         int wamount[][] = new int[10][10]; // 무기 수량
         int daymoney[] = new int[10];
-        int manspeed = 0; // 민첩성 - 스피드
-        int manstamina = 0; // 지구력 - 무게
-        int manpower = 0;  // 힘 - 공격력
+        int manspeed[][] = new int[10][10]; // 민첩성 - 스피드
+        int manstamina[][] = new int[10][10]; // 지구력 - 무게
+        int manpower[][] = new int[10][10]; // 힘 - 공격력
+
         boolean flag = true;
+        boolean flag2 = true;
         int choice = 0;
         int allmoney = 0; // 수입;
 //        System.out.println("오늘 손님은 몇 명 입니까?");
@@ -37,8 +40,14 @@ public class Study20240419_1 {
         int check = 0;
         int check2 = 0;
         int login = 0;
-        int promotionday = 0; // 프로모션 만료일 변수
+        int promotionday1 = 0; // 프로모션1 만료일 변수
+        int promotionday2 = 0; // 프로모션2 만료일 변수
         int dispercent = 0;
+        int c1 = 0;
+        int c2 = 0;
+        int minusitem = 0;
+        int day = 0;
+        int man = 0;
 
         weaponsort = weaponkind(weaponsort);
         weaponitem = weaponset(weaponsort, weaponitem);
@@ -60,10 +69,14 @@ public class Study20240419_1 {
                     System.out.println("1.항목 인벤토리 보기 2.새 항목 추가하기 3.항목 제거하기 4.항목 재고 업데이트 5. 프로모션 설정 6.판매 보고서");
                     choice = sc.nextInt();
                     if(choice == 1) {
-                        if(promotionday == 0) {
+                        if(promotionday1 == 0 || promotionday2 == 0) { //할인 x
                             allweapon(weaponitem,wprice,wamount);
-                        } else {
-                            allweapon(weaponitem,wprice2,wamount);
+                        } else { // 할인 o
+                            if(promotionday1 != 0) {
+                                allweapon(weaponitem, wprice2, wamount);
+                            } else if (promotionday2 != 0) {
+
+                            }
                         }
 
                     } else if(choice == 2) {
@@ -82,15 +95,17 @@ public class Study20240419_1 {
                         wamount = amountweapon1(wamount,choice);
 
                     } else if(choice == 5) {// 만료일 할인한 거 다시 되돌리는 설정
-                        System.out.println("1.할인 2.1+1 이벤트");
+                        System.out.println("1.할인 2.1+1 이벤트 3.프로모션 해제");
                         choice = sc.nextInt();
                         if(choice == 1) {
                             System.out.println("몇 % 할인을 하시겠습니까?");
                             dispercent = sc.nextInt(); // 나중에 % 할인중입니다를 쓰기 위함
                             wprice2 = discount(wprice,dispercent); // 할인이 있는 기간에는 wprice2로 가격진행
                             System.out.println("프로모션 기간을 얼마나 설정하시겠습니까?");
-                            promotionday = sc.nextInt();
+                            promotionday1 = sc.nextInt();
                         } else if(choice == 2) {
+
+                        } else if (choice == 3) {
 
                         } else {
                             System.out.println("잘못 선택 다시 골라주십쇼.");
@@ -103,29 +118,98 @@ public class Study20240419_1 {
                 }
             } else if (choice == 2) {
                 while (flag) { // 구매자
+
                     System.out.println("구매자의 스텟을 셋팅해주세요");
-                    manpower = manstatpower(manpower);
-                    manspeed = manstatspeed(manspeed);
-                    manstamina = manstatstamina(manstamina);
+                    manpower[day][man] = manstatpower(manpower, day, man);
+                    manspeed[day][man] = manstatspeed(manspeed, day, man);
+                    manstamina[day][man] = manstatstamina(manstamina, day, man);
 
                     System.out.println("1.구매하기 2.구매내역보기 3.기본통계보기 4.다음 날");
                     choice = sc.nextInt();
                     if(choice == 1) {
-                        System.out.println("몇 번째 아이템을 구마하시겠습니까?");
-                        if(promotionday != 0) { // 프로모션을 진행하고 있다면
+                        // 프로모션을 진행하고 있다면 프로모션 할인
                             // 프로모션 진행시 설정을 한 개만 해야할 듯 중복 프로모션이 가능하게 할려면 promotion day를 설정해서 if문의 수를 늘려야함
                             // 프로모션 진행중이기에 할인이 된 상품이거나 이벤트 물품을 구입해야함
-                            promotionday--;
-                        } else {
+                            while(flag2) {
+                                if(promotionday1 != 0) { // 할인중
+                                    System.out.println(dispercent + "% 할인을 진행하고 있습니다. 기간은 " + promotionday1 + "일 남았습니다.");
+                                    allweapon(weaponitem, wprice2, wamount);
+                                    minusitem = 1;
+                                } else if(promotionday2 != 0) { // 1 + 1
+                                    System.out.println("1 + 1 이벤트를 진행하고 있습니다.\n기간은 " + promotionday2 +"일 남았습니다.");
+                                    allweapon(weaponitem, wprice, wamount);
+                                    minusitem = 2;
+                                } else { // 아무것도 안함
+                                    allweapon(weaponitem, wprice, wamount);
+                                    minusitem= 1;
+                                }
+                                System.out.println("몇 번째 아이템을 구매하시겠습니까?");
+                                choice = sc.nextInt(); // 구매하고 난 뒤에 갯수 줄이기
+                                c1 = choice / 10;
+                                c2 = choice % 10;
+                                if (wamount[c1][c2] >= minusitem && promotionday2 != 0) { // 구매가 잘 되었을 때
+                                    wamount[c1][c2] = wamount[c1][c2] - minusitem;
+                                    onemanpurchase[0][0] = weaponitem[c1][c2];
+                                    System.out.println("구매가 완료되었습니다. 다시 구매를 원하시면 1번, 구매를 원치 않으시면 2번을 눌러주세요.");
+                                    choice = sc.nextInt();
+                                    if(choice == 2) {
+                                        flag2 = false;
+                                        System.out.println("다음 사람으로 넘어갑니다.");
+                                        man++;
+                                    }
+                                } else if(wamount[c1][c2] == 1 && promotionday2 != 0){ // 프로모션 1+1이 진행중인데 갯수가 1개일 때
+                                    System.out.println("갯수가 부족하여 1+1이 불가한 상품입니다. 그래도 구매를 원하시면 1번, 다른 상품 구매를 원하시면 2번, 구매를 원치 않으시면 3번을 눌러주세요.");
+                                    if(choice == 1) {
+                                        wamount[c1][c2]--;
+                                        System.out.println("구매가 완료되었습니다. 다시 구매를 원하시면 1번 아니면 2번을 눌러주세요");
+                                        choice = sc.nextInt();
+                                        if(choice == 2) {
+                                            flag2 = false;
+                                            System.out.println("다음 사람으로 넘어갑니다.");
+                                            man++;
+                                        } else if(choice == 1) {
+                                            flag2 = true;
+                                        } else {
+                                            System.out.println("잘못된 번호를 누르셨기에 상품 페이지로 이동합니다.");
+                                        }
+                                    } else if(choice == 2) {
+                                        flag2 = true;
+                                    } else if(choice == 3) {
+                                        flag2 = false;
+                                        System.out.println("다음 사람으로 넘어갑니다.");
+                                        man++;
+                                    }
+                                } else { // 갯수가 없을 때
+                                    System.out.println("품절 되었습니다 다른 상품 구매를 원하시면 1번, 구매를 원치 않으시면 2번을 눌러주세요.");
+                                    if(choice == 2) {
+                                        flag2 = false;
+                                        System.out.println("다음 사람으로 넘어갑니다.");
+                                        man++;
+                                    }
+                                }
+                            }
+                    } else if(choice == 2) { // 구매 내역보기
 
+                    } else if(choice == 3) { // 기본 통계보기
+
+                    } else if(choice == 4) { // 다음 날
+                        if(promotionday1 != 0 && promotionday1 > 0) {
+                            promotionday1--;
+                            day++;
+                        } else if(promotionday2 != 0 && promotionday2 > 0) {
+                            promotionday2--;
+                            day++;
                         }
-
                     }
                 }
             } else {
                 System.out.println("다시 선택해주세요.");
             }
         }
+    }
+
+    public static int[][] onemanpurchase() {
+        return new int[0][0];
     }
 
     public static int[][] discount(int [][] wprice, int dispercent) {
@@ -141,23 +225,23 @@ public class Study20240419_1 {
     public static void oneplus() {
 
     }
-    public static int manstatpower(int manpower) { // 힘 스텟 셋팅
+    public static int manstatpower(int[][] manpower, int day, int man) { // 힘 스텟 셋팅
         System.out.println("힘을 셋팅해주세요");
-        manpower = sc.nextInt();
-        return manpower;
+        manpower[day][man] = sc.nextInt();
+        return manpower[day][man];
     }
 
-    public static int manstatspeed(int manspeed) { // 스피드 스텟 셋팅
+    public static int manstatspeed(int[][] manspeed, int day, int man) { // 스피드 스텟 셋팅
         System.out.println("스피드를 셋팅해주세요");
-        manspeed = sc.nextInt();
-        return manspeed;
+        manspeed[day][man] = sc.nextInt();
+        return manspeed[day][man];
     }
 
 
-    public static int manstatstamina(int manstamina) { // 스테미나 스텟 셋팅
+    public static int manstatstamina(int[][] manstamina, int day, int man) { // 스테미나 스텟 셋팅
         System.out.println("지구력을 셋팅해주세요");
-        manstamina = sc.nextInt();
-        return manstamina;
+        manstamina[day][man] = sc.nextInt();
+        return manstamina[day][man];
     }
 
 
@@ -588,5 +672,6 @@ public class Study20240419_1 {
         return wamount;
     }
 }
+
 
 
