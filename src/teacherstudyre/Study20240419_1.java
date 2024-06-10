@@ -52,6 +52,7 @@ public class Study20240419_1 {
         int purcnt = 0;
         int onedaycnt = 1; //매일 매일 몇 명인지 체크
         int daymancnt[] = new int[30]; // 하루 씩 인원 체크
+        int weaponcnt[] = new int[30]; // 하루 씩 인원 체크
         weaponsort = weaponkind(weaponsort);
         weaponitem = weaponset(weaponsort, weaponitem);
 
@@ -117,6 +118,12 @@ public class Study20240419_1 {
 
                     } else if(choice == 6) {// 판매 보고소
                         System.out.println("1.하루 판매 보고서 2.프로모션 기간 판매 보고서");
+                        choice = sc.nextInt();
+                        if(choice == 1) {
+
+                        } else if (choice == 2) {
+                            
+                        }
                     }
                 }
             } else if (choice == 2) {
@@ -149,7 +156,8 @@ public class Study20240419_1 {
                                 c2 = choice % 10;
                                 if (wamount[c1][c2] >= minusitem && promotionday2 != 0) { // 구매가 잘 되었을 때
                                     wamount[c1][c2] = wamount[c1][c2] - minusitem;
-                                    onemanpurchase[man][purcnt] = weaponitem[c1][c2];
+                                    onemanpurchase[man][purcnt] = weaponitem[c1][c2]; // 한 사람의 구매내역
+                                    weaponcnt[purcnt] = choice;
                                     purcnt++;
                                     System.out.println("구매가 완료되었습니다. 다시 구매를 원하시면 1번, 구매를 원치 않으시면 2번을 눌러주세요.");
                                     choice = sc.nextInt();
@@ -162,6 +170,7 @@ public class Study20240419_1 {
                                         wamount[c1][c2]--;
                                         System.out.println("구매가 완료되었습니다. 다시 구매를 원하시면 1번 아니면 2번을 눌러주세요");
                                         onemanpurchase[man][purcnt] = weaponitem[c1][c2];
+                                        weaponcnt[purcnt] = choice;
                                         purcnt++;
                                         choice = sc.nextInt();
                                         if(choice == 2) {
@@ -187,19 +196,24 @@ public class Study20240419_1 {
                         onemanpurchase(onemanpurchase,man);
                     } else if(choice == 3) { // 기본 통계보기
                         for(int i = 0; i < day; i++) {
-                            
+                        weapon_property(weaponitem,wspeed,wpower,wdurability,wweight,weaponcnt,purcnt);
                         }
                     } else if(choice == 4) { // 다음 사람
                         man++;
                         onedaycnt++;
+                        purcnt = 0;
                     } else if(choice == 5) { // 다음 날
                         if(promotionday1 != 0 && promotionday1 > 0) {
                             promotionday1--;
                             daymancnt[day] = onedaycnt;
                             onedaycnt = 0;
+                            purcnt = 0;
                             day++;
                         } else if(promotionday2 != 0 && promotionday2 > 0) {
                             promotionday2--;
+                            daymancnt[day] = onedaycnt;
+                            onedaycnt = 0;
+                            purcnt = 0;
                             day++;
                         }
                     } else if (choice == 6) { // 구매자 로그아웃
@@ -220,6 +234,39 @@ public class Study20240419_1 {
 
     }
 
+    public static void oneday_sell(String[][]weaponitem, int[]weaponcnt, int purcnt) {
+        int cnt = 0;
+        int c1 = 0;
+        int c2 = 0;
+        int c3 = 0;
+
+        for (int i = 0; i > purcnt; i++) {
+            weaponcnt[i] = cnt;
+            c1 = cnt / 10;
+            c2 = cnt % 10;
+//            weaponitem[c1][c2]
+        }
+    }
+
+
+    public static void weapon_property(String[][]weaponitem, int[][] wspeed,int[][] wpower,int[][] wdurabilty,int[][] wweight, int[]weaponcnt, int purcnt){ // 구매한 무기 속성보기
+        int cnt = 0;
+        int c1 = 0;
+        int c2 = 0;
+        int c3 = 0;
+        for(int i = 0; i > purcnt; i++) {
+            weaponcnt[i] = cnt;
+            c1 = cnt / 10;
+            c2 = cnt % 10;
+            c3 = c1 * 10; // 미스릴 같은 등급제에서 설정을 안해서 여기서 급 넣기
+            System.out.println(weaponitem[c1][c2]);
+            System.out.println("스피드 : " + wspeed[c1][c2]+c3);
+            System.out.println("파워 : " + wpower[c1][c2]+c3);
+            System.out.println("내구성 : " + wdurabilty[c1][c2]+c3);
+            System.out.println("무게 : " + wweight[c1][c2]+c3);
+        }
+    }
+
     public static int[][] discount(int [][] wprice, int dispercent) {
 
         for(int i = 0; i < wprice.length; i++) {
@@ -231,7 +278,7 @@ public class Study20240419_1 {
     }
 
     public static void oneplus() {
-
+    
     }
     public static int manstatpower(int[][] manpower, int day, int man) { // 힘 스텟 셋팅
         System.out.println("힘을 셋팅해주세요");
