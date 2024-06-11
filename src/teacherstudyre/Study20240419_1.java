@@ -52,7 +52,11 @@ public class Study20240419_1 {
         int purcnt = 0;
         int onedaycnt = 1; //매일 매일 몇 명인지 체크
         int daymancnt[] = new int[30]; // 하루 씩 인원 체크
-        int weaponcnt[] = new int[30]; // 하루 씩 인원 체크
+        int weaponcnt[] = new int[30]; // 하루 무기 갯수 체크
+        String weaponname[] = new String[30]; // 하루 무기 이름 체크
+        int pro_weaponcnt = 0; // 프로모션 하루 하루 따로 무기 갯수 체크 앞에가
+        String pro_weaponname[][] = new String[30][30]; // 프로모션 무기 이름 체크 프로모션 진행하는 날짜 뒤에가 그냥 몇 개 인지
+        int proday = 0;
         weaponsort = weaponkind(weaponsort);
         weaponitem = weaponset(weaponsort, weaponitem);
 
@@ -102,14 +106,25 @@ public class Study20240419_1 {
                         System.out.println("1.할인 2.1+1 이벤트 3.프로모션 해제");
                         choice = sc.nextInt();
                         if(choice == 1) {
-                            System.out.println("몇 % 할인을 하시겠습니까?");
-                            dispercent = sc.nextInt(); // 나중에 % 할인중입니다를 쓰기 위함
-                            wprice2 = discount(wprice,dispercent); // 할인이 있는 기간에는 wprice2로 가격진행
-                            System.out.println("프로모션 기간을 얼마나 설정하시겠습니까?");
-                            promotionday1 = sc.nextInt();
-                        } else if(choice == 2) {
-
+                            if(promotionday2 != 0) {
+                                System.out.println("다른 프로모션이 진행중입니다.");
+                            } else {
+                                System.out.println("몇 % 할인을 하시겠습니까?");
+                                dispercent = sc.nextInt(); // 나중에 % 할인중입니다를 쓰기 위함
+                                wprice2 = discount(wprice, dispercent); // 할인이 있는 기간에는 wprice2로 가격진행
+                                System.out.println("프로모션 기간을 얼마나 설정하시겠습니까?");
+                                promotionday1 = sc.nextInt();
+                            }
+                        } else if (choice == 2) {
+                            if (promotionday1 != 0) {
+                                System.out.println("다른 프로모션이 진행중입니다.");
+                            } else {
+                                System.out.println("프로모션 기간을 얼마나 설정하시겠습니까?");
+                                promotionday2 = sc.nextInt();
+                            }
                         } else if (choice == 3) {
+                            promotionday1 = 0;
+                            promotionday2 = 0;
 
                         } else {
                             System.out.println("잘못 선택 다시 골라주십쇼.");
@@ -120,9 +135,9 @@ public class Study20240419_1 {
                         System.out.println("1.하루 판매 보고서 2.프로모션 기간 판매 보고서");
                         choice = sc.nextInt();
                         if(choice == 1) {
-
+                            oneday_sell(weaponcnt,purcnt,weaponname);
                         } else if (choice == 2) {
-                            
+                            promotion_sell(pro_weaponname,pro_weaponcnt);
                         }
                     }
                 }
@@ -158,6 +173,12 @@ public class Study20240419_1 {
                                     wamount[c1][c2] = wamount[c1][c2] - minusitem;
                                     onemanpurchase[man][purcnt] = weaponitem[c1][c2]; // 한 사람의 구매내역
                                     weaponcnt[purcnt] = choice;
+                                    weaponname[purcnt] = weaponitem[c1][c2];
+                                    if(promotionday1 != 0 || promotionday2 != 0) { // 프로모션 보고소
+                                        pro_weaponname[proday][purcnt] = weaponitem[c1][c2];
+                                        pro_weaponcnt++;
+                                        // proday++;
+                                    }
                                     purcnt++;
                                     System.out.println("구매가 완료되었습니다. 다시 구매를 원하시면 1번, 구매를 원치 않으시면 2번을 눌러주세요.");
                                     choice = sc.nextInt();
@@ -171,6 +192,12 @@ public class Study20240419_1 {
                                         System.out.println("구매가 완료되었습니다. 다시 구매를 원하시면 1번 아니면 2번을 눌러주세요");
                                         onemanpurchase[man][purcnt] = weaponitem[c1][c2];
                                         weaponcnt[purcnt] = choice;
+                                        weaponname[purcnt] = weaponitem[c1][c2];
+                                        if(promotionday1 != 0 || promotionday2 != 0) { // 프로모션 보고소
+                                            pro_weaponname[proday][purcnt] = weaponitem[c1][c2];
+                                            pro_weaponcnt++;
+                                            // proday++;
+                                        }
                                         purcnt++;
                                         choice = sc.nextInt();
                                         if(choice == 2) {
@@ -209,12 +236,18 @@ public class Study20240419_1 {
                             onedaycnt = 0;
                             purcnt = 0;
                             day++;
+                            if(promotionday1 != 0) {
+                                proday++;
+                            }
                         } else if(promotionday2 != 0 && promotionday2 > 0) {
                             promotionday2--;
                             daymancnt[day] = onedaycnt;
                             onedaycnt = 0;
                             purcnt = 0;
                             day++;
+                            if(promotionday2 != 0) {
+                                proday++;
+                            }
                         }
                     } else if (choice == 6) { // 구매자 로그아웃
                         flag = false;
@@ -233,18 +266,31 @@ public class Study20240419_1 {
         }
 
     }
-
-    public static void oneday_sell(String[][]weaponitem, int[]weaponcnt, int purcnt) {
+    public static void promotion_sell(String pro_weaponname[][], int pro_weaponcnt) {
         int cnt = 0;
         int c1 = 0;
         int c2 = 0;
         int c3 = 0;
 
+        System.out.println("총 " + pro_weaponcnt + "개 가 팔렸습니다.");
+        for(int i  = 0; i > pro_weaponname.length; i++) {
+            for(int j = 0; j > pro_weaponname[i].length; j++) {
+                System.out.println(pro_weaponname[i][j]);
+            }
+        }
+    }
+    public static void oneday_sell(int[]weaponcnt, int purcnt, String[] weaponname) {
+        int cnt = 0;
+        int c1 = 0;
+        int c2 = 0;
+        int c3 = 0;
+
+        System.out.println("총 " + purcnt + "개 가 팔렸습니다.");
         for (int i = 0; i > purcnt; i++) {
             weaponcnt[i] = cnt;
             c1 = cnt / 10;
             c2 = cnt % 10;
-//            weaponitem[c1][c2]
+            System.out.println(weaponname[i] + "가 팔렸습니다.");
         }
     }
 
