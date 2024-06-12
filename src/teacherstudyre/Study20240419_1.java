@@ -64,6 +64,7 @@ public class Study20240419_1 {
         int proday = 0;
         int manc = 0;
         int choice_check = 0;
+        int promotion_switch = 0; // 프로모션이 몇 개 진행 되고 있는지
 
         weaponsort = weaponkind(weaponsort);
         weaponitem = weaponset(weaponsort, weaponitem);
@@ -111,8 +112,8 @@ public class Study20240419_1 {
                         choice = sc.nextInt();
                         wamount = amountweapon1(wamount,choice);
 
-                    } else if(choice == 5) {// 만료일 할인한 거 다시 되돌리는 설정
-                        System.out.println("1.할인 2.1+1 이벤트 3.프로모션 해제");
+                    } else if(choice == 5) { // 프로모션 설정
+                        System.out.println("1.할인 2.1+1 이벤트 3.프로모션 해제"); // 만약 무수히 많은 포로모션이 생긴다면? 배열 앞에는 프로모션의 뭔지 넣고 2번째 프로모션에는 날짜를 넣는것을 시도해보자
                         choice = sc.nextInt();
                         if(choice == 1) {
                             if(promotionday2 != 0) {
@@ -300,6 +301,7 @@ public class Study20240419_1 {
             }
         }
     }
+
 
     public static void onemanpurchase(String[][] onemanpurchase, int man, int purcnt) { // 구매내역 확인 구매내역은 그 바로 자신의 구매내역만 확인가능
 
