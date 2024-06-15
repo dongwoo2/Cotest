@@ -114,6 +114,7 @@ public class Study20240419_1 {
 
                     } else if(choice == 5) { // 프로모션 설정
                         System.out.println("1.할인 2.1+1 이벤트 3.프로모션 해제"); // 만약 무수히 많은 포로모션이 생긴다면? 배열 앞에는 프로모션의 뭔지 넣고 2번째 프로모션에는 날짜를 넣는것을 시도해보자
+                        // 프로모션이 추가 될 떄마다 프로모션에 대한 변수가 늘어나야할텐데 그런거에 필요한 것은 무엇이 있을까
                         choice = sc.nextInt();
                         if(choice == 1) {
                             if(promotionday2 != 0) {
@@ -515,9 +516,23 @@ public class Study20240419_1 {
     public static String[][] newweapon1(String[][] weapon, int[][]wprice, int choice) { //항목추가 이름 이름 추가가 먼저 되어야함1
         System.out.println("무기 이름을 지어주세요.");
         choice--;
+        String weaponname = "";
+        weaponname = sc.next();
         int c1 = choice/10;
         int c2 = choice%10;
-        weapon[c1][c2] = sc.next();
+
+        for(int i = 0; i < weapon.length; i++) {
+            for(int j = 0; j < weapon[0].length; j++) {
+                if(weapon[i][j] == weaponname) {
+                    System.out.println("이미 있는 무기의 이름입니다.");
+                    return weapon;
+                } else {
+                    weapon[c1][c2] = weaponname;
+                    System.out.println("무기가 추가 되었습니다.");
+                }
+                
+            }
+        }
         return weapon;
     }
 
