@@ -36,6 +36,7 @@ public class Study20240419_1 {
         boolean flag2 = true;
         boolean flag3 = true;
         int choice = 0;
+        int choice2 = 0;
         int allmoney = 0; // 수입;
 //        System.out.println("오늘 손님은 몇 명 입니까?");
 //        int people = sc.nextInt();
@@ -65,6 +66,7 @@ public class Study20240419_1 {
         int manc = 0;
         int choice_check = 0;
         int promotion_switch = 0; // 프로모션이 몇 개 진행 되고 있는지
+        int sellercheck = 0;
 
         weaponsort = weaponkind(weaponsort);
         weaponitem = weaponset(weaponsort, weaponitem);
@@ -99,19 +101,27 @@ public class Study20240419_1 {
 
                     } else if(choice == 2) {
                         System.out.println("어디에 항목을 추가하시겠습니까?");
-                        choice = sc.nextInt();
-                        weaponitem = newweapon1(weaponitem,wprice,choice); // 이름
-                        wprice = newweapon2(weaponitem,wprice,choice); // 가격
+                        choice2 = sc.nextInt();
+                        sellercheck = seller_error_check(choice,choice2,weaponitem);
+                        if(sellercheck == 1) {
+                            weaponitem = newweapon1(weaponitem, wprice, choice2); // 이름
+                            wprice = newweapon2(weaponitem, wprice, choice2); // 가격
+                        }
                     } else if(choice == 3) {
                         System.out.println("어떤 항목을 삭제하시겠습니까?");
-                        choice = sc.nextInt();
-                        weaponitem = outweapon1(weaponitem,wprice,choice); // 이름
-                        wprice = outweapon2(weaponitem,wprice,choice); // 가격
+                        choice2 = sc.nextInt();
+                        sellercheck = seller_error_check(choice, choice2, weaponitem);
+                        if (sellercheck == 1) {
+                            weaponitem = outweapon1(weaponitem, wprice, choice2); // 이름
+                            wprice = outweapon2(weaponitem, wprice, choice2); // 가격
+                        }
                     } else if(choice == 4) {
                         System.out.println("어떤 항목을 업데이트 하시겠습니까?");
-                        choice = sc.nextInt();
-                        wamount = amountweapon1(wamount,choice);
-
+                        choice2 = sc.nextInt();
+                        sellercheck = seller_error_check(choice,choice2,weaponitem);
+                        if(sellercheck == 1) {
+                            wamount = amountweapon1(wamount,choice2);
+                        }
                     } else if(choice == 5) { // 프로모션 설정
                         System.out.println("1.할인 2.1+1 이벤트 3.프로모션 해제"); // 만약 무수히 많은 포로모션이 생긴다면? 배열 앞에는 프로모션의 뭔지 넣고 2번째 프로모션에는 날짜를 넣는것을 시도해보자
                         // 프로모션이 추가 될 떄마다 프로모션에 대한 변수가 늘어나야할텐데 그런거에 필요한 것은 무엇이 있을까
@@ -496,30 +506,97 @@ public class Study20240419_1 {
         }
     }
 
-    public static int[][] newweapon2(String[][] weapon, int[][]wprice, int choice) { //항목추가 가격
-       // allweapon(weapon,wprice);
-       // System.out.println("어떤 항목을 추가하시겠습니까?");
-        System.out.println("순서대로 스피드, 내구성, 무게, 파워 설정을 해주십시오");
-        int speed = sc.nextInt();
-        int dura = sc.nextInt();
-        int wweight = sc.nextInt();
-        int power = sc.nextInt();
 
-        choice--;
-        int c1 = choice/10;
-        int c2 = choice%10;
-        wprice[c1][c2] = wprice2(dura,speed,wweight,power);
-//        wprice[c1][c2] = 0;
-        return wprice;
+
+
+
+    public static int seller_error_check(int choice, int choice2, String[][] weapon) {
+        // choice는 항목선택용
+        // choice2는 물품 선택용
+        int c1 = 0;
+        int c2 = 0;
+        boolean flag = true;
+        choice2--;
+        c1 = choice2/10;
+        c2 = choice2%10;
+
+        if(choice == 2) { // 새 항목
+            if(weapon[c1][c2] != "") { // 해당 자리에 물품이 있을 때
+                System.out.println("해당 자리에 " + weapon[c1][c2] + " 라는 무기가 있습니다. 해당 자리에 있는 무기를 제거하시고 새로운 무기로 대체하시겠습니까?");
+                System.out.println("1.예 2.아니오");
+                choice = sc.nextInt();
+                while (flag) {
+                    if (choice == 1) {
+                        return 1; // 여기까지만
+                    } else if (choice == 2) {
+                        System.out.println("메뉴 화면으로 돌아가겠습니다");
+                        return 0;
+                    } else {
+                        System.out.println("잘못된 번호를 누르셨습니다. 1, 2 번 중에서 선택해주세요");
+                        flag = true;
+                    }
+                }
+            } else { // 해당 자리에 물품이 없을 때
+                return 1;
+            }
+
+        } else if (choice == 3) { // 제거 항목
+            if (weapon[c1][c2] != "") {
+                System.out.println("해당 자리에 " + weapon[c1][c2] + " 라는 무기가 있습니다. 해당 자리에 있는 무기를 제거하시겠습니까?");
+                System.out.println("1.예 2.아니오");
+                choice = sc.nextInt();
+
+                while (flag) {
+                    if (choice == 1) {
+                        return 1; // 여기까지만
+                    } else if (choice == 2) {
+                        System.out.println("메뉴 화면으로 돌아가겠습니다");
+                        return 0;
+                    } else {
+                        System.out.println("잘못된 번호를 누르셨습니다. 1, 2 번 중에서 선택해주세요");
+                        flag = true;
+                    }
+                }
+            } else {
+                System.out.println("해당 자리에 무기가 없습니다.");
+                System.out.println("메뉴 화면으로 돌아가겠습니다");
+                return 0;
+            }
+
+        } else if (choice == 4) { // 업데이트
+            if(weapon[c1][c2] != "") {
+                System.out.println("해당 자리에 " + weapon[c1][c2] + " 라는 무기가 있습니다. 해당 자리에 있는 무기를 업데이트 하시겠습니까?");
+                System.out.println("1.예 2.아니오");
+                choice = sc.nextInt();
+                while (flag) {
+                    if (choice == 1) {
+                        return 1; // 여기까지만
+                    } else if (choice == 2) {
+                        System.out.println("메뉴 화면으로 돌아가겠습니다");
+                        return 0;
+                    } else {
+                        System.out.println("잘못된 번호를 누르셨습니다. 1, 2 번 중에서 선택해주세요");
+                        flag = true;
+                    }
+                }
+            }
+        } else {
+            System.out.println("잘못된 번호를 누르셨습니다.");
+            System.out.println("메뉴 화면으로 돌아가겠습니다");
+            return 0;
+        }
+        return 0;
     }
 
-    public static String[][] newweapon1(String[][] weapon, int[][]wprice, int choice) { //항목추가 이름 이름 추가가 먼저 되어야함1
+    /* seller_error_check 함수 추가 전 자체 함수에서 오류체크 할 때 쓰던 코드
+    public static String[][] newweapon1(String[][] weapon, int[][]wprice, int choice2) { //항목추가 이름 이름 추가가 먼저 되어야함1
+        choice2--;
+        int c1 = choice2/10;
+        int c2 = choice2%10;
         System.out.println("무기 이름을 지어주세요.");
-        choice--;
         String weaponname = "";
         weaponname = sc.next();
-        int c1 = choice/10;
-        int c2 = choice%10;
+
 
         for(int i = 0; i < weapon.length; i++) {
             for(int j = 0; j < weapon[0].length; j++) {
@@ -530,32 +607,61 @@ public class Study20240419_1 {
                     weapon[c1][c2] = weaponname;
                     System.out.println("무기가 추가 되었습니다.");
                 }
-                
+
             }
         }
         return weapon;
     }
+*/
+    // seller_error_check 함수 추가 후 간단해진 코드
+    public static String[][] newweapon1(String[][] weapon, int[][]wprice, int choice2) { //항목추가 이름 이름 추가가 먼저 되어야함1
+        choice2--;
+        int c1 = choice2/10;
+        int c2 = choice2%10;
+        System.out.println("무기 이름을 지어주세요.");
+        String weaponname = "";
+        weaponname = sc.next();
 
-    public static int[][] outweapon2(String[][] weapon, int[][]wprice, int choice) { //항목제거 가격
-        choice--;
-        int c1 = choice/10;
-        int c2 = choice%10;
+        weapon[c1][c2] = weaponname;
+        return weapon;
+    }
+    public static int[][] newweapon2(String[][] weapon, int[][]wprice, int choice2) { //항목추가 가격
+        // allweapon(weapon,wprice);
+        // System.out.println("어떤 항목을 추가하시겠습니까?");
+        System.out.println("순서대로 스피드, 내구성, 무게, 파워 설정을 해주십시오");
+        int speed = sc.nextInt();
+        int dura = sc.nextInt();
+        int wweight = sc.nextInt();
+        int power = sc.nextInt();
+
+        choice2--;
+        int c1 = choice2/10;
+        int c2 = choice2%10;
+        wprice[c1][c2] = wprice2(dura,speed,wweight,power);
+//        wprice[c1][c2] = 0;
+        return wprice;
+    }
+
+    public static int[][] outweapon2(String[][] weapon, int[][]wprice, int choice2) { //항목제거 가격
+        choice2--;
+        int c1 = choice2/10;
+        int c2 = choice2%10;
         wprice[c1][c2] = 0;
         return wprice;
     }
 
-    public static String[][] outweapon1(String[][] weapon, int[][]wprice, int choice) { //항목제거 이름
-        choice--;
-        int c1 = choice/10;
-        int c2 = choice%10;
+    public static String[][] outweapon1(String[][] weapon, int[][]wprice, int choice2) { //항목제거 이름
+        choice2--;
+        int c1 = choice2/10;
+        int c2 = choice2%10;
         weapon[c1][c2] = "";
         return weapon;
     }
 
-    public static int[][] amountweapon1(int[][] wamount, int choice) { //재고업데이트 밖에서 어떤 물품의 재고를 바꾸시겠습니까? 하고 오류제어도 다 해야함
-        choice--;
-        int c1 = choice/10;
-        int c2 = choice%10;
+    public static int[][] amountweapon1(int[][] wamount, int choice2) { //재고업데이트 밖에서 어떤 물품의 재고를 바꾸시겠습니까? 하고 오류제어도 다 해야함
+        choice2--;
+        int c1 = choice2/10;
+        int c2 = choice2%10;
         System.out.println("물품의 갯수를 몇개로 바꾸시겠습니까?");
         int amount = sc.nextInt();
         wamount[c1][c2] = amount;
