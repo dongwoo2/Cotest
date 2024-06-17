@@ -268,7 +268,15 @@ public class Study20240419_1 {
                     } else if(choice == 2) { // 구매 내역보기
                         onemanpurchase(onemanpurchase,man,purcnt);
                     } else if(choice == 3) { // 기본 통계보기
-                        weapon_property(weaponitem,wspeed,wpower,wdurability,wweight,weaponcnt,purcnt);
+                        System.out.println("1. 구매한 무기속성 2. 내 속성");
+                        choice = sc.nextInt();
+                        if(choice == 1) {
+                            weapon_property(weaponitem,wspeed,wpower,wdurability,wweight,weaponcnt,purcnt);
+                        } else if (choice == 2) {
+                            man_weapon_property(manspeed,manstamina,manpower,weaponitem,wspeed,wpower,wdurability,wweight,weaponcnt,purcnt, day, man);
+                        } else {
+                            System.out.println("번호를 잘못선택하셨습니다.");
+                        }
                     } else if(choice == 4) { // 다음 사람 , 다음 사람 넘어갈때는 daypurcnt = 0하면 안됨 하루 갯수 체크라서
                         man++;
                         onedaycnt++;
@@ -386,8 +394,7 @@ public class Study20240419_1 {
     }
 
 
-    public static void weapon_property(String[][]weaponitem, int[][] wspeed,int[][] wpower,int[][] wdurabilty,int[][] wweight, int[]weaponcnt, int purcnt){ // 구매한 무기 속성보기
-        System.out.println("함수에 진입");
+    public static void weapon_property(String[][]weaponitem, int[][] wspeed,int[][] wpower,int[][] wdurabilty,int[][] wweight, int[]weaponcnt, int purcnt){ // 구매한 무기 속성보기 또한 자신의 속성까지 몰 수 있게
         int cnt = 0;
         int c1 = 0;
         int c2 = 0;
@@ -398,12 +405,37 @@ public class Study20240419_1 {
             c2 = cnt % 10 - 1;
             c3 = c1 * 10; // 미스릴 같은 등급제에서 설정을 안해서 여기서 급 넣기
             System.out.println(weaponitem[c1][c2]);
-            System.out.println("스피드 : " + wspeed[c1][c2]+c3);
-            System.out.println("파워 : " + wpower[c1][c2]+c3);
-            System.out.println("내구성 : " + wdurabilty[c1][c2]+c3);
-            System.out.println("무게 : " + wweight[c1][c2]+c3);
+            System.out.println("스피드 : " + (wspeed[c1][c2]+c3));
+            System.out.println("파워 : " + (wpower[c1][c2]+c3));
+            System.out.println("내구성 : " + (wdurabilty[c1][c2]+c3));
+            System.out.println("무게 : " + (wweight[c1][c2]));
         }
     }
+
+    public static void man_weapon_property(int[][] manspeed, int manstamina[][], int manpower[][], String[][]weaponitem, int[][] wspeed,int[][] wpower,int[][] wdurabilty,int[][] wweight, int[]weaponcnt, int purcnt, int day ,int man){ // 구매한 무기 속성보기 또한 자신의 속성까지 몰 수 있게
+        /*
+        int manspeed[][] = new int[10][10]; // 민첩성 - 스피드
+        int manstamina[][] = new int[10][10]; // 지구력 - 무게
+        int manpower[][] = new int[10][10]; // 힘 - 공격력
+         */
+        int cnt = 0;
+        int c1 = 0;
+        int c2 = 0;
+        int c3 = 0;
+        for(int i = 0; i < purcnt; i++) {
+            cnt = weaponcnt[i];
+            c1 = cnt / 10;
+            c2 = cnt % 10 - 1;
+            c3 = c1 * 10; // 미스릴 같은 등급제에서 설정을 안해서 여기서 급 넣기
+            //System.out.println(weaponitem[c1][c2]);
+            System.out.println("착용한 무기: " + weaponitem[c1][c2]);
+            System.out.println("민첩성 : " + (manspeed[day][man]+wspeed[c1][c2]+c3));
+            System.out.println("파워 : " + (manpower[day][man]+wpower[c1][c2]+c3));
+            System.out.println("지구력 : " + (manstamina[day][man])); // 무게에따라 지구력을 얼마나 쓸 수 있냐로 조정하고 싶긴함
+            // System.out.println("내구성 : " + (wdurabilty[c1][c2]+c3)); 일단 내구성은 무기에서만 다루기로 하기
+        }
+    }
+
 
     public static int[][] discount(int [][] wprice, int dispercent) {
 
