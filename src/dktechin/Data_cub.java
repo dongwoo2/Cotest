@@ -43,13 +43,14 @@ class Data_cub {
         Data_cub storage = Data_cub.getInstance(); // 데이터 저장소에는 이미 데이터가 다 들어간 상태
         // 생성된 데이터 크기 출력
         System.out.println("Generated data size: " + storage.getDataList().size());
+
         while (true) {
-            System.out.println("1. 저장한 데이터에서 특정 문자열을 입력 2.저장한 데이터에서 임의의 숫자를 입력하여 해당하는 문자열 찾기 3.prefix");
+            System.out.println("1. 저장한 데이터에서 특정 문자열을 입력 2.저장한 데이터에서 임의의 숫자를 입력하여 해당하는 문자열 찾기 3.prefix 4.데이터 전체보기(오래걸립니다)");
             choice = 0;
 
-            try{
+            try {
                 choice = sc.nextInt();
-            }catch (InputMismatchException e){
+            } catch (InputMismatchException e) {
                 System.out.println("잘못된 입력입니다. 숫자를 입력하세요.");
                 sc.next(); // 잘못된 입력을 스킵
                 continue;  // 루프의 다음 반복으로 넘어감
@@ -132,13 +133,12 @@ class Data_cub {
                     List<Integer> values = storage.getData(key);
                     resultMap.put(key, values);
                     for (Integer value : values) {
-                        countMap.put(value, countMap.getOrDefault(value, 0L) + 1);
+                        countMap.put(value, countMap.getOrDefault(value, 0L) + 1); // 갯수 체크
                     }
                 }
 
-
                 List<String> sortedKeys = new ArrayList<>(resultMap.keySet());
-                sortedKeys.sort(Comparator.comparingInt(String::length));
+                sortedKeys.sort(Comparator.comparingInt(String::length)); // 정렬
 
                 System.out.println("추출된 결과 값:");
                 for (String key : sortedKeys) {
@@ -151,6 +151,12 @@ class Data_cub {
                 for (Map.Entry<Integer, Long> entry : countMap.entrySet()) {
                     System.out.println(entry.getKey() + " : " + entry.getValue() + "개");
                 }
+            } else if (choice == 4) {
+                for (ConcurrentHashMap.Entry<String, Integer> entry : storage.dataList) {
+                    System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+                }
+            } else {
+                System.out.println("1 ~ 4 번만 입력해주세요.");
             }
         }
     }
@@ -165,6 +171,7 @@ class Data_cub {
     private Data_cub() { // 생성자
 
     }
+
     public static Data_cub getInstance() {
         if (instance == null) { // 초기화되지 않았는지 확인
             synchronized (Data_cub.class) { // 다중 스레드 환경에서 동기화 블록을 사용하여 한 번에 하나의 스레드만 instance를 초기화 할 수 있도록 합니다.
@@ -176,7 +183,7 @@ class Data_cub {
         return instance; // 초기화된 인스턴스 반환
     }
 
-    /* addData 메소드 설명
+    /* lock , unlock 설명
     1. lock.lock()
     lock.lock() 호출 시 현재 스레드는 락을 획득하려고 시도합니다.
     만약 다른 스레드가 이미 락을 획득한 상태라면, 락이 해제될 때 까지 현재 스레드는 대기합니다.
@@ -202,6 +209,7 @@ class Data_cub {
             lock.unlock(); // 동기화 종료 다 하면 락 풀고
         }
     }
+
     // 특정 문자열 값에 매칭된 숫자를 반환하는 메서드 추가
     public List<Integer> getData(String alphabet) {
         lock.lock(); // 동기화 시작
@@ -218,16 +226,6 @@ class Data_cub {
         }
     }
 
-    public void printData() {
-        lock.lock(); // 동기화 시작 락 걸어서 막고
-        try {
-            for (ConcurrentHashMap.Entry<String, Integer> entry : dataList) {
-                System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
-            }
-        } finally {
-            lock.unlock(); // 동기화 종료
-        }
-    }
     public List<String> getString(int num) {
         lock.lock(); // 동기화 시작
         try {
@@ -243,23 +241,22 @@ class Data_cub {
         }
     }
 
-    public synchronized List<String> getMatchKeys(String input) { // 모든 키 값 가져오기
+    public synchronized List<String> getMatchKeys(String input) { // 맞는 키 값 가져오기
         List<String> match = new ArrayList<>();
         synchronized (dataList) {
             for (ConcurrentHashMap.Entry<String, Integer> entry : dataList) {
                 String key = entry.getKey();
                 if (input.equals(key)) {
                     // 들어가면 안됨
-                }
-                else if(input.startsWith(key)) {
+                } else if (input.startsWith(key)) {
                     match.add(entry.getKey());
                 }
 
             }
         }
-
         return match;
     }
+
     // 모든 키를 반환하는 메서드
     public List<String> getAllKeys() {
         lock.lock(); // 동기화 시작
@@ -287,21 +284,6 @@ class Data_cub {
 }
 
 
-/* 문자 4번 쓰레드 이용해서 같이 작업하기 진행중
-class Proset implements Runnable {
-    private final Set<String> keySet = new HashSet<>();
-
-
-    @Override
-    public void run() {
-        synchronized (dataList) {
-            for (ConcurrentHashMap.Entry<String, Integer> entry : dataList) {
-                keySet.add(entry.getKey());
-            }
-        }
-    }
-}
-*/
 // 데이터 생성 쓰레드 클래스
 class CreateData implements Runnable {
     private final BlockingQueue<Map.Entry<String, Integer>> queue; // 쓰레드간 동기화 매커니즘을 이용하는 블로킹 큐 생성
@@ -329,7 +311,7 @@ class CreateData implements Runnable {
             // 중복되지 않을 경우 큐에 데이터 삽입
             if (uniqueAlpahbet.add(alphabet)) {
                 try {
-                    queue.put(new AbstractMap.SimpleEntry<>(alphabet, number)); // 큐에 데이터 삽입
+                    queue.put(new AbstractMap.SimpleEntry<>(alphabet, number)); // 큐에 맵처럼 키와 값을 함께 저장하기 위해 AbsrtactMap 이용
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 } finally {
@@ -338,6 +320,7 @@ class CreateData implements Runnable {
             }
         }
     }
+
     private String generateRandomString(int maxLength) {
         String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         int length = random.nextInt(maxLength) + 1; // 1에서 maxLength 사이의 길이
@@ -351,6 +334,7 @@ class CreateData implements Runnable {
     }
 }
 
+// 데이터 옮기기 쓰레드 클래스
 class MoveData implements Runnable {
     private final BlockingQueue<Map.Entry<String, Integer>> queue;
     private final Data_cub storage; // 인스턴스 불러오고
