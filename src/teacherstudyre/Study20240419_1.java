@@ -11,7 +11,6 @@ public class Study20240419_1 {
 
     public static void main(String[] args) {
         solution();
-
     }
 
 
@@ -176,11 +175,8 @@ public class Study20240419_1 {
                         }
                     }
                 }
-            } else if (choice == 2) {
-                System.out.println("로그인 해주세요");
-                if (buyer_id[day][man] != null && buyer_pw[day][man] != null) {
+            } else if (choice == 2) { // 구매자
                     logincheck = check_id(choice, buyer_id, buyer_pw, day, man, seller_id, seller_pw);
-                }
                 if (logincheck == 1) {
                     while (flag2) { // 구매자
                         System.out.println((day + 1) + "일" + (man + 1) + "번 째 구매자 입니다.");
@@ -342,18 +338,21 @@ public class Study20240419_1 {
                     }
                 }
             } else if (choice == 3) {
-                System.out.println("1.구매자 회원가입 2.판매자 회원가입 3.메뉴 나가기");
+                System.out.println("1.판매자 회원가입 2.구매자 회원가입 3.메뉴 나가기");
                 choice = sc.nextInt();
+                boolean joinflag = true;
                 if (choice == 1) {
-                    while (true) {
-                        buyer_id = buyer_join_id(buyer_id, day, man);
-                        buyer_pw = buyer_join_pw(buyer_pw, day, man);
-                    }
-
-                } else if (choice == 2) {
-                    while (true) {
+                    while (joinflag) {
                         seller_id = seller_join_id(seller_id);
                         seller_pw = seller_join_pw(seller_pw);
+                        joinflag = false;
+                    }
+                } else if (choice == 2) {
+                    while (joinflag) {
+                        buyer_id = buyer_join_id(buyer_id, day, man);
+                        System.out.println("buyer_id = " + buyer_id[day][man]);
+                        buyer_pw = buyer_join_pw(buyer_pw, day, man);
+                        joinflag = false;
                     }
                 } else if (choice == 3) {
 
@@ -422,6 +421,7 @@ public class Study20240419_1 {
             } else {
                 buyer_pw[day][man] = pw;
                 System.out.println("회원가입이 정상적으로 이루어졌습니다.");
+                flag = false;
                 return buyer_pw;
             }
         }
@@ -430,38 +430,69 @@ public class Study20240419_1 {
 
     public static int check_id(int choice, String[][] buyer_id, String[][] buyer_pw, int day, int man, String seller_id, String seller_pw) {
         // 로그인 성공시 1 아니면 0 리턴
-        if (choice == 2) {
-            System.out.println(" 아이디와 비밀번호를 입력해주세요 ");
-            boolean flag = true;
-            while (flag) {
-                System.out.println("id: ");
-                String id = sc.next();
-                System.out.println("pw: ");
-                String pw = sc.next();
-                if (id == buyer_id[day][man] && pw == buyer_pw[day][man]) {
-                    System.out.println(" 로그인 성공 ");
-                    return 1;
-                } else {
-                    System.out.println(" 로그인 실패 다시 입력해주세요");
+        int check = 0;
+        int count = 0;
+        if (choice == 2) { // 구매자
+            System.out.println("buyer_id = " + buyer_id[day][man]);
+            if (buyer_id[day][man] == null) {
+                System.out.println("계정이 없습니다. 회원가입 먼저 해주세요");
+                return check;
+            } else {
+                boolean flag = true;
+                while (flag) { // 구매자
+                    System.out.println(" 아이디와 비밀번호를 입력해주세요 ");
+                    System.out.println("id: ");
+                    String id = sc.next();
+                    System.out.println("pw: ");
+                    String pw = sc.next();
+                    if (buyer_id[day][man].equals(id) && buyer_pw[day][man].equals(pw)) {
+                        System.out.println(" 로그인 성공 ");
+                        flag = false;
+                        check = 1;
+                        return check;
+                    } else {
+                        count++;
+                        if (count > 5) {
+                            System.out.println(" 5회초과 로그인 실패 ");
+                            flag = false;
+                        } else {
+                            System.out.println(" 로그인 실패 다시 입력해주세요");
+                        }
+                    }
                 }
             }
+
         } else if (choice == 1) {
-            System.out.println(" 아이디와 비밀번호를 입력해주세요 ");
-            boolean flag = true;
-            while (flag) {
-                System.out.println("id: ");
-                String id = sc.next();
-                System.out.println("pw: ");
-                String pw = sc.next();
-                if (id == seller_id && pw == seller_pw) {
-                    System.out.println(" 로그인 성공 ");
-                    return 1;
-                } else {
-                    System.out.println(" 로그인 실패 다시 입력해주세요");
+            if(seller_id == "") {
+                System.out.println("계정이 없습니다. 회원가입 먼저 해주세요");
+                return check;
+            } else {
+                boolean flag = true;
+                while (flag) {
+                    System.out.println(" 아이디와 비밀번호를 입력해주세요 ");
+                    System.out.println("id: ");
+                    String id = sc.next();
+                    System.out.println("pw: ");
+                    String pw = sc.next();
+                    if (seller_id.equals(id) && seller_pw.equals(pw)) {
+                        System.out.println(" 로그인 성공 ");
+                        flag = false;
+                        check = 1;
+                        return check;
+                    } else {
+                        if (count > 5) {
+                            System.out.println(" 5회초과 로그인 실패 ");
+                            flag = false;
+                        } else {
+                            System.out.println(" 로그인 실패 다시 입력해주세요");
+                        }
+                    }
                 }
             }
-        }
-        return 0;
+
+            }
+
+        return check;
     }
 
 
