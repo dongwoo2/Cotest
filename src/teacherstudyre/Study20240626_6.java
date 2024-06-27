@@ -1,6 +1,8 @@
 package teacherstudyre;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
@@ -9,6 +11,7 @@ public class Study20240626_6 {
 
     public static void main(String[] args) {
         int n = sc.nextInt();
+        sc.nextLine(); // 남아있는 개행문자 지우는 용
         String arr[] = new String[n];
         int intarr[] = new int[n];
         int hour = 0;
@@ -16,6 +19,11 @@ public class Study20240626_6 {
         int check = 0;
         String stringhour = "";
         String stringminute = "";
+
+        System.out.println("2023-02-22T12:00:00+09:00 이 형식으로 입력해주세요.");
+        String input = sc.nextLine();
+
+
 
         // 1 ~ 1440
         // 랜덤 숫자 들어가게 구해야함
@@ -72,11 +80,19 @@ public class Study20240626_6 {
             String all = stringhour + ":" + stringminute;
             arr[i] = all;
         }
-        System.out.println("now = " + now);
+//        System.out.println("now = " + now);
 
-        System.out.println("2023-02-22T12:00:00+09:00 이 형식으로 입력해주세요.");
-        String input = sc.next();
-        
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+        ZonedDateTime currentTime = ZonedDateTime.parse(input, formatter);
+        int zonehour = currentTime.getHour();
+        int zoneminute = currentTime.getMinute();
+
+        for(int j = 0; j < n; j++) {
+            if(intarr[j] > (zonehour * 60 + zoneminute)) {
+                System.out.print(arr[j] + ", ");
+            }
+        }
+
 
 
 
