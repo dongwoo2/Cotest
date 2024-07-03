@@ -1,6 +1,7 @@
 package teacherstudyre;
 
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
@@ -85,7 +86,9 @@ public class Study20240419_1 {
         wprice = wprice(wprice, wdurability, wspeed, wweight, wpower);
         wamount = wamount(wamount); // 이제 물품이 0개가 되면 3턴뒤에 다시 생기는 걸로 만들기
         originalwamount = origin_wamount_fisrt_set(wamount,originalwamount); // 물품 오리지날 초기 셋팅 설정
-
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime promotionDate1 = LocalDateTime.now();
+        LocalDateTime promotionDate2 = LocalDateTime.now();
         // 구매자 스텟 만들기 힘,민첩성,지구력
 
         while (flag) {
@@ -144,16 +147,25 @@ public class Study20240419_1 {
                                 } else {
                                     System.out.println("몇 % 할인을 하시겠습니까?");
                                     dispercent = sc.nextInt(); // 나중에 % 할인중입니다를 쓰기 위함
-                                    wprice2 = discount(wprice, dispercent); // 할인이 있는 기간에는 wprice2로 가격진행
-                                    System.out.println("프로모션 기간을 얼마나 설정하시겠습니까?");
+                                    wprice2 = discount(wprice, dispercent, wprice2); // 할인이 있는 기간에는 wprice2로 가격진행
+
+                                    System.out.printf("현재  %d년 %d월 %d일 입니다.", now.getYear(),now.getMonthValue(), now.getDayOfMonth());
+                                    System.out.println("프로모션 기간을 며칠 진행할 것인지 일 자로 적어주세요");
                                     promotionday1 = sc.nextInt();
+                                    promotionDate1 = promotionDate1.now().plusDays(promotionday1);
+                                    System.out.printf("프로모션 기간이  %d년 %d월 %d일 까지 설정되었습니다.", promotionDate1.getYear(),promotionDate1.getMonthValue(), promotionDate1.getDayOfMonth()-1);
+                                    System.out.println("  ");
                                 }
                             } else if (choice == 2) {
                                 if (promotionday1 != 0) {
                                     System.out.println("다른 프로모션이 진행중입니다.");
                                 } else {
-                                    System.out.println("프로모션 기간을 얼마나 설정하시겠습니까?");
+                                    System.out.printf("현재  %d년 %d월 %d일 입니다.", now.getYear(),now.getMonthValue(), now.getDayOfMonth());
+                                    System.out.println("프로모션 기간을 며칠 진행할 것인지 일 자로 적어주세요");
                                     promotionday2 = sc.nextInt();
+                                    promotionDate2 = promotionDate2.now().plusDays(promotionday2);
+                                    System.out.printf("프로모션 기간이  %d년 %d월 %d일 까지 설정되었습니다.", promotionDate2.getYear(),promotionDate2.getMonthValue(), promotionDate2.getDayOfMonth()-1);
+                                    System.out.println("  ");
                                 }
                             } else if (choice == 3) {
                                 promotionday1 = 0;
@@ -179,75 +191,62 @@ public class Study20240419_1 {
                     logincheck = check_id(choice, buyer_id, buyer_pw, day, man, seller_id, seller_pw);
                 if (logincheck == 1) {
                     while (flag2) { // 구매자
-                        System.out.println((day + 1) + "일" + (man + 1) + "번 째 구매자 입니다.");
+                        System.out.printf("오늘 날짜 : %d년 %d월 %d일", now.getYear(), now.getMonthValue(), now.getDayOfMonth());
+                        System.out.println(" "+(man + 1) + "번 째 구매자 입니다.");
                         if (manc == 0) {
-                            System.out.println("구매자의 스텟을 셋팅해주세요");
+                            System.out.println("구매자의 스텟 확인");
                             manpower[day][man] = manstatpower(manpower, day, man);
                             manspeed[day][man] = manstatspeed(manspeed, day, man);
                             manstamina[day][man] = manstatstamina(manstamina, day, man);
+                            System.out.printf("힘 : %d 스피드 : %d  지구력 : %d" , manpower[day][man],manspeed[day][man],manstamina[day][man]);
+                            System.out.println(" ");
+                            manc++;
                         }
-                        manc++;
-                        flag3 = true;
-                        System.out.println("1.구매하기 2.구매내역보기 3.기본통계보기 4.다음사람 5.다음 날 6.구매자 로그아웃");
-                        choice = sc.nextInt();
-                        if (choice == 1) {
-                            while (flag3) {
-                                if (promotionday1 != 0) { // 할인중
-                                    System.out.println(dispercent + "% 할인을 진행하고 있습니다. 기간은 " + promotionday1 + "일 남았습니다.");
-                                    allweapon(weaponitem, wprice2, wamount);
-                                    minusitem = 1;
-                                } else if (promotionday2 != 0) { // 1 + 1
-                                    System.out.println("1 + 1 이벤트를 진행하고 있습니다.\n기간은 " + promotionday2 + "일 남았습니다.");
-                                    allweapon(weaponitem, wprice, wamount);
-                                    minusitem = 2;
-                                } else { // 아무것도 안함
-                                    allweapon(weaponitem, wprice, wamount);
-                                    minusitem = 1;
-                                }
-                                System.out.println("몇 번째 아이템을 구매하시겠습니까?");
-                                choice = sc.nextInt(); // 구매하고 난 뒤에 갯수 줄이기
-                                if (choice < 100) {
-                                    c1 = choice / 10;
-                                    c2 = choice % 10;
-                                    choice_check++;
-                                } else {
-                                    System.out.println("항목에 없는것을 고르셨습니다 다시 선택해주세요.");
-                                    choice_check = 0;
-                                }
-                                if (c1 != 0 && c2 == 0 && choice < 100) { // 10번을 선택했을 시 인덱스에서는 9번 그리고 20번하면 19번 이렇게 선택이 되어야함
-                                    c1--;
-                                    c2 = 9;
-                                } else if (c1 != 0 && c2 != 0 && choice < 100) { // 정상적인 진행이 될 때 c2는 --가 되어야함
-                                    c2--;
-                                } else if (c1 == 0 && c2 != 0 && choice < 100) {
-                                    c2--;
-                                }
 
-                                if (choice_check != 0) {
-                                    System.out.println(" = " + wamount[c1][c2]);
-                                    if (wamount[c1][c2] >= minusitem && promotionday2 == 0) { // 구매가 잘 되었을 때
-                                        wamount[c1][c2] = wamount[c1][c2] - minusitem;
-                                        onemanpurchase[man][purcnt] = weaponitem[c1][c2]; // 한 사람의 구매내역
-                                        weaponcnt[day]++;
-                                        weaponname[day][daypurcnt] = weaponitem[c1][c2];
-                                        if (promotionday1 != 0 || promotionday2 != 0) { // 프로모션 보고소
-                                            pro_weaponname[proday][daypurcnt] = weaponitem[c1][c2];
-                                            pro_weaponcnt++;
-                                            // proday++;
-                                        }
-                                        purcnt++;
-                                        daypurcnt++;
-                                        System.out.println("구매가 완료되었습니다. 다시 구매를 원하시면 1번, 구매를 원치 않으시면 2번을 눌러주세요.");
-                                        choice = sc.nextInt();
-                                        if (choice == 2) {
-                                            flag3 = false;
-                                        }
-                                    } else if (wamount[c1][c2] == 1 && promotionday2 != 0) { // 프로모션 1+1이 진행중인데 갯수가 1개일 때
-                                        System.out.println("갯수가 부족하여 1+1이 불가한 상품입니다. 그래도 구매를 원하시면 1번, 다른 상품 구매를 원하시면 2번, 구매를 원치 않으시면 3번을 눌러주세요.");
-                                        if (choice == 1) {
-                                            wamount[c1][c2]--;
-                                            System.out.println("구매가 완료되었습니다. 다시 구매를 원하시면 1번 아니면 2번을 눌러주세요");
-                                            onemanpurchase[man][purcnt] = weaponitem[c1][c2];
+                        flag3 = true;
+                        if (manc > 0) {
+                            System.out.println("1.구매하기 2.구매내역보기 3.기본통계보기 4.다음사람 5.다음 날 6.구매자 로그아웃");
+                            choice = sc.nextInt();
+                            if (choice == 1) {
+                                while (flag3) {
+                                    if (promotionday1 != 0) { // 할인중
+                                        System.out.println(dispercent + "% 할인을 진행하고 있습니다.");
+                                        System.out.printf("기간은 %d년 %d월 %d일 까지 입니다." , promotionDate1.getYear(), promotionDate1.getMonthValue(), promotionDate1.getDayOfMonth());
+                                        allweapon(weaponitem, wprice2, wamount);
+                                        minusitem = 1;
+                                    } else if (promotionday2 != 0) { // 1 + 1
+                                        System.out.println("1 + 1 이벤트를 진행하고 있습니다.");
+                                        System.out.printf("기간은 %d년 %d월 %d일 까지 입니다." , promotionDate2.getYear(), promotionDate2.getMonthValue(), promotionDate2.getDayOfMonth());
+                                        allweapon(weaponitem, wprice, wamount);
+                                        minusitem = 2;
+                                    } else { // 아무것도 안함
+                                        allweapon(weaponitem, wprice, wamount);
+                                        minusitem = 1;
+                                    }
+                                    System.out.println("몇 번째 아이템을 구매하시겠습니까?");
+                                    choice = sc.nextInt(); // 구매하고 난 뒤에 갯수 줄이기
+                                    if (choice < 100) {
+                                        c1 = choice / 10;
+                                        c2 = choice % 10;
+                                        choice_check++;
+                                    } else {
+                                        System.out.println("항목에 없는것을 고르셨습니다 다시 선택해주세요.");
+                                        choice_check = 0;
+                                    }
+                                    if (c1 != 0 && c2 == 0 && choice < 100) { // 10번을 선택했을 시 인덱스에서는 9번 그리고 20번하면 19번 이렇게 선택이 되어야함
+                                        c1--;
+                                        c2 = 9;
+                                    } else if (c1 != 0 && c2 != 0 && choice < 100) { // 정상적인 진행이 될 때 c2는 --가 되어야함
+                                        c2--;
+                                    } else if (c1 == 0 && c2 != 0 && choice < 100) {
+                                        c2--;
+                                    }
+
+                                    if (choice_check != 0) {
+                                        System.out.println(" = " + wamount[c1][c2]);
+                                        if (wamount[c1][c2] >= minusitem && promotionday2 == 0) { // 구매가 잘 되었을 때
+                                            wamount[c1][c2] = wamount[c1][c2] - minusitem;
+                                            onemanpurchase[man][purcnt] = weaponitem[c1][c2]; // 한 사람의 구매내역
                                             weaponcnt[day]++;
                                             weaponname[day][daypurcnt] = weaponitem[c1][c2];
                                             if (promotionday1 != 0 || promotionday2 != 0) { // 프로모션 보고소
@@ -257,83 +256,105 @@ public class Study20240419_1 {
                                             }
                                             purcnt++;
                                             daypurcnt++;
+                                            System.out.println("구매가 완료되었습니다. 다시 구매를 원하시면 1번, 구매를 원치 않으시면 2번을 눌러주세요.");
                                             choice = sc.nextInt();
+                                            if (choice == 2) {
+                                                flag3 = false;
+                                            }
+                                        } else if (wamount[c1][c2] == 1 && promotionday2 != 0) { // 프로모션 1+1이 진행중인데 갯수가 1개일 때
+                                            System.out.println("갯수가 부족하여 1+1이 불가한 상품입니다. 그래도 구매를 원하시면 1번, 다른 상품 구매를 원하시면 2번, 구매를 원치 않으시면 3번을 눌러주세요.");
+                                            if (choice == 1) {
+                                                wamount[c1][c2]--;
+                                                System.out.println("구매가 완료되었습니다. 다시 구매를 원하시면 1번 아니면 2번을 눌러주세요");
+                                                onemanpurchase[man][purcnt] = weaponitem[c1][c2];
+                                                weaponcnt[day]++;
+                                                weaponname[day][daypurcnt] = weaponitem[c1][c2];
+                                                if (promotionday1 != 0 || promotionday2 != 0) { // 프로모션 보고소
+                                                    pro_weaponname[proday][daypurcnt] = weaponitem[c1][c2];
+                                                    pro_weaponcnt++;
+                                                    // proday++;
+                                                }
+                                                purcnt++;
+                                                daypurcnt++;
+                                                choice = sc.nextInt();
+                                                if (choice == 2) {
+                                                    flag3 = false;
+                                                } else if (choice == 1) {
+                                                    flag3 = true;
+                                                } else {
+                                                    System.out.println("잘못된 번호를 누르셨기에 상품 페이지로 이동합니다.");
+                                                }
+                                            } else if (choice == 2) {
+                                                flag2 = true;
+                                            } else if (choice == 3) {
+                                                flag2 = false;
+                                            }
+                                        } else { // 갯수가 없을 때
+                                            System.out.println("품절 되었습니다 다른 상품 구매를 원하시면 1번, 구매를 원치 않으시면 2번을 눌러주세요.");
                                             if (choice == 2) {
                                                 flag3 = false;
                                             } else if (choice == 1) {
                                                 flag3 = true;
-                                            } else {
-                                                System.out.println("잘못된 번호를 누르셨기에 상품 페이지로 이동합니다.");
                                             }
-                                        } else if (choice == 2) {
-                                            flag2 = true;
-                                        } else if (choice == 3) {
-                                            flag2 = false;
-                                        }
-                                    } else { // 갯수가 없을 때
-                                        System.out.println("품절 되었습니다 다른 상품 구매를 원하시면 1번, 구매를 원치 않으시면 2번을 눌러주세요.");
-                                        if (choice == 2) {
-                                            flag3 = false;
-                                        } else if (choice == 1) {
-                                            flag3 = true;
                                         }
                                     }
                                 }
-                            }
-                        } else if (choice == 2) { // 구매 내역보기
-                            onemanpurchase(onemanpurchase, man, purcnt);
-                        } else if (choice == 3) { // 기본 통계보기
-                            System.out.println("1. 구매한 무기속성 2. 내 속성");
-                            choice = sc.nextInt();
-                            if (choice == 1) {
-                                weapon_property(weaponitem, wspeed, wpower, wdurability, wweight, weaponcnt, purcnt);
-                            } else if (choice == 2) {
-                                man_weapon_property(manspeed, manstamina, manpower, weaponitem, wspeed, wpower, wdurability, wweight, weaponcnt, purcnt, day, man);
-                            } else {
-                                System.out.println("번호를 잘못선택하셨습니다.");
-                            }
-                        } else if (choice == 4) { // 다음 사람 , 다음 사람 넘어갈때는 daypurcnt = 0하면 안됨 하루 갯수 체크라서
-                            man++;
-                            onedaycnt++;
-                            purcnt = 0;
-                            manc = 0;
-                            dayday[day] = daypurcnt;
-                            daymancnt[day] = onedaycnt;
-                            prodayday[proday] = daypurcnt;
-                            if(dayturn == 3) {
-                                dayturn = 0;
-                                wamount = origin_wamount(wamount,originalwamount);
-                            } else {
-                                dayturn++;
-                            }
-                        } else if (choice == 5) { // 다음 날
-                            man = 0;
-                            dayday[day] = daypurcnt; // daypurcnt는 하루에 몇 개 구매한건지
-                            daymancnt[day] = onedaycnt; // onedaycnt는 하루에 몇 명 온건지
-                            day++;
-                            onedaycnt = 0;
-                            purcnt = 0;
-                            daypurcnt = 0;
-                            manc = 0;
-                            if (promotionday1 != 0 && promotionday1 > 0) { // 프로모션 1 진행
-                                promotionday1--;
-                                prodayday[proday] = daypurcnt;
-                                if (promotionday1 != 0) {
-                                    proday++;
+                            } else if (choice == 2) { // 구매 내역보기
+                                onemanpurchase(onemanpurchase, man, purcnt);
+                            } else if (choice == 3) { // 기본 통계보기
+                                System.out.println("1. 구매한 무기속성 2. 내 속성");
+                                choice = sc.nextInt();
+                                if (choice == 1) {
+                                    weapon_property(weaponitem, wspeed, wpower, wdurability, wweight, weaponcnt, purcnt);
+                                } else if (choice == 2) {
+                                    man_weapon_property(manspeed, manstamina, manpower, weaponitem, wspeed, wpower, wdurability, wweight, weaponcnt, purcnt, day, man);
+                                } else {
+                                    System.out.println("번호를 잘못선택하셨습니다.");
                                 }
-                            } else if (promotionday2 != 0 && promotionday2 > 0) { // 프로모션 2 진행
-                                promotionday2--;
+                            } else if (choice == 4) { // 다음 사람 , 다음 사람 넘어갈때는 daypurcnt = 0하면 안됨 하루 갯수 체크라서
+                                man++;
+                                onedaycnt++;
+                                purcnt = 0;
+                                manc = 0;
+                                dayday[day] = daypurcnt;
+                                daymancnt[day] = onedaycnt;
                                 prodayday[proday] = daypurcnt;
-                                if (promotionday2 != 0) {
-                                    proday++;
+                                if (dayturn == 3) {
+                                    dayturn = 0;
+                                    wamount = origin_wamount(wamount, originalwamount);
+                                } else {
+                                    dayturn++;
                                 }
+                            } else if (choice == 5) { // 다음 날
+                                man = 0;
+                                dayday[day] = daypurcnt; // daypurcnt는 하루에 몇 개 구매한건지
+                                daymancnt[day] = onedaycnt; // onedaycnt는 하루에 몇 명 온건지
+                                day++;
+                                onedaycnt = 0;
+                                purcnt = 0;
+                                daypurcnt = 0;
+                                manc = 0;
+                                now = now.plusDays(1);
+                                if (promotionday1 != 0 && promotionday1 > 0) { // 프로모션 1 진행
+                                    promotionday1--;
+                                    prodayday[proday] = daypurcnt;
+                                    if (promotionday1 != 0) {
+                                        proday++;
+                                    }
+                                } else if (promotionday2 != 0 && promotionday2 > 0) { // 프로모션 2 진행
+                                    promotionday2--;
+                                    prodayday[proday] = daypurcnt;
+                                    if (promotionday2 != 0) {
+                                        proday++;
+                                    }
+                                }
+                            } else if (choice == 6) { // 구매자 로그아웃
+                                flag2 = false;
+                                flag3 = false;
+                                dayday[day] = daypurcnt;
+                                prodayday[proday] = daypurcnt;
+                                daymancnt[day] = onedaycnt;
                             }
-                        } else if (choice == 6) { // 구매자 로그아웃
-                            flag2 = false;
-                            flag3 = false;
-                            dayday[day] = daypurcnt;
-                            prodayday[proday] = daypurcnt;
-                            daymancnt[day] = onedaycnt;
                         }
                     }
                 }
@@ -613,22 +634,24 @@ public class Study20240419_1 {
     }
 
 
-    public static int[][] discount(int[][] wprice, int dispercent) {
+    public static int[][] discount(int[][] wprice, int dispercent, int[][]wprice2) { // wprice2를 안쓰고 wprice만 리턴해서 보내니까 전체값이 그냥 할인된걸로 고정되어 버렸음
 
         for (int i = 0; i < wprice.length; i++) {
             for (int j = 0; j < wprice.length; j++) {
-                wprice[i][j] = wprice[i][j] - (wprice[i][j] * dispercent / 100);
+                wprice2[i][j] = wprice[i][j] - (wprice[i][j] * dispercent / 100);
             }
         }
-        return wprice;
+        return wprice2;
     }
 
 
     public static int manstatpower(int[][] manpower, int day, int man) { // 힘 스텟 셋팅
         System.out.println("힘을 셋팅해주세요");
         int power = 4;
-        if (day == 0 && man == 0) {
+        manpower[day][man] = power;
+        if (man == 0) {
             power = 6;
+            manpower[day][man] = power;
         } else {
             power = manpower[day][man - 1] + 1;
             if (power > 8) { // 예외처리
@@ -644,8 +667,10 @@ public class Study20240419_1 {
     public static int manstatspeed(int[][] manspeed, int day, int man) { // 스피드 스텟 셋팅
         System.out.println("스피드를 셋팅해주세요");
         int speed = 4;
-        if (day == 0 && man == 0) {
+        manspeed[day][man] = speed;
+        if (man == 0) {
             speed = 6;
+            manspeed[day][man] = speed;
         } else {
             speed = manspeed[day][man - 1] + 1;
             if (speed > 8) { // 예외처리
@@ -662,8 +687,10 @@ public class Study20240419_1 {
     public static int manstatstamina(int[][] manstamina, int day, int man) { // 스테미나 스텟 셋팅
         System.out.println("지구력을 셋팅해주세요");
         int stamina = 4;
-        if (day == 0 && man == 0) {
+        manstamina[day][man] = stamina;
+        if (man == 0) {
             stamina = 6;
+            manstamina[day][man] = stamina;
         } else {
             stamina = manstamina[day][man - 1] + 1;
             if (stamina > 8) { // 예외처리

@@ -16,6 +16,15 @@ public class Study20240626_2 {
         int minute = now.getMinute();
         int second = now.getSecond();
 
+
         System.out.printf("%d년 %d월 %d일 %d시 %d분 %d초%n" ,year, month, day, hour, minute, second);
+        LocalDateTime plusday = LocalDateTime.now().plusDays(50);
+        int year2 = plusday.getYear();
+        int month2 = plusday.getMonthValue();
+        int day2 = plusday.getDayOfMonth();
+        int hour2 = plusday.getHour();
+        int minute2 = plusday.getMinute();
+        int second2 = plusday.getSecond();
+        System.out.printf("%d년 %d월 %d일 %d시 %d분 %d초%n" ,year2, month2, day2, hour2, minute2, second2);
     }
 }
