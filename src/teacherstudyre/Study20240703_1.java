@@ -23,12 +23,13 @@ public class Study20240703_1 {
         int[] coffee_event = new int[2]; // 1은 인원 2는 시간
         int[][] event_coffeename_count = new int[2][5]; // 이벤트커피 1은 메뉴 2는 잔수
         //1에 대응되는 day_sell_coffee에 대응되는 번호가 들어가있음
-        String[] event_coffeename = new String[5];
+        String[] event_coffeename = new String[5]; // 1메뉴가 여기 들어감
         int[] event_coffeecount = new int[5];
-        int[] people_happy = new int[1000];
+        int[][] people_happy = new int[100][100]; // 손님 만족도
+        // (7/10)
         int people = 0;
 
-        int coffee_event_menu = 0;
+        int coffee_event_man = 0;
         int coffee_event_time = 0;
         int month = 0;
         int day = 0;
@@ -75,14 +76,37 @@ public class Study20240703_1 {
         while (flag) { // 손님 받는 거
             System.out.println((day+1) + "번 째 날 " + (people+1) + "번 째 손님입니다.");
             if(coffee_event[0] > 0) { // 이벤트 설정한 게 있다면 이벤트는 장사 시작과 동시에 하자
-                coffee_event_menu = coffee_event[0]; // 이벤트 인원
-                coffee_event_time = coffee_event[1]; // 이벤트 시간 설정
-                System.out.println("이벤트 시간 %d 분 진행합니다. 남은 인원 %d");
+                while (flag) {
+                    coffee_event_man = coffee_event[0]; // 이벤트 인원
+                    coffee_event_time = coffee_event[1]; // 이벤트 시간 설정
+                    System.out.printf("이벤트 시간 %d분 진행합니다. 남은 인원 %d명 입니다.", coffee_event_man, coffee_event_time);
+                    
+                    // 이벤트 메뉴 보여주어야함
+                    System.out.println("어떤 음료가 드시고 싶으십니까?");
+                    eventShowMenu(event_coffeename, event_coffeecount);
+
+                    choice = sc.nextInt();
+
+                /* 얘는 일반주문할 때
+                System.out.println("어떤 음료가 드시고 싶으십니까?");
+                coffee_price_count = coffeeCountBuy(coffee_price_count,choice);
+                 */
+                    // 장바구니로 선택하는 느낌으로 하자
+                    // 메뉴가 없습니다 메뉴가 없으면 그냥 모달창 느낌으로 메뉴가 없어 한 다음에
+                    //
+                }
             } else { // 이벤트 설정한 게 없다면
 
             }
 
         }
+    }
+    public static int[][] coffeeCountBuy(int[][]coffee_price_count, int choice) { //int[][] coffee_price_count = new int[2][5]; // 잔수와 가격 1은 잔수 2는 가격
+
+    }
+
+    public static int[][] eventCoffeeCountBuy(int[][]event_coffeename_count, int choice) { //int[][] coffee_price_count = new int[2][5]; // 잔수와 가격 1은 잔수 2는 가격
+
     }
     public static void peopleHappy() { // 손님들 만족도
 
@@ -138,6 +162,18 @@ public class Study20240703_1 {
             System.out.println((i+1) + " : " + day_sell_coffee[i]);
             i++;
             if(i == day_sell_coffee.length) {
+                flag = false;
+            }
+        }
+    }
+
+    public static void eventShowMenu(String [] event_coffeename,int[] event_coffeecount) { // 이름 뿐만 아니라 남은 잔수도 보여주는게 더 편할 듯
+        boolean flag = true;
+        int i = 0;
+        while (flag) {
+            System.out.println((i+1) + " : " + event_coffeename[i] + " 남은 잔 수 : " + event_coffeecount[i]);
+            i++;
+            if(i == event_coffeename.length) {
                 flag = false;
             }
         }
