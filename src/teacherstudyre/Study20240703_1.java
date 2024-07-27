@@ -50,8 +50,8 @@ public class Study20240703_1 {
         int[] daymoney = new int[100];
         int coffee_or_event = 0; // 이벤트용 주문인지 아닌지 0이면 일반주문 1이면 이벤트주문
         int want_event_menu = 1; // 이벤트 메뉴중에서 원하는 메뉴였는지
-        String[] day_selled_coffee = new String[5];
-        int[] day_sell_count = new int[5];
+        String[] day_selled_coffee = new String[5]; // 하루중에 팔린커피 목록
+        int[] day_sell_count = new int[5]; // 하루 팔린 커피 몇 잔인지 다음 날 눌러지면 초기화되게 셋팅
 
 
         coffeeName(coffee_names);
@@ -95,6 +95,11 @@ public class Study20240703_1 {
 
                 }
                 eventcomputer1(coffee_event_time,event_coffeetime,event_coffeename);
+            } else if (choice == 2) { // 이벤트 설정을 하지 않을 떄 이벤트 관련된 것들 리셋
+                event_coffeename_count = eventResetNameCount(event_coffeename_count);
+                event_coffeename = eventResetName(event_coffeename);
+                event_coffeecount = eventResetCount(event_coffeecount);
+                event_coffeetime = eventResetTime(event_coffeetime);
             }
             flag = false;
         }
@@ -128,7 +133,7 @@ public class Study20240703_1 {
                                     System.out.println("메뉴를 골라주세요.");
                                     dailyShowMenu(day_sell_coffee, coffee_count, coffee_price);
                                     choice = sc.nextInt();
-                                    if (coffee_count[choice - 1] == 0) { // 품절일 때 시간 없을 때 고려해야함 시간도
+                                    if (coffee_count[choice - 1] == 0) { // 품절일 때
                                         System.out.println("품절입니다. 다른 음료를 고르시겠습니까?");
                                         System.out.println("1. 예 2. 아니오"); // 다음사람으로 넘어감
                                         if (choice == 2) {
@@ -153,6 +158,7 @@ public class Study20240703_1 {
                                                 day++;
                                                 // 여기서 데이피플 정할건지
                                                 people = 0;
+
                                                 flag3 = false;
                                             } else {
                                                 daypeople--;
@@ -303,6 +309,81 @@ public class Study20240703_1 {
             }
         }
 
+    }
+
+    //        String[] day_selled_coffee = new String[5]; // 하루중에 팔린커피 목록
+    //        int[] day_sell_count = new int[5]; // 하루 팔린 커피 몇 잔인지 다음 날 눌러지면 초기화되게 셋팅
+
+    public static int[][] AllSellistCount(int [] day_sell_count, int[][] allday_sell_count, int day) {
+        for(int i = day - 1; i < day; i++) {
+            for(int j = 0; j < day_sell_count.length; j++) {
+                allday_sell_count[day - 1][j] = day_sell_count[j];
+            }
+        }
+        return allday_sell_count;
+    }
+    public static String[][] AllSellistName(String[] day_selled_coffee, String[][] allday_sell_name, int day) {
+        for(int i = day - 1; i < day; i++) {
+            for(int j = 0; j < allday_sell_name.length; j++) {
+                allday_sell_name[day - 1][j] = day_selled_coffee[j];
+            }
+        }
+        return allday_sell_name;
+    }
+    public static void AllShowSell(String[][] allday_sell_name,int[][] allday_sell_count, int day) { //총 가격 함수도받아야됨 당일 총 얼마인지
+        // 당일 판매만큼 돌리기 데이 만큼 돌리고 처음에는 데이 그 뒤는 판매양 만큼만 돌리기
+        for(int i = 0; i < day; i++) {
+            System.out.printf("%d일" , i+1);
+            for(int j = 0; j < allday_sell_name.length; j++) {
+                System.out.printf("%d : %d개 :");
+            }
+        }
+
+    }
+    public static int[] daySellcountReset(int[] day_sell_count) {
+        for(int i = 0; i < day_sell_count.length; i++) {
+            day_sell_count[i] = 0;
+        }
+        return day_sell_count;
+    }
+    public static String[] daySelledcoffeeReset(String[] day_selled_coffee) {
+        for(int i = 0; i < day_selled_coffee.length; i++) {
+            day_selled_coffee[i] = "";
+        }
+        return day_selled_coffee;
+    }
+    public static String[] daySellcoffeeReset(String[]day_sell_coffee) {
+        for(int i = 0; i < day_sell_coffee.length; i++) {
+            day_sell_coffee[i] = "";
+        }
+        return day_sell_coffee;
+    }
+    public static int[][] eventResetNameCount(int[][] event_coffeename_count) {
+        for(int z = 0; z < event_coffeename_count.length; z++) {
+            for(int y = 0; y < event_coffeename_count[z].length; y++) {
+                event_coffeename_count[z][y] = 0;
+            }
+        }
+        return event_coffeename_count;
+    }
+
+    public static String[] eventResetName(String[]event_coffeename) {
+        for(int i = 0; i < event_coffeename.length; i++) {
+            event_coffeename[i] = "";
+        }
+        return event_coffeename;
+    }
+    public static int[] eventResetCount(int[]event_coffeecount) {
+        for(int i = 0; i < event_coffeecount.length; i++) {
+            event_coffeecount[i] = 0;
+        }
+        return event_coffeecount;
+    }
+    public static int[] eventResetTime(int[]event_coffeetime) {
+        for(int i = 0; i < event_coffeetime.length; i++) {
+            event_coffeetime[i] = 0;
+        }
+        return event_coffeetime;
     }
 
     public static int peopleFlag(int daypeople, int people_flag) {
