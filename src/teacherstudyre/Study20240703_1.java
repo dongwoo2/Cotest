@@ -170,7 +170,7 @@ public class Study20240703_1 {
                                         System.out.println(day_sell_coffee[choice - 1] + " 이 장바구니에 담겼습니다 추가 주문하시겠습니까?");
                                         coffee_count[choice-1]--;
                                         daymoney[day] = daymoney[day] + coffee_price[choice - 1]; //
-                                        day_alltime = day_alltime - coffee_count[choice - 1]; // 시간 빼기
+                                        day_alltime = day_alltime - coffee_time[choice - 1]; // 시간 빼기
                                         System.out.println("1. 예 2. 아니오");
                                         choice = sc.nextInt();
                                         if(choice == 2) { // 주문을 그만 한다면
@@ -288,7 +288,7 @@ public class Study20240703_1 {
                         System.out.println(day_sell_coffee[choice - 1] + " 이 장바구니에 담겼습니다 추가 주문하시겠습니까?");
                         coffee_count[choice-1]--;
                         daymoney[day] = daymoney[day] + coffee_price[choice - 1]; //
-                        day_alltime = day_alltime - coffee_count[choice - 1]; // 시간 빼기
+                        day_alltime = day_alltime - coffee_time[choice - 1]; // 시간 빼기
                         System.out.println("1. 예 2. 아니오");
                         choice = sc.nextInt();
                         if(choice == 2) { // 주문을 그만 한다면
@@ -335,7 +335,7 @@ public class Study20240703_1 {
         for(int i = 0; i < day; i++) {
             System.out.printf("%d일" , i+1);
             for(int j = 0; j < allday_sell_name.length; j++) {
-                System.out.printf("%d : %d개 :");
+                System.out.printf("%d : %d개 :", allday_sell_name[i][j], allday_sell_count[i][j]);
             }
         }
 
