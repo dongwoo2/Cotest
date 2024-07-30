@@ -36,6 +36,7 @@ public class Study20240703_1 {
         int[] event_coffeetime = new int[5]; // 이벤트 커피 걸리는시간
         int[] event_coffeecount = new int[5]; // 이벤트 잔수
         int[][] people_happy = new int[100][100]; // 손님 만족도
+        //int[][] event_people_happy = new int[100][100]; //이벤트 손님 만족도
         int event_flag = 0;
         // (7/10)
         int event_get = 0; // 손님이 이벤트 잔 받았는지 안받았는지 확인 이벤트 잔은 손님당 1잔
@@ -44,6 +45,7 @@ public class Study20240703_1 {
         int people_flag = 0; // 당일에 남은 손님이 없다면 0 손님이 있다면  1
         int coffee_event_man = 0;
         int coffee_event_time = 0;
+        int event_happy_sum = 0;
         int month = 0;
         int day = 0;
         int money = 0;
@@ -62,10 +64,7 @@ public class Study20240703_1 {
             System.out.println("장사 시간을 정해주세요");
             day_alltime = dayHour(hour, minute);
 
-            if (day == 0) {
-                System.out.println("손님 수를 고르세요");
-                daypeople = sc.nextInt();
-            }
+
             showMenu(coffee_names);
             System.out.println("커피 5가지를 고르세요");
             for (int i = 0; i < coffee_select.length; i++) {
@@ -83,6 +82,8 @@ public class Study20240703_1 {
             coffee_count = coffeeCountSet(coffee_count_price, coffee_count); // 잔수 배열 하나로 보기 쉽게 세팅
             coffee_price = coffeePriceSet(coffee_count_price, coffee_price); // 가격 배열 하나로 보기 쉽게
             coffee_happy = coffeeHappySet(coffee_price, coffee_happy); // 만족도 배열 하나로 보기 쉽게
+
+            daypeople = dayPeopleSet(day_alltime, coffee_time);
 
             computer1(day_alltime, coffee_time, day_sell_coffee, coffee_count);
 
@@ -169,6 +170,7 @@ public class Study20240703_1 {
                         }
 
                         people_happy = eventpeopleHappy(people_happy, coffee_happy, coffee_or_event, day, people, choice, want_event_menu);
+                        event_happy_sum += people_happy[day][people];
                         event_coffeecount[choice - 1]--; // 한 잔 줄이고 그리고 이벤트는 1잔이 맥시멈
                         coffee_event_man--;
                         System.out.println("이벤트는 1인 1잔이 맥시멈입니다. 일반 메뉴로 이동하시겠습니까? \n 1.예 2.아니오");
@@ -223,9 +225,9 @@ public class Study20240703_1 {
                     }
 
                     if (coffee_event_man == 0 || coffee_event_time == 0 || event_flag == 0) { // 커피 이벤트 타임이 제일 적은 메뉴보다 시간이 적을시에 flag2 = false로 바꿔야함
+                        eventSuccess(event_happy_sum,coffee_event[0]);
                         flag2 = false;
                     }
-
                 }
 
 
@@ -256,6 +258,20 @@ public class Study20240703_1 {
 
     }
 
+
+
+    public static int dayPeopleSet(int day_alltime, int []coffee_time) {
+        int sum = 0;
+        int avg = 0;
+        int people = 0;
+        for(int i = 0; i < coffee_time.length; i++) {
+            sum += coffee_time[i];
+        }
+        avg = sum/ coffee_time.length; // 평균을 구하고
+        people = day_alltime/avg;
+        System.out.println("오늘 손님 수는 "+ people+ "명 입니다.");
+        return people;
+    }
     //        String[] day_selled_coffee = new String[5]; // 하루중에 팔린커피 목록
     //        int[] day_sell_count = new int[5]; // 하루 팔린 커피 몇 잔인지 다음 날 눌러지면 초기화되게 셋팅
 
@@ -498,22 +514,26 @@ public class Study20240703_1 {
     }
 
     public static int[][] eventpeopleHappy(int[][] people_happy, int[] coffee_happy, int coffee_or_event, int day, int people, int choice, int want_event_menu) { // 손님들 만족도 일반 주문용 이벤트용
-        if (coffee_or_event != 0) { // 이벤트 주문이라면
-            if (want_event_menu != 0) { // 원하는 메뉴였다면 1이니까
-                if ((people_happy[day][people] + 70) < 100) {
-                    people_happy[day][people] += 70;
-                } else { // 100보다 크면 그냥 100으로 셋팅
-                    people_happy[day][people] = 100;
-                }
-            }
-        } else { // 이벤트 주문이 아니라면
-            if ((people_happy[day][people] + coffee_happy[choice - 1]) < 100) {
-                people_happy[day][people] += coffee_happy[choice - 1];
-            } else {
+        // 이벤트 주문이라면
+        if (want_event_menu != 0) { // 원하는 메뉴였다면 1이니까
+            if ((people_happy[day][people] + 70) < 100) {
+                people_happy[day][people] += 70;
+            } else { // 100보다 크면 그냥 100으로 셋팅
                 people_happy[day][people] = 100;
             }
         }
+
         return people_happy;
+    }
+
+    public static void eventSuccess(int event_happy_sum, int coffee_event_man) {
+        int avg = 0;
+        avg = event_happy_sum/coffee_event_man;
+        if(avg > 50) {
+            System.out.println("성공적인 이벤트였습니다!\n 사람들의 만족도가 평균" + avg + "점 입니다.");
+        } else {
+            System.out.println("아쉬운 이벤트였습니다.\n 사람들의 만족도가 평균" + avg + "점 입니다.");
+        }
     }
 
     public static int[][] coffeeCountPrice(int[][] coffee_count_price, int[] coffee_time, int day_alltime) {
