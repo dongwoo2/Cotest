@@ -52,6 +52,8 @@ public class Study20240703_1 {
         int want_event_menu = 1; // 이벤트 메뉴중에서 원하는 메뉴였는지
         String[] day_selled_coffee = new String[5]; // 하루중에 팔린커피 목록
         int[] day_sell_count = new int[5]; // 하루 팔린 커피 몇 잔인지 다음 날 눌러지면 초기화되게 셋팅
+        int event_choice = 0;
+        int event_people = 0;
 
 
         coffeeName(coffee_names);
@@ -59,6 +61,11 @@ public class Study20240703_1 {
         while (flag) { // 장사 셋팅
             System.out.println("장사 시간을 정해주세요");
             day_alltime = dayHour(hour, minute);
+
+            if (day == 0) {
+                System.out.println("손님 수를 고르세요");
+                daypeople = sc.nextInt();
+            }
             showMenu(coffee_names);
             System.out.println("커피 5가지를 고르세요");
             for (int i = 0; i < coffee_select.length; i++) {
@@ -92,9 +99,9 @@ public class Study20240703_1 {
                             event_coffeetime[i] = event_coffeename_count_time[i + 2][j];
                         }
                     }
-
                 }
                 eventcomputer1(coffee_event_time, event_coffeetime, event_coffeename, coffee_count, day_alltime);
+
             } else if (choice == 2) { // 이벤트 설정을 하지 않을 떄 이벤트 관련된 것들 리셋
                 event_coffeename_count_time = eventResetNameCount(event_coffeename_count_time);
                 event_coffeename = eventResetName(event_coffeename);
@@ -109,202 +116,140 @@ public class Study20240703_1 {
         while (flag) { // 손님 받는 거
             System.out.println((day + 1) + "번 째 날 " + (people + 1) + "번 째 손님입니다.");
             if (coffee_event[0] > 0) { // 이벤트 설정한 게 있다면 이벤트는 장사 시작과 동시에 하자
+                coffee_or_event = 1;
                 while (flag2) {
                     coffee_event_man = coffee_event[0]; // 이벤트 인원
                     coffee_event_time = coffee_event[1]; // 이벤트 시간 설정
                     System.out.printf("이벤트 시간 %d분 진행합니다. 남은 인원 %d명 입니다.", coffee_event_time, coffee_event_man);
 
                     // 이벤트 메뉴 보여주어야함
-                    System.out.println("어떤 음료가 드시고 싶으십니까?");
+                    System.out.println("어떤 이벤트 음료가 드시고 싶으십니까?");
                     eventShowMenu(event_coffeename, event_coffeecount);
 
                     choice = sc.nextInt();
 
-                    if (event_coffeecount[choice - 1] == 0) { // 품절
-                        System.out.println("품절입니다. 다른 음료를 고르시겠습니까?");
+                    if (event_coffeecount[choice - 1] == 0 || coffee_event[1] < event_coffeetime[choice - 1]) { // 품절 또는 시간부족
+                        System.out.println("메뉴를 고를 수 없습니다. 다른 음료를 고르시겠습니까?");
                         System.out.println("1. 예 2. 아니오"); // 안 고를시 일반 주문으로 넘어감
                         choice = sc.nextInt();
 
-                        if (choice == 2) {
+                        if (choice == 1) {
+                            flag2 = true;
+                            want_event_menu = 0;
+                        } else if (choice == 2) { // 일반주문으로 넘어갔을 때
                             System.out.println("일반 주문으로 넘어갑니다. \n1. 메뉴보기 2. 나가기");
-
-                            if (choice == 1) {
-                                while (flag3) {
-                                    System.out.println("메뉴를 골라주세요.");
-                                    dailyShowMenu(day_sell_coffee, coffee_count, coffee_price);
-                                    choice = sc.nextInt();
-                                    if (coffee_count[choice - 1] == 0) { // 품절일 때
-                                        System.out.println("품절입니다. 다른 음료를 고르시겠습니까?");
-                                        System.out.println("1. 예 2. 아니오"); // 다음사람으로 넘어감
-                                        if (choice == 2) {
-                                            people_flag = peopleFlag(daypeople, people_flag);
-                                            if (people_flag == 0) { // 하루 손님의 수 마지막 손님이었다면
-                                                day++;
-                                                // 여기서 데이피플 정할건지
-                                                people = 0;
-                                                flag3 = false;
-                                            } else {
-                                                daypeople--;
-                                                people++;
-                                                flag3 = false;
-                                            }
-                                        }
-                                    } else if (coffee_count[choice - 1] > day_alltime) { // 시간 없을 때
-                                        System.out.println("시간이 부족합니다 다른 음료를 고르시겠습니까?");
-                                        System.out.println("1. 예 2. 아니오"); // 다음사람으로 넘어감
-                                        if (choice == 2) {
-                                            people_flag = peopleFlag(daypeople, people_flag);
-                                            if (people_flag == 0) { // 하루 손님의 수 마지막 손님이었다면
-                                                day++;
-                                                // 여기서 데이피플 정할건지
-                                                people = 0;
-
-                                                flag3 = false;
-                                            } else {
-                                                daypeople--;
-                                                people++;
-                                                flag3 = false;
-                                            }
-                                        }
-                                    } else { //1. 메뉴 추가 주문도 생각하기, 일반 주문이 잘 들어갔다면 돈, 무슨 커피를 팔았는지
-                                        System.out.println(day_sell_coffee[choice - 1] + " 이 장바구니에 담겼습니다 추가 주문하시겠습니까?");
-                                        coffee_count[choice - 1]--;
-                                        daymoney[day] = daymoney[day] + coffee_price[choice - 1]; //
-                                        day_alltime = day_alltime - coffee_time[choice - 1]; // 시간 빼기
-                                        System.out.println("1. 예 2. 아니오");
-                                        choice = sc.nextInt();
-                                        if (choice == 2) { // 주문을 그만 한다면
-                                            flag3 = false;
-                                            if (people_flag == 0) { // 하루 손님의 수 마지막 손님이었다면
-                                                day++;
-                                                // 여기서 데이피플 정할건지
-                                                people = 0;
-                                                flag3 = false;
-                                            } else {
-                                                daypeople--;
-                                                people++;
-                                                flag3 = false;
-                                            }
-                                        }
-                                    }
+                            int[][] originre = new int[day_sell_coffee.length + 2][1];
+                            originre = sellMenu(day_sell_coffee, coffee_count, coffee_price, day, people, coffee_time, day_alltime, money, people_happy, coffee_happy);
+                            for (int x = 0; x < originre.length; x++) {
+                                for (int y = 0; y < 1; y++) {
+                                    coffee_count[x] = originre[x][y];
                                 }
                             }
-                        } else if (choice == 2) {
-                            flag2 = false;
-                            flag = false;
-                            people_flag = peopleFlag(daypeople, people_flag);
-                            if (people_flag == 0) { // 하루 손님의 수
-                                day++;
-                                // 여기서 데이피플 정할건지
-                                people = 0;
-                            } else {
-                                daypeople--;
-                                people++;
+                            for (int i = 0; i < 1; i++) {
+                                for (int j = originre.length; j < originre.length + 1; j++) {
+                                    money = originre[j][i];
+                                    people_happy[day][people] = originre[j + 1][i];
+                                    day_alltime = originre[j + 2][i];
+                                }
                             }
-                        }
-                    } else if (coffee_event[1] < event_coffeetime[choice - 1]) { // 시간 부족할 때
-                        System.out.println("시간이 부족합니다 다른 음료를 고르시겠습니까?");
-                        System.out.println("1. 예 2. 아니오"); // 다음사람으로 넘어감
-                        if (choice == 2) {
-                            people_flag = peopleFlag(daypeople, people_flag);
-                            if (people_flag == 0) { // 하루 손님의 수 마지막 손님이었다면
+                            people++;
+                            daypeople--;
+                            coffee_event_man--; // event 항목이니까 지나가야됨
+                            if (daypeople == 0) {
                                 day++;
-                                // 여기서 데이피플 정할건지
-                                people = 0;
-                                flag3 = false;
-                            } else {
-                                daypeople--;
-                                people++;
-                                flag3 = false;
                             }
+                        } else {
+                            flag2 = true;
                         }
-                        want_event_menu = 0; // 여기서 이미 원하는 메뉴가 아니기에 세팅이 끝나야함
-                    } else { // System.out.println("모든 조건이 충족한다면");
-                        if (want_event_menu == 0) {
+                    } else { // 이벤트 주문이 가능 할 때
+                        if (want_event_menu == 0) { // 원하는 잔인지 아닌지 판별용
                             want_event_menu = 0;
                         } else {
                             want_event_menu = 1;
                         }
+
+                        people_happy = eventpeopleHappy(people_happy, coffee_happy, coffee_or_event, day, people, choice, want_event_menu);
+                        event_coffeecount[choice - 1]--; // 한 잔 줄이고 그리고 이벤트는 1잔이 맥시멈
+                        coffee_event_man--;
+                        System.out.println("이벤트는 1인 1잔이 맥시멈입니다. 일반 메뉴로 이동하시겠습니까? \n 1.예 2.아니오");
+                        choice = sc.nextInt();
+                        if (choice == 2) { // 일반 메뉴로 이동하지 않고 이벤트 끝 사람도 끝
+                            people++; // 사람 올려서 사람 바꿔주고
+                            coffee_event_man--;
+                            daypeople--;
+                            if (daypeople == 0) {
+                                day++;
+                                people = 0;
+                            }
+                        } else if (choice == 1) {
+                            // 기본 메뉴판으로 가야함
+                            int[][] originre = new int[day_sell_coffee.length + 3][1];
+                            originre = sellMenu(day_sell_coffee, coffee_count, coffee_price, day, people, coffee_time, day_alltime, money, people_happy, coffee_happy);
+                            for (int x = 0; x < originre.length; x++) {
+                                for (int y = 0; y < 1; y++) {
+                                    coffee_count[x] = originre[x][y];
+                                }
+                            }
+                            for (int i = 0; i < 1; i++) {
+                                for (int j = originre.length; j < originre.length + 1; j++) {
+                                    money = originre[j][i];
+                                    people_happy[day][people] = originre[j + 1][i];
+                                    day_alltime = originre[j + 2][i];
+                                }
+                            }
+                            people++;
+                            daypeople--;
+                            if (daypeople == 0) {
+                                day++;
+                                people = 0;
+                            }
+
+                        } else {
+                            // 예외처리
+                        }
+                        // 근데 여기서 고민되는거 하나 이벤트 한 사람이
                     }
 
-                }
-
-                // 장바구니로 선택하는 느낌으로 하자
-                // 메뉴가 없습니다 메뉴가 없으면 그냥 모달창 느낌으로 메뉴가 없어 한 다음에
-                //
-                for (int i = 0; i < event_coffeecount.length; i++) { // 이벤트 잔이 다 떨어지는거 확인용
-                    if (event_coffeecount[i] != 0) {
-                        event_flag = 1;
-                    } else {
-                        if (event_flag == 1) {
+                    for (int i = 0; i < event_coffeecount.length; i++) { // 이벤트 잔이 다 떨어지는거 확인용
+                        if (event_coffeecount[i] != 0) {
                             event_flag = 1;
                         } else {
-                            event_flag = 0;
+                            if (event_flag == 1) {
+                                event_flag = 1;
+                            } else {
+                                event_flag = 0;
+                            }
                         }
                     }
-                }
-                if (coffee_event_man == 0 || coffee_event_time == 0 || event_flag == 0) {
-                    flag2 = false;
-                }
-            } else { // 이벤트 설정한 게 없다면
-                while (flag3) {
-                    System.out.println("메뉴를 골라주세요.");
-                    dailyShowMenu(day_sell_coffee, coffee_count, coffee_price);
-                    choice = sc.nextInt();
-                    if (coffee_count[choice - 1] == 0) { // 품절일 때 시간 없을 때 고려해야함 시간도
-                        System.out.println("품절입니다. 다른 음료를 고르시겠습니까?");
-                        System.out.println("1. 예 2. 아니오"); // 다음사람으로 넘어감
-                        if (choice == 2) {
-                            people_flag = peopleFlag(daypeople, people_flag);
-                            if (people_flag == 0) { // 하루 손님의 수 마지막 손님이었다면
-                                day++;
-                                // 여기서 데이피플 정할건지
-                                people = 0;
-                                flag3 = false;
 
-                            } else {
-                                daypeople--;
-                                people++;
-                                flag3 = false;
-                            }
-                        }
-                    } else if (coffee_count[choice - 1] > day_alltime) { // 시간 없을 때
-                        System.out.println("시간이 부족합니다 다른 음료를 고르시겠습니까?");
-                        System.out.println("1. 예 2. 아니오"); // 다음사람으로 넘어감
-                        if (choice == 2) {
-                            people_flag = peopleFlag(daypeople, people_flag);
-                            if (people_flag == 0) { // 하루 손님의 수 마지막 손님이었다면
-                                day++;
-                                // 여기서 데이피플 정할건지
-                                people = 0;
-                                flag3 = false;
-                            } else {
-                                daypeople--;
-                                people++;
-                                flag3 = false;
-                            }
-                        }
-                    } else { //1. 메뉴 추가 주문도 생각하기, 일반 주문이 잘 들어갔다면 돈, 무슨 커피를 팔았는지
-                        System.out.println(day_sell_coffee[choice - 1] + " 이 장바구니에 담겼습니다 추가 주문하시겠습니까?");
-                        coffee_count[choice - 1]--;
-                        daymoney[day] = daymoney[day] + coffee_price[choice - 1]; //
-                        day_alltime = day_alltime - coffee_time[choice - 1]; // 시간 빼기
-                        System.out.println("1. 예 2. 아니오");
-                        choice = sc.nextInt();
-                        if (choice == 2) { // 주문을 그만 한다면
-                            flag3 = false;
-                            if (people_flag == 0) { // 하루 손님의 수 마지막 손님이었다면
-                                day++;
-                                // 여기서 데이피플 정할건지
-                                people = 0;
-                                flag3 = false;
-                            } else {
-                                daypeople--;
-                                people++;
-                                flag3 = false;
-                            }
-                        }
+                    if (coffee_event_man == 0 || coffee_event_time == 0 || event_flag == 0) { // 커피 이벤트 타임이 제일 적은 메뉴보다 시간이 적을시에 flag2 = false로 바꿔야함
+                        flag2 = false;
                     }
+
+                }
+
+
+            } else { // 이벤트 설정한 게 없다면
+
+                int[][] originre = new int[day_sell_coffee.length + 3][1];
+                originre = sellMenu(day_sell_coffee, coffee_count, coffee_price, day, people, coffee_time, day_alltime, money, people_happy, coffee_happy);
+                for (int x = 0; x < originre.length; x++) {
+                    for (int y = 0; y < 1; y++) {
+                        coffee_count[x] = originre[x][y];
+                    }
+                }
+                for (int i = 0; i < 1; i++) {
+                    for (int j = originre.length; j < originre.length + 1; j++) {
+                        money = originre[j][i];
+                        people_happy[day][people] = originre[j + 1][i];
+                        day_alltime = originre[j + 2][i];
+                    }
+                }
+                people++;
+                daypeople--;
+                if (daypeople == 0) {
+                    day++;
+                    people = 0;
                 }
             }
         }
@@ -313,6 +258,111 @@ public class Study20240703_1 {
 
     //        String[] day_selled_coffee = new String[5]; // 하루중에 팔린커피 목록
     //        int[] day_sell_count = new int[5]; // 하루 팔린 커피 몇 잔인지 다음 날 눌러지면 초기화되게 셋팅
+
+    //리턴목록
+    // 1~5. 줄어든 커피메뉴, 6. 올라간 돈 , 7. 마지막 손님인지 아닌지. 8. 사람 행복도 9. 날짜
+
+    // 이벤트용도 하나 만들어야함 이벤트를 같이 쓸 순 없음
+    // 딱 한사람의 주문 한 사람의 주문이 끝나면 다음 사람으로 넘어감
+    public static int[][] sellMenu(String[] day_sell_coffee, int[] coffee_count, int[] coffee_price, int day, int people, int[] coffee_time, int day_alltime, int money, int[][] people_happy, int[] coffee_happy) {
+        // 장바구니 시스템이다 보니까 그냥 주문 취소하면 원래꺼 리턴할게 있어야함
+        int[][] changere = new int[day_sell_coffee.length + 3][1]; // 얘가 바뀐거 보낼 return
+        int[][] originre = new int[day_sell_coffee.length + 3][1]; // 얘가 원래 return
+        int coffee_choice = 0;
+        int coffeecountindex = 0;
+        int peopleflagindex = 0;
+//        int coffeechoiceindex = 0;
+        int peoplehappyindex = 0;
+        int dayalltimeindex = 0;
+        int moneyindex = 0;
+        int peopleindex = 0;
+        int dayindex = 0;
+        int buycount = 0; // 손님이 하나도 안샀으면 origin 리턴 하나라도 샀으면 changere 리턴
+
+        for (int i = 0; i < day_sell_coffee.length + 2; i++) {
+            for (int j = 0; j < 1; j++) { // 커피 갯수 일단 집어넣고
+                originre[i][j] = coffee_count[j];
+                changere[i][j] = coffee_count[j];
+            }
+
+        }
+        for (int k = 0; k < 1; k++) {
+            for (int t = day_sell_coffee.length; t < day_sell_coffee.length + 1; t++) {
+                originre[t][k] = money;
+                changere[t][k] = money;
+                moneyindex = t;
+
+                originre[t + 1][k] = people_happy[day][people - 1];
+                changere[t + 1][k] = people_happy[day][people - 1];
+                peoplehappyindex = t + 1;
+
+
+                originre[t + 2][k] = day_alltime;
+                changere[t + 2][k] = day_alltime;
+                dayalltimeindex = t + 2;
+
+            }
+        }
+
+        boolean flag1 = true;
+        boolean flag3 = true;
+        int choice = 0;
+        while (flag1) {
+            System.out.println("메뉴를 골라주세요.");
+            dailyShowMenu(day_sell_coffee, coffee_count, coffee_price);
+            coffee_choice = sc.nextInt();
+            if (coffee_count[coffee_choice - 1] == 0) { // 품절일 때 시간 없을 때 고려해야함 시간도
+                System.out.println("품절입니다. 다른 음료를 고르시겠습니까?");
+                System.out.println("1. 예 2. 아니오"); // 다음사람으로 넘어감
+                choice = sc.nextInt();
+                if (choice == 2) {
+                    if (buycount > 0) {
+                        return changere;
+                    } else {
+                        return originre;
+                    }
+                } else if (choice == 1) {
+                    flag1 = true;
+                }
+            } else if (coffee_time[coffee_choice - 1] > day_alltime) {
+                System.out.println("영업시간 이내에 만들 수 없습니다. 다른 음료를 고르시겠습니까?");
+                System.out.println("1. 예 2. 아니오"); // 다음사람으로 넘어감
+                // 다음 사람으로 넘어가면 이 함수도 끝나야함
+                choice = sc.nextInt();
+                if (choice == 2) {
+                    if (buycount > 0) {
+                        return changere;
+                    } else {
+                        return originre;
+                    }
+                } else if (choice == 1) {
+                    flag1 = true;
+                }
+            } else { // 정상 주문이 된다면
+                buycount++;
+                people_happy = peopleHappy(people_happy, coffee_happy, day, people, coffee_choice - 1);
+                changere[coffee_choice - 1][0] = coffee_count[coffee_choice - 1] - 1;
+                changere[moneyindex][0] += coffee_price[coffee_choice - 1];
+                changere[peoplehappyindex][0] = people_happy[day][people];
+                changere[dayalltimeindex][0] = day_alltime - coffee_time[coffee_choice - 1];
+                System.out.println("메뉴가 정상적으로 담겼습니다. 더 주문하시겠습니까? \n 1. 예 2. 아니오 3. 주문 취소");
+                choice = sc.nextInt();
+                if (choice == 1) {
+                    flag1 = true;
+                } else if (choice == 2) {
+                    System.out.println("주문이 완료되었습니다.");
+                    return changere;
+                } else if (choice == 3) {
+                    return originre;
+                }
+            }
+        }
+        if (buycount > 0) {
+            return originre;
+        } else {
+            return changere;
+        }
+    }
 
     public static int[][] AllSellistCount(int[] day_sell_count, int[][] allday_sell_count, int day) {
         for (int i = day - 1; i < day; i++) {
@@ -394,6 +444,7 @@ public class Study20240703_1 {
         return event_coffeetime;
     }
 
+    // 꼭 필요한가?
     public static int peopleFlag(int daypeople, int people_flag) {
         if (daypeople != 0) {
             System.out.println("다음 손님으로 넘어갑니다.");
@@ -436,7 +487,17 @@ public class Study20240703_1 {
     }
 
 
-    public static int[][] peopleHappy(int[][] people_happy, int[] coffee_happy, int coffee_or_event, int day, int people, int choice, int want_event_menu) { // 손님들 만족도 일반 주문용 이벤트용
+    public static int[][] peopleHappy(int[][] people_happy, int[] coffee_happy, int day, int people, int coffee_choice) { // 그냥 주문 행복도용
+        if ((people_happy[day][people] + coffee_happy[coffee_choice - 1]) < 100) {
+            people_happy[day][people] += coffee_happy[coffee_choice - 1];
+        } else {
+            people_happy[day][people] = 100;
+        }
+
+        return people_happy;
+    }
+
+    public static int[][] eventpeopleHappy(int[][] people_happy, int[] coffee_happy, int coffee_or_event, int day, int people, int choice, int want_event_menu) { // 손님들 만족도 일반 주문용 이벤트용
         if (coffee_or_event != 0) { // 이벤트 주문이라면
             if (want_event_menu != 0) { // 원하는 메뉴였다면 1이니까
                 if ((people_happy[day][people] + 70) < 100) {
@@ -539,7 +600,7 @@ public class Study20240703_1 {
         boolean flag = true;
         int i = 0;
         while (flag) {
-            if (event_coffeename[i].equals(null)) {
+            if (event_coffeecount[i] == 0) {
                 System.out.println(" ");
             } else if (event_coffeecount[i] == 0) {
                 System.out.println("품절");
@@ -682,11 +743,24 @@ public class Study20240703_1 {
 
                 j++;
                 if (j == day_sell_coffee.length) {
-                    System.out.println("이벤트 메뉴가 가득 찼습니다.");
+                    System.out.println("이벤트 메뉴가 가득 찼습니다. 나갑니다.");
                     flag = false;
                 }
             } else {
-                flag = false;
+                if (event_coffeename_count_time[0][0] == 0) {
+                    System.out.println("메뉴가 하나도 없습니다 정말 나가시겠습니까?\n 1. 예 2. 아니오");
+                    choice = sc.nextInt();
+                    if (choice == 1) {
+                        flag = false;
+                    } else if (choice == 2) {
+                        flag = true;
+                    } else {
+                        System.out.println("잘못 누르셨습니다. 메뉴를 다시 골라주세요");
+                        flag = true;
+                    }
+                } else {
+                    flag = false;
+                }
             }
         }
         return event_coffeename_count_time;
@@ -700,6 +774,7 @@ public class Study20240703_1 {
         int maxcount = 0;
         int t = 0;
         int[] countsort = new int[5];
+        int[] timesort = new int[5];
         boolean flag = true;
         int syscnt = 0;
         int syslast = 0;
@@ -711,16 +786,23 @@ public class Study20240703_1 {
 
 
         //
-        int cnt = 0;
+        int cnttime = 0;
+        int cntcount = 0;
         for (int a = 0; a < coffee_time.length; a++) {
-            countsort[a] = coffee_time[a];
+            timesort[a] = coffee_time[a]; // 다 옮겨담기
+            countsort[a] = coffee_count[a];
             namecoffee[a] = day_sell_coffee[a];
         }
         for (int j = 0; j < coffee_time.length - 2; j++) {
-            if (countsort[j] > countsort[j + 1]) {
-                cnt = countsort[j];
+            if (timesort[j] > timesort[j + 1]) {
+                cnttime = timesort[j]; // 결국 제일 커피 만드는 빠른 순서가 맨 앞으로감
+                timesort[j] = timesort[j + 1]; // 그것이 countsort에 담김
+                timesort[j + 1] = cnttime;
+
+                cntcount = countsort[j]; // 갯수
                 countsort[j] = countsort[j + 1];
-                countsort[j + 1] = cnt;
+                countsort[j + 1] = cntcount;
+
                 cntname = namecoffee[j];
                 namecoffee[j] = namecoffee[j + 1];
                 namecoffee[j + 1] = cntname;
@@ -728,7 +810,7 @@ public class Study20240703_1 {
             }
             if (j == coffee_time.length - 2) {
                 for (int k = 0; k < coffee_time.length - 2; k++) {
-                    if (countsort[k] > countsort[k + 1]) {
+                    if (timesort[k] > timesort[k + 1]) {
                         j = 0;
                     }
 
@@ -737,22 +819,22 @@ public class Study20240703_1 {
         }
 
         for (int i = 0; i < coffee_time.length; i++) {
-            int time = (coffee_time[i] * coffee_count[i]);
+            int time = (timesort[i] * countsort[i]);
             if (day_alltime >= time) { // 1차적으로 효율계산
                 day_alltime -= time;
                 sysname[i] = namecoffee[i];
-                syscount[i] = coffee_count[i];
+                syscount[i] = countsort[i]; // 근데 느닺없이 coffee_count가 오네 순서가 안맞음 count도 순서 맞춰야함
                 syscnt++;
             } else if (day_alltime < time && syslast == 0) {
-                while (flag) {
-                    time -= coffee_time[i];
-                    coffee_count[i]--;
+                while (flag) { // 하나 하나 줄이면서 마지막 효율 뽑아내기
+                    time -= timesort[i];
+                    countsort[i]--;
                     if (time > day_alltime) {
                         flag = true;
                     } else {
                         day_alltime -= time;
                         sysname[i] = namecoffee[i];
-                        syscount[i] = coffee_count[i];
+                        syscount[i] = countsort[i];
                         syscnt++;
                         syslast++;
                         flag = false;
@@ -778,61 +860,82 @@ public class Study20240703_1 {
         int max = 0;
         int maxcount = 0;
         int t = 0;
-        int[] countsort = new int[5];
         boolean flag = true;
         int syscnt = 0;
         int syslast = 0;
-        String[] namecoffee = new String[5];
         String cntname = "";
+        int eventcount = 0;
 
         String[] sysname = new String[5];
         int[] syscount = new int[5];
 
 
         //
-        int cnt = 0;
-        event_coffee_name.equals("null"); // 이걸로 갯수 정해서 그 갯수만큼 for문으로 돌리는걸로 바꿔야할듯
-        for (int a = 0; a < event_coffeetime.length; a++) {
-            countsort[a] = event_coffeetime[a];
-            namecoffee[a] = event_coffee_name[a];
-        }
-        for (int j = 0; j < event_coffeetime.length - 2; j++) {
-            if (countsort[j] > countsort[j + 1]) {
-                cnt = countsort[j];
-                countsort[j] = countsort[j + 1];
-                countsort[j + 1] = cnt;
-                cntname = namecoffee[j];
-                namecoffee[j] = namecoffee[j + 1];
-                namecoffee[j + 1] = cntname;
+        int cnttime = 0;
+        int cntcount = 0;
 
+
+        for (int a = 0; a < event_coffeetime.length; a++) {
+            if (event_coffeetime[a] != 0) {
+                eventcount++;
             }
-            if (j == event_coffeetime.length - 2) {
-                for (int k = 0; k < event_coffeetime.length - 2; k++) {
-                    if (countsort[k] > countsort[k + 1]) {
-                        j = 0;
-                    }
+        }
+
+        int[] countsort = new int[eventcount];
+        int[] timesort = new int[eventcount];
+        String[] namecoffee = new String[eventcount];
+
+        for (int b = 0; b < eventcount; b++) { // 당연히 첫번째에 들어가니까 1개만 있는건 할 필요 없고
+            timesort[b] = event_coffeetime[b];
+            namecoffee[b] = event_coffee_name[b];
+        }
+
+        if (eventcount > 1) {
+            for (int j = 0; j < eventcount; j++) {
+
+                if (timesort[j] > timesort[j + 1]) {
+                    cnttime = timesort[j]; // 시간
+                    timesort[j] = timesort[j + 1];
+                    timesort[j + 1] = cnttime;
+
+                    cntcount = countsort[j]; // 갯수
+                    countsort[j] = countsort[j + 1];
+                    countsort[j + 1] = cntcount;
+
+                    cntname = namecoffee[j];
+                    namecoffee[j] = namecoffee[j + 1];
+                    namecoffee[j + 1] = cntname;
 
                 }
+                if (j == eventcount) { // 체크 다 정렬됐는지
+                    for (int k = 0; k < eventcount; k++) {
+                        if (timesort[k] > timesort[k + 1]) {
+                            j = 0;
+                        }
+
+                    }
+                }
+
             }
         }
 
-        for (int i = 0; i < event_coffeetime.length; i++) {
-            int time = (event_coffeetime[i] * event_coffee_count[i]);
+        for (int i = 0; i < eventcount; i++) {
+            int time = (timesort[i] * countsort[i]);
             if (coffee_event_time >= time) { // 1차적으로 효율계산
                 coffee_event_time -= time;
                 sysname[i] = namecoffee[i];
-                syscount[i] = event_coffee_count[i];
+                syscount[i] = countsort[i];
                 syscnt++;
             } else if (coffee_event_time < time && syslast == 0) {
                 while (flag) {
-                    time -= event_coffeetime[i];
-                    event_coffee_count[i]--;
+                    time -= timesort[i];
+                    countsort[i]--;
                     if (time > coffee_event_time) {
                         flag = true;
                     } else {
                         coffee_event_time -= time;
                         sysname[i] = namecoffee[i];
-                        syscount[i] = event_coffee_count[i];
+                        syscount[i] = countsort[i];
                         syscnt++;
                         syslast++;
                         flag = false;
@@ -840,13 +943,14 @@ public class Study20240703_1 {
                 }
             }
         }
-        if (syscnt == 1 && !sysname.equals(null)) {
+
+        if (syscnt == 1 && syscount[0] != 0) {
             System.out.println(sysname[0] + "를 " + syscount[0] + "개 파는것이 제일 효율적입니다.");
         }
         for (int x = 0; x <= syscnt - 1; x++) {
-            if (x == syscnt - 1 && !sysname.equals(null)) {
+            if (x == syscnt - 1 && syscount[x] != 0) {
                 System.out.println(sysname[x] + "를 " + syscount[x] + "개를 파는것이 제일 효율적입니다.");
-            } else if(!sysname.equals(null)){
+            } else if (syscount[x] != 0) {
                 System.out.println(sysname[x] + "를 " + syscount[x] + "개,");
             }
         }
