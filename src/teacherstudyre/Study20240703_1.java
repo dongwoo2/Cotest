@@ -68,7 +68,7 @@ public class Study20240703_1 {
         int clean_item = 1; // 1 초급 2 중급 3 고급
 
         int panalty_check = 0; // 0은 패널티 없는거 1은 패널티 있음 근무시간 넘어가서 일하면 패널티 생겨서 근무시간 1시간 줄어듬
-
+        int[][] next_choice = new int[20][3];
 
         coffeeName(coffee_names);
 
@@ -135,6 +135,7 @@ public class Study20240703_1 {
             }
 
 
+
             while (flag2) { // 손님 받는 거
                 System.out.println((day + 1) + "번 째 날 " + (people + 1) + "번 째 손님입니다.");
                 if (coffee_event[0] > 0) { // 이벤트 설정한 게 있다면 이벤트는 장사 시작과 동시에 하자
@@ -179,7 +180,7 @@ public class Study20240703_1 {
                                 people++;
                                 daypeople--;
                                 coffee_event_man--; // event 항목이니까 지나가야됨
-                                if (daypeople < 0 && day_alltime < 20) { // 20분보다 적으면 그냥 영업종료 원래는 제일 시간 적게드는 음료보다 작으면 으로 할려고했는데 일단 20으로
+                                if (daypeople < 0 || day_alltime < 30) { // 30분보다 적으면 그냥 영업종료 원래는 제일 시간 적게드는 음료보다 작으면 으로 할려고했는데 일단 20으로
                                     people_count[day][0] = people;
                                     // 여기 부터 함수로 만들 수 있지 않나?
                                     System.out.println("오늘의 영업이 끝났습니다."); // 생각해보니까 영업시간 오바가 없음
@@ -209,6 +210,8 @@ public class Study20240703_1 {
                                         // 물품사는 함수 근데 1시간 이상이 있어야 구매가능
                                     }
 
+                                } else if(day_alltime < 60 && day_alltime > 30) {
+                                    System.out.println("영업종료 " + day_alltime + "분 전입니다.");
                                 }
                             } else {
                                 System.out.println("잘못입력 다시 이벤트 페이지로 이동");
@@ -229,12 +232,13 @@ public class Study20240703_1 {
                             choice = sc.nextInt();
                             if (choice == 2) { // 일반 메뉴로 이동하지 않고 이벤트 끝 사람도 끝
                                 people++; // 사람 올려서 사람 바꿔주고
-                                coffee_event_man--;
                                 daypeople--;
-                                if (daypeople < 0) {
+                                if (daypeople == 0 || day_alltime < 0) { // 사람수가 끝나면 장사가 끝난거니까
                                     people_count[day][0] = people;
                                     dayHowmuch(money, people_happy, people, coffee_count, coffee_count_price, day_sell_coffee);
-                                    day++;
+                                    System.out.println("오늘의 영업이 끝났습니다.");
+                                    nextchoice(money,next_choice,day_alltime); // 여기 다음날 갈 때 이것저것 정해지는 함수 설정
+                                    // 이함수 전제조건 그냥 무조건 끝나야함
                                     people = 0;
                                     settingflag = 0;
                                     flag2 = false;
@@ -406,7 +410,7 @@ public class Study20240703_1 {
         }
         avg = sum / coffee_time.length; // 평균을 구하고
         people = day_alltime / avg;
-        System.out.println("오늘 손님 수는 " + people + "명 입니다.");
+        System.out.println("오늘 적정 손님 수는 " + people + "명 입니다.");
         return people;
     }
     //        String[] day_selled_coffee = new String[5]; // 하루중에 팔린커피 목록
@@ -1231,5 +1235,121 @@ public class Study20240703_1 {
         System.out.println("총 " + sum + "잔이 팔렸습니다.");
         System.out.println("하루 매출은 " + money + "원 입니다.");
 
+    }
+    // 1번은 청소 근데 두번 째는 얼마나 안했는지 얘를 들어 [0][7] 은 7일을 안한거임
+    // 청소를 하루 씩 안할수록 패널티 만족도 패털티 10퍼센트 추가 전체 만족도 10퍼센트 감소
+    // 2는 커피 바꾸는 기능 1 - 저급 , 2 - 중급 3 - 고급
+    // 3은 커피기기 - 이것도 3단계 정해놓고 1은 1분감소 원가 10퍼 증가 2는 2분감소 원가 20퍼 증가 3은 3분감소 원가 효율 30퍼 증가
+    // 일을 다 끝냈을때 노동적인 요소가 들어감 이제 청소 예를 들어 청소가 30분걸리는데 저급으로 할 때 그렇다면
+    // 총 시간보다 오버 됐으므로 문제가 생김
+    // 4는 청소도구
+    // 5는 인테리어 - 만족도
+    // 6은 빨대 같은 기타도구 - 만족도
+    // 7은 커피 원가외 문제 있는거
+    // 20은 돈 하자
+    public static int[][] nextchoice(int money, int next_choice[][], int day_alltime) { // 1 0 청소 ,
+        next_choice[20][0] = money;
+        int choice = 0;
+        int choice2 = 0;
+        int intgrade = 0;
+        int howmoney = 0;
+        boolean flag = true;
+        boolean flag2 = true;
+        String stringgrade = "";
+        String what = "";
+        int[][] howmuch = new int[7][3]; // 바꿀 선택과 물품수
+        for (int i = 1; i < 7; i++) { // 왜냐면 1은 청소니까
+            for (int j = 0; j < howmuch[i].length; j++) {
+                if (i == 1) { // 커피 원두
+                    howmoney = 100;
+                } else if (i == 4) { // 인테리어 가격이 많이 다른것들만 조절
+                    howmoney = 1000000;
+                } else {
+                    howmoney = 100000;
+                }
+                howmuch[i][j] = howmoney * (j + 1);
+            }
+        }
+        while (flag) {
+            System.out.println("1. 청소 2. 커피원두 바꾸기 3. 커피기기 바꾸기 4. 청소도구 바꾸기 5. 인테리어 바꾸기 6. 기타도구 바꾸기 7. 커피 외 원재료 바꾸기 8. 매출확인");
+            choice = sc.nextInt();
+            if (money < 100) { // 돈이 너무 없을때는 청소부터 해라
+                System.out.println("무언가를 사기에는 돈이 부족합니다");
+                System.out.println("청소가 진행됩니다.");
+                choice = 1;
+            }
+            if (choice == 1) {
+                what = "청소";
+            } else if (choice == 2) {
+                what = "커피원두";
+            } else if (choice == 3) {
+                what = "커피기기";
+            } else if (choice == 4) {
+                what = "청소도구";
+            } else if (choice == 5) {
+                what = "인테리어";
+            } else if (choice == 6) {
+                what = "기타도구";
+            } else if (choice == 7) {
+                what = "커피 외 원재료";
+            } else {
+                System.out.println("잘못 선택하셨습니다.");
+            }
+            if (choice == 1) {
+                next_choice[0][0]++;
+                intgrade = next_choice[3][0];
+                if (intgrade == 1) {
+                    intgrade = 30;
+                } else if (intgrade == 2) {
+                    intgrade = 20;
+                } else if (intgrade == 3) {
+                    intgrade = 10;
+                } else {
+                    System.out.println("오류 입니다. 청소기기 설정이 이상합니다.");
+                    intgrade = 0;
+                }
+                if (intgrade > day_alltime) { // 패널티
+                    intgrade -= day_alltime;
+                    next_choice[0][1] = 1;
+                    return next_choice;
+                }
+
+            } else if (choice != 1 && choice < 8) {
+                intgrade = next_choice[choice][0];
+                if (intgrade == 1) {
+                    stringgrade = "저급";
+                } else if (intgrade == 2) {
+                    stringgrade = "중급";
+                } else if (intgrade == 3) {
+                    stringgrade = "고급";
+                }
+                while (flag2) {
+                    System.out.println("현재 " + what + "은(는) " + stringgrade + " 입니다.");
+                    System.out.println("저급 : " + howmuch[choice][0] + "원");
+                    System.out.println("중급 : " + howmuch[choice][1] + "원");
+                    System.out.println("고급 : " + howmuch[choice][2] + "원");
+
+                    System.out.println("어떤 것을 선택하시겠습니까?");
+                    choice2 = sc.nextInt();
+                    if (choice2 > 0 && choice2 < 4 && choice2 != intgrade) { // 품목도 같으면 안도;ㅁ
+                        if (next_choice[20][0] > howmuch[choice][choice2 - 1]) {
+                            next_choice[choice][0] = choice2;
+                            next_choice[20][0] =- howmuch[choice][choice2 - 1];
+                            System.out.println("정상적으로 바뀌었습니다.");
+                            return next_choice;
+                        } else {
+                            System.out.println("돈이 부족합니다.");
+                        }
+                    } else if (intgrade == choice2) {
+                        System.out.println("품목이 같습니다 다시 선택해주세요.");
+                    } else {
+                        System.out.println("잘못 선택 다시 선택 바람");
+                    }
+                }
+            } else {
+                System.out.println("잘못 선택하셨습니다.");
+            }
+        }
+        return next_choice;
     }
 }
