@@ -162,6 +162,8 @@ public class Study20240703_1 {
                     flag6 = true;
                 }
                 flag4 = true;
+
+
                 while (flag3) { // 이벤트
                     System.out.printf("이벤트 시간 %d분 진행합니다. 남은 인원 %d명 입니다.", coffee_event_time, coffee_event_man);
                     System.out.println("어떤 이벤트 음료가 드시고 싶으십니까?");
@@ -207,6 +209,9 @@ public class Study20240703_1 {
                             } else {
                                 System.out.println("잘못 입력하셨습니다 다시 입력해주세요.");
                             }
+                        } else if(choice == 1) {
+                            flag4 = true;
+                            flag6 = false;
                         }
                         }
                     }
@@ -283,6 +288,7 @@ public class Study20240703_1 {
                         people = 0;
                         settingflag = 0;
                         flag5 = false;
+                        flag2 = true;
             }
 
         }
@@ -613,10 +619,12 @@ public class Study20240703_1 {
             count = 1;
         }
 
-        for (int i = 1; i < 2; i++) {
-            for (int j = 0; j < coffee_price.length; j++) {
-                percent = coffee_count_price[i][j] / count;
-                coffee_price[j] = coffee_count_price[i][j] + percent;
+        if(grade == 2 || grade == 3) {
+            for (int i = 1; i < 2; i++) {
+                for (int j = 0; j < coffee_price.length; j++) {
+                    percent = coffee_count_price[i][j] / count;
+                    coffee_price[j] = coffee_count_price[i][j] + percent;
+                }
             }
         }
         return coffee_price;
@@ -804,6 +812,7 @@ public class Study20240703_1 {
         }
     }
 
+    // FIXME 메뉴 하나만 보임 
     public static void eventShowMenu(String[] event_coffeename, int[] event_coffeecount) { // 이름 뿐만 아니라 남은 잔수도 보여주는게 더 편할 듯
         boolean flag = true;
         int i = 0;
@@ -956,9 +965,12 @@ public class Study20240703_1 {
 
     public static int[][] coffeeEvent2(int[] coffee_evnet, String[] day_sell_coffee, int[] coffee_price, int[] coffee_count, int[] coffee_time) { // 커피 메뉴 , 수량 고르기 1 메뉴 2 수량
         int choice = 0;
+        int choice2 = 0;
         boolean flag = true;
         int i = 0;
         int j = 0;
+        int eventcoffeetime_sum = 0;
+        int[] outmenu = new int[10];
 
         int[][] event_coffeename_count_time = new int[3][5];
         for (int t = 0; t < event_coffeename_count_time.length; t++) { // 0으로 초기화
@@ -970,17 +982,31 @@ public class Study20240703_1 {
             System.out.println("1. 이벤트 메뉴추가 2.나가기");
             choice = sc.nextInt();
             if (choice == 1) {
-                dailyShowMenu(day_sell_coffee, coffee_count, coffee_price);
+                dailyShowMenu(day_sell_coffee, coffee_count, coffee_price); // TODO 이벤트 메뉴 추가하면 안보이게 해야함
                 System.out.println("메뉴를 골라주세요");
                 choice = sc.nextInt();
-                // 이 부분 예외 설정 해야함
-                event_coffeename_count_time[i][j] = choice; // 함수밖으로 나가서 day_sellcoffee로부터 이름 받을수 있게
-                event_coffeename_count_time[i + 2][j] = coffee_time[choice - 1]; // 시간을 이 때 받아야함 아니면 choice 값 때문에 오류남
-                System.out.printf("잔 수를 설정해주세요");
-                choice = sc.nextInt();
-                event_coffeename_count_time[i + 1][j] = choice;
+                if(coffee_count[choice - 1] < 0) {
+                    System.out.println("메뉴 최대량을 넘었습니다.");
+                } else {
+                    // 이 부분 예외 설정 해야함
+                    event_coffeename_count_time[i][j] = choice; // 함수밖으로 나가서 day_sellcoffee로부터 이름 받을수 있게
+                    event_coffeename_count_time[i + 2][j] = coffee_time[choice - 1]; // 시간을 이 때 받아야함 아니면 choice 값 때문에 오류남
+                    System.out.printf("잔 수를 설정해주세요");
+                    choice2 = sc.nextInt();
+                    if(coffee_count[choice - 1] < choice2) {
+                        System.out.println("메뉴 최대량을 넘겼습니다. 메뉴 선택 화면으로 돌아갑니다.");
+                    } else {
+                        event_coffeename_count_time[i + 1][j] = choice2;
+                        coffee_count[choice - 1] -= choice2;
+                        j++;
+                        eventcoffeetime_sum += coffee_time[choice-1] * choice2;
+                        if(eventcoffeetime_sum > coffee_evnet[1]) {
+                            System.out.println("커피 이벤트 시간을 초과하였습니다. 메뉴 선택이 끝납니다.");
+                            flag = false;
+                        }
+                    }
+                }
 
-                j++;
                 if (j == day_sell_coffee.length) {
                     System.out.println("이벤트 메뉴가 가득 찼습니다. 나갑니다.");
                     flag = false;
