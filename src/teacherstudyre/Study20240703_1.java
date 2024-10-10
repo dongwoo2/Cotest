@@ -133,6 +133,7 @@ public class Study20240703_1 {
                 if (choice == 1) {
                     coffee_event = coffeeEvent1(day_alltime); // coffee_event의 0은 인원, 1은 시간
                     event_coffeename_count_time = coffeeEvent2(coffee_event, day_sell_coffee, coffee_price, coffee_count, coffee_time);
+                    // 이벤트 메뉴가 없으면 이벤트가 진행이 되면 안되는데 메뉴없이 진행이되서 만족도가 0점이 됨
                     for (int i = 0; i < 1; i++) { // 얘도 함수로 뺴야함
                         for (int j = 0; j < event_coffeename_count_time[i].length; j++) {
                             if (event_coffeename_count_time[i][j] != 0) { //
@@ -155,7 +156,8 @@ public class Study20240703_1 {
             coffee_event_man = coffee_event[0]; // 이벤트 인원
             coffee_event_time = coffee_event[1]; // 이벤트 시간 설정
             while (flag2) { // 장사 시작
-                System.out.println((day + 1) + "번 째 날 " + (people + 1) + "번 째 손님입니다.");
+                //System.out.println((day + 1) + "번 째 날 " + (people + 1) + "번 째 손님입니다.");
+                System.out.println((day + 1) + "번 째 날 입니다." );
                 if (coffee_event[0] > 0) {
                     coffee_or_event = 1;
                     flag3 = true;
@@ -247,18 +249,20 @@ public class Study20240703_1 {
                 if (coffee_count[choice - 1] > 0 && day_alltime > coffee_time[choice - 1]) { // 여기 수정해야함
 
                 }
-                int[][] originre = new int[day_sell_coffee.length + 3][1]; // FIXME 잔수 버그 있음
+                System.out.println((people + 1) + "번 째 사람입니다.");
+                int[][] originre = new int[10][0];
                 originre = sellMenu(day_sell_coffee, coffee_count, coffee_price, day, people, coffee_time, day_alltime, money, people_happy, coffee_happy);
+
                 for (int x = 0; x < 5; x++) { // 카운트에 0,1,2,3,4 인덱스 값이 들어가야하는데 안들어가고 다른값이 들어감
                     for (int y = 0; y < 1; y++) {
-                        coffee_count[x] = originre[x][y];
+                        coffee_count[x] = originre[x][0];
                     }
                 }
                 for (int i = 0; i < 1; i++) {
                     for (int j = day_sell_coffee.length; j < day_sell_coffee.length; j++) {
-                        money = originre[j][i];
-                        people_happy[day][people] = originre[j + 1][i];
-                        day_alltime = originre[j + 2][i];
+                        money = originre[j][0];
+                        people_happy[day][people] = originre[j + 1][0];
+                        day_alltime = originre[j + 2][0];
                     }
                 }
                 if (day_alltime < 90) {
@@ -389,10 +393,12 @@ public class Study20240703_1 {
 
     // 이벤트용도 하나 만들어야함 이벤트를 같이 쓸 순 없음
     // 딱 한사람의 주문 한 사람의 주문이 끝나면 다음 사람으로 넘어감
-    public static int[][] sellMenu(String[] day_sell_coffee, int[] coffee_count, int[] coffee_price, int day, int people, int[] coffee_time, int day_alltime, int money, int[][] people_happy, int[] coffee_happy) {
+
+    /*
+    public static int[] sellMenu(String[] day_sell_coffee, int[] coffee_count, int[] coffee_price, int day, int people, int[] coffee_time, int day_alltime, int money, int[][] people_happy, int[] coffee_happy) {
         // 장바구니 시스템이다 보니까 그냥 주문 취소하면 원래꺼 리턴할게 있어야함
-        int[][] changere = new int[day_sell_coffee.length + 4][1]; // 얘가 바뀐거 보낼 return
-        int[][] originre = new int[day_sell_coffee.length + 4][1]; // 얘가 원래 return
+        int[] changere = new int[10]; // 얘가 바뀐거 보낼 return 5개 + 4
+        int[] originre = new int[10]; // 얘가 원래 return
         int coffee_choice = 0;
         int coffeecountindex = 0;
         int peopleflagindex = 0;
@@ -404,30 +410,28 @@ public class Study20240703_1 {
         int dayindex = 0;
         int buycount = 0; // 손님이 하나도 안샀으면 origin 리턴 하나라도 샀으면 changere 리턴
 
-        for (int i = 0; i < day_sell_coffee.length; i++) {
-            for (int j = 0; j < 1; j++) { // 커피 갯수 일단 집어넣고
-                originre[i][j] = coffee_count[j];
-                changere[i][j] = coffee_count[j];
-            }
+
+        for(int i = 0; i < day_sell_coffee.length; i++) {
+            originre[i] = coffee_count[i];
+        }
+
+        // 6 올라간 돈 // 7 마지막 손님인지 아닌지 // 8 사람 행복도 // 9 날짜
+        for (int t = day_sell_coffee.length; t < day_sell_coffee.length; t++) {
+            originre[t] = money;
+            changere[t] = money;
+            moneyindex = 5;
+
+            originre[t + 1] = people_happy[day][people - 1];
+            changere[t + 1] = people_happy[day][people - 1];
+            peoplehappyindex = 6;
+
+
+            originre[t + 2] = day_alltime;
+            changere[t + 2] = day_alltime;
+            dayalltimeindex = 7;
 
         }
-        for (int k = 0; k < 1; k++) {// 6 올라간 돈 // 7 마지막 손님인지 아닌지 // 8 사람 행복도 // 9 날짜
-            for (int t = day_sell_coffee.length; t < day_sell_coffee.length; t++) {
-                originre[t][k] = money;
-                changere[t][k] = money;
-                moneyindex = 5;
 
-                originre[t + 1][k] = people_happy[day][people - 1];
-                changere[t + 1][k] = people_happy[day][people - 1];
-                peoplehappyindex = 6;
-
-
-                originre[t + 2][k] = day_alltime;
-                changere[t + 2][k] = day_alltime;
-                dayalltimeindex = 7;
-
-            }
-        }
 
         boolean flag1 = true;
         boolean flag3 = true;
@@ -466,11 +470,11 @@ public class Study20240703_1 {
             } else { // 정상 주문이 된다면
                 buycount++;
                 people_happy = peopleHappy(people_happy, coffee_happy, day, people, coffee_choice);
-                changere[coffee_choice - 1][0] -= 1; // FIXME 여기서 잔수 이상해지는 버그 있음
+                changere[coffee_choice - 1] -= 1; // FIXME 여기서 잔수 이상해지는 버그 있음
                 coffee_count[coffee_choice -1] -= 1;
-                changere[moneyindex][0] += coffee_price[coffee_choice - 1];
-                changere[peoplehappyindex][0] = people_happy[day][people];
-                changere[dayalltimeindex][0] = day_alltime - coffee_time[coffee_choice - 1];
+                changere[moneyindex] += coffee_price[coffee_choice - 1];
+                changere[peoplehappyindex] = people_happy[day][people];
+                changere[dayalltimeindex] = day_alltime - coffee_time[coffee_choice - 1];
                 System.out.println("메뉴가 정상적으로 담겼습니다. 더 주문하시겠습니까? \n 1. 예 2. 아니오 3. 잔체 주문 취소");
                 choice = sc.nextInt();
                 if (choice == 1) {
@@ -490,6 +494,65 @@ public class Study20240703_1 {
         }
     }
 
+     */
+    public static int[][] sellMenu(String[] day_sell_coffee, int[] coffee_count, int[] coffee_price, int day, int people, int[] coffee_time, int day_alltime, int money, int[][] people_happy, int[] coffee_happy) {
+        int[][] changere = new int[day_sell_coffee.length + 3][1]; // 바뀐 값을 보낼 return
+        int[][] originre = new int[day_sell_coffee.length + 3][1]; // 원래 값을 보관할 return
+        int coffee_choice = 0;
+        int buycount = 0;
+
+        // originre와 changere 초기화
+        for (int i = 0; i < day_sell_coffee.length; i++) {
+            originre[i][0] = coffee_count[i];
+            changere[i][0] = coffee_count[i];
+        }
+        originre[day_sell_coffee.length][0] = money;
+        changere[day_sell_coffee.length][0] = money;
+        originre[day_sell_coffee.length + 1][0] = people_happy[day][people];
+        changere[day_sell_coffee.length + 1][0] = people_happy[day][people];
+        originre[day_sell_coffee.length + 2][0] = day_alltime;
+        changere[day_sell_coffee.length + 2][0] = day_alltime;
+
+        boolean flag1 = true;
+        while (flag1) {
+            System.out.println("메뉴를 골라주세요.");
+            dailyShowMenu(day_sell_coffee, coffee_count, coffee_price);
+            coffee_choice = sc.nextInt();
+            if (coffee_count[coffee_choice - 1] == 0) {
+                System.out.println("품절입니다. 다른 음료를 고르시겠습니까? 1. 예 2. 아니오");
+                int choice = sc.nextInt();
+                if (choice == 2) {
+                    return (buycount > 0) ? changere : originre;
+                }
+            } else if (coffee_time[coffee_choice - 1] > day_alltime) {
+                System.out.println("영업시간 이내에 만들 수 없습니다. 다른 음료를 고르시겠습니까? 1. 예 2. 아니오");
+                int choice = sc.nextInt();
+                if (choice == 2) {
+                    return (buycount > 0) ? changere : originre;
+                }
+            } else {
+                buycount++;
+                people_happy = peopleHappy(people_happy, coffee_happy, day, people, coffee_choice);
+                changere[coffee_choice - 1][0] -= 1;
+                coffee_count[coffee_choice -1] -= 1;
+                changere[day_sell_coffee.length][0] += coffee_price[coffee_choice - 1];
+                changere[day_sell_coffee.length + 1][0] = people_happy[day][people];
+                changere[day_sell_coffee.length + 2][0] = day_alltime - coffee_time[coffee_choice - 1];
+
+                System.out.println("메뉴가 정상적으로 담겼습니다. 더 주문하시겠습니까? 1. 예 2. 아니오 3. 전체 주문 취소");
+                int choice = sc.nextInt();
+                if (choice == 1) {
+                    flag1 = true;
+                } else if (choice == 2) {
+                    System.out.println("주문이 완료되었습니다.");
+                    return changere;
+                } else if (choice == 3) {
+                    return originre;
+                }
+            }
+        }
+        return (buycount > 0) ? changere : originre;
+    }
     public static int[][] AllSellistCount(int[] day_sell_count, int[][] allday_sell_count, int day) {
         for (int i = day - 1; i < day; i++) {
             for (int j = 0; j < day_sell_count.length; j++) {
