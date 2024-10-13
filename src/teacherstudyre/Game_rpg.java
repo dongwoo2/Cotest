@@ -2,7 +2,7 @@ package teacherstudyre;
 
 public class Game_rpg {
 
-    public String developer;
+    public String developer = "dong5";
     public String name;
     public int power;
     //public String[] skill;

@@ -6,7 +6,7 @@ public class Game_Racing {
         터치는 데미지 내 공격력 데미지
         상대 터치에 따라 공격을 입기도함
      */
-    public String developer;
+    public String developer = "dong3";
     public String name;
     public String car_name;
     public int speed;
@@ -29,7 +29,6 @@ public class Game_Racing {
     }
 
     Game_Racing() {
-
     }
 
     void introduce() {

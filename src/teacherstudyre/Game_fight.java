@@ -3,7 +3,7 @@ package teacherstudyre;
 // 격투게임
 public class Game_fight {
 
-    public String developer;
+    public String developer = "dong2";
     public String name;
     public int stamina;
     public int power;

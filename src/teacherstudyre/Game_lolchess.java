@@ -3,7 +3,7 @@ package teacherstudyre;
 // 롤토체스
 public class Game_lolchess {
 
-    public String developer;
+    public String developer = "dong4";
     public String name;
     public String[] chess_name; // 기물 이름
     public int[] chess_grade; // 기물 등급
@@ -23,5 +23,11 @@ public class Game_lolchess {
 
     Game_lolchess() {
 
+    }
+
+    void introduce() {
+        System.out.println("이 게임은 컴퓨터체스게임 입니다.");
+        System.out.println("제작자는 " + developer + "입니다.");
+        System.out.println("자신의 기물로 체스를 둘 수 있습니다.");
     }
 }
