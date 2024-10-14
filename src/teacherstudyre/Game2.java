@@ -2,61 +2,73 @@ package teacherstudyre;
 
 import java.util.Scanner;
 
-class Game2 {
-    String developer;
-    String gameType;
-    String[] attributes;
 
-    public Game2(String developer, String gameType, String[] attributes) {
-        this.developer = developer;
-        this.gameType = gameType;
-        this.attributes = attributes;
-    }
 
-    public void displayInfo() {
-        System.out.println("개발자: " + developer);
-        System.out.println("게임 종류: " + gameType);
-        System.out.print("능력치: ");
-        for (String attribute : attributes) {
-            System.out.print(attribute + " ");
-        }
-        System.out.println("\n");
-    }
-}
-
-public class GameDevelopment {
+public class Game2 {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        Game2[] games = new Game2[5];
+        Scanner sc = new Scanner(System.in);
+        int choice = 0;
+        boolean flag = true;
+        Game[] games = new Game[5];
+        int j = 0;
 
         // 고정된 게임 정보
-        games[0] = new Game2("Alice", "레이싱", new String[]{"속도", "부딪힘", "코스 디자인", "차량 종류", "아이템"});
-        games[1] = new Game2("Bob", "플랫폼", new String[]{"점프", "속도", "레벨 디자인", "적의 종류", "아이템"});
-        games[2] = new Game2("Charlie", "퍼즐", new String[]{"난이도", "시간 제한", "조작", "아이템", "힌트"});
+        games[0] = new Game("dong1", "레이싱", new String[]{"속도", "부딪힘", "코스 디자인", "차량 종류", "아이템"});
+        games[1] = new Game("dong2", "마리오", new String[]{"점프", "속도", "레벨 디자인", "적의 종류", "아이템"});
+        games[2] = new Game("dong3", "퍼즐", new String[]{"난이도", "시간 제한", "조작", "아이템", "힌트"});
+        games[3] = new Game("dong4", "격투", new String[]{"체력", "파워", "속도", "방어력", "스킬"});
+        games[4] = new Game("dong4", "농사", new String[]{"체력", "작물", "상점", "땅 크기", "날씨"});
 
         // 사용자 입력 받기
-        for (int i = 3; i < 5; i++) {
-            System.out.print("개발자 이름을 입력하세요: ");
-            String developer = scanner.nextLine();
-            System.out.print("게임 종류를 입력하세요: ");
-            String gameType = scanner.nextLine();
-            String[] attributes = new String[5];
+        System.out.println("\n모든 게임 정보:");
+        for (Game game : games) {
+            game.displayInfo();
+        }
 
+        System.out.println("이 중 2가지는 직접 수정하시는게 가능합니다. 어떤 게임을 수정하시겠습니까?");
+
+
+        for (int i = 0; i < 2; i++) {
+            flag = true;
+            System.out.println(i + 1 + "번 째 게임을 선택해주세요.");
+            choice = sc.nextInt();
+            System.out.print("개발자 이름을 입력하세요: ");
+            games[choice - 1].developer = sc.nextLine();
+            System.out.print("게임 종류를 입력하세요: ");
+            games[choice - 1].gameType = sc.nextLine();
+
+            // 게임 특성 초기화
+            games[choice - 1].attributes = setattri(choice, games[choice - 1].attributes);
             // 능력치 입력 받기
-            for (int j = 0; j < 5; j++) {
-                System.out.print("능력치 " + (j + 1) + " 입력: ");
-                attributes[j] = scanner.nextLine();
+            while (flag) {
+                System.out.print("게임특성 " + (j + 1) + " 입력: ");
+                games[choice - 1].attributes[j] = sc.nextLine();
+                System.out.println("게임 특성을 계속 입력하시겠습니까?\n1.예 2.아니오");
+                choice = sc.nextInt();
+                if(choice == 1) {
+                    flag = true;
+                    j++;
+                } else if(choice == 2) {
+                    flag = false;
+                }
+
             }
 
-            games[i] = new Game2(developer, gameType, attributes);
         }
 
         // 모든 게임 정보 출력
         System.out.println("\n모든 게임 정보:");
-        for (Game2 game : games) {
+        for (Game game : games) {
             game.displayInfo();
         }
 
-        scanner.close();
+        sc.close();
+    }
+    public static String[] setattri(int choice, String[] attributes) {
+        for(int i = 0; i < attributes.length; i++) {
+            attributes[i] = "";
+        }
+        // Arrays.fill(attributes, ""); 이걸로 대체도 가능하다고 알려줌
+        return attributes;
     }
 }
