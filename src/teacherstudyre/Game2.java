@@ -33,9 +33,9 @@ public class Game2 {
             System.out.println(i + 1 + "번 째 게임을 선택해주세요.");
             choice = sc.nextInt();
             System.out.print("개발자 이름을 입력하세요: ");
-            games[choice - 1].developer = sc.nextLine();
+            games[choice - 1].developer = sc.next();
             System.out.print("게임 종류를 입력하세요: ");
-            games[choice - 1].gameType = sc.nextLine();
+            games[choice - 1].gameType = sc.next();
 
             // 게임 특성 초기화
             games[choice - 1].attributes = setattri(choice, games[choice - 1].attributes);

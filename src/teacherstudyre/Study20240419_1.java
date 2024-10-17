@@ -6,6 +6,9 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
 
+import static java.lang.Math.min;
+import static java.lang.Math.max;
+
 
 public class Study20240419_1 {
     static Scanner sc = new Scanner(System.in);
@@ -25,6 +28,7 @@ public class Study20240419_1 {
         int wspeed[][] = new int[10][10]; // 스피드
         int wweight[][] = new int[10][10]; // 무게
         int wpower[][] = new int[10][10]; // 공격력
+        int wendurance[][] = new int[10][10]; // 지구력 소모량
         int wprice[][] = new int[10][10]; // 무기 가격
         int wprice2[][] = new int[10][10]; // 할인무기 가격
         int wamount[][] = new int[10][10]; // 무기 수량
@@ -33,6 +37,7 @@ public class Study20240419_1 {
         int manspeed[][] = new int[10][10]; // 민첩성 - 스피드
         int manstamina[][] = new int[10][10]; // 지구력 - 무게
         int manpower[][] = new int[10][10]; // 힘 - 공격력
+        int reservation[][] = new int[10][10]; // 무기 예약
 
         boolean flag = true;
         boolean flag2 = true;
@@ -83,8 +88,9 @@ public class Study20240419_1 {
         wspeed = wspeed(wspeed);
         wweight = wweight(wweight);
         wpower = wpower(wpower);
-        wprice = wprice(wprice, wdurability, wspeed, wweight, wpower);
-        wamount = wamount(wamount); // 이제 물품이 0개가 되면 3턴뒤에 다시 생기는 걸로 만들기
+        wendurance = wendurance(wendurance);
+        wprice = wprice(wprice, wdurability, wspeed, wweight, wpower, wendurance);
+        wamount = wamount(wamount); // TODO 예약 3턴 차면 자동으로 물품 생기게 추가하기
         originalwamount = origin_wamount_fisrt_set(wamount,originalwamount); // 물품 오리지날 초기 셋팅 설정
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime promotionDate1 = LocalDateTime.now();
@@ -208,7 +214,7 @@ public class Study20240419_1 {
                             System.out.println("1.구매하기 2.구매내역보기 3.기본통계보기 4.다음사람 5.다음 날 6.구매자 로그아웃");
                             choice = sc.nextInt();
                             if (choice == 1) {
-                                while (flag3) {
+                                while (flag3) { // TODO 할인중 프로모션 이거 커피처럼 빼고 구매하는 부분 분리하기
                                     if (promotionday1 != 0) { // 할인중
                                         System.out.println(dispercent + "% 할인을 진행하고 있습니다.");
                                         System.out.printf("기간은 %d년 %d월 %d일 까지 입니다." , promotionDate1.getYear(), promotionDate1.getMonthValue(), promotionDate1.getDayOfMonth());
@@ -245,7 +251,23 @@ public class Study20240419_1 {
                                     if (choice_check != 0) {
                                         System.out.println(" = " + wamount[c1][c2]);
                                         if (wamount[c1][c2] >= minusitem && promotionday2 == 0) { // 구매가 잘 되었을 때
+                                            if(wamount[c1][c2] == 1000) {
+                                                System.out.println("최소 가격의 상품입니다.");
+                                                //TODO 서비스 뭐로 할 건지
+                                                // minusitem을 추가하던지 근데 그 양이 안된다면
+                                                // 어떻게 할 것인지
+                                                int service = 0;
+                                                if(c1 > 0) {
+                                                    service = c1 - 1;
+                                                } else if(c1 < 1) {
+                                                    service = c1 + 1;
+                                                }
+                                                System.out.println("서비스로 다른 종류의 상품이 하나 더 추가됩니다.");
+                                                System.out.println(weaponname[service][c2]+ " 가 추가 되었습니다.");
+                                                wamount[service][c2] = wamount[service][c2] - 1; // 서비스
+                                            }
                                             wamount[c1][c2] = wamount[c1][c2] - minusitem;
+
                                             onemanpurchase[man][purcnt] = weaponitem[c1][c2]; // 한 사람의 구매내역
                                             weaponcnt[day]++;
                                             weaponname[day][daypurcnt] = weaponitem[c1][c2];
@@ -290,11 +312,26 @@ public class Study20240419_1 {
                                                 flag2 = false;
                                             }
                                         } else { // 갯수가 없을 때
-                                            System.out.println("품절 되었습니다 다른 상품 구매를 원하시면 1번, 구매를 원치 않으시면 2번을 눌러주세요.");
+                                            System.out.println("품절 되었습니다 다른 상품 구매를 원하시면 1번, 구매를 원치 않으시면 2번, 상품 예약을 원하시면 3번을 눌러주세요.");
                                             if (choice == 2) {
                                                 flag3 = false;
                                             } else if (choice == 1) {
                                                 flag3 = true;
+                                            } else if (choice == 3) {
+                                                reservation = reservation_weapon(reservation,c1,c2);
+                                                if(reservation[c1][c2] == 3) {
+                                                    //TODO 물품 재발주
+                                                    weapon_ordering(originalwamount,wamount,c1,c2);
+                                                    reservation[c1][c2] = 0;
+                                                }
+                                                System.out.println("상품이 예약되었습니다.");
+                                                System.out.println("다른 상품 구매를 원하시면 1번, 구매를 원치 않으시면 2번을 눌러주세요.");
+                                                choice = sc.nextInt();
+                                                if(choice == 1) {
+                                                    flag3 = true;
+                                                } else if (choice == 2) {
+                                                    flag3 = false;
+                                                }
                                             }
                                         }
                                     }
@@ -305,7 +342,7 @@ public class Study20240419_1 {
                                 System.out.println("1. 구매한 무기속성 2. 내 속성");
                                 choice = sc.nextInt();
                                 if (choice == 1) {
-                                    weapon_property(weaponitem, wspeed, wpower, wdurability, wweight, weaponcnt, purcnt);
+                                    weapon_property(weaponitem, wspeed, wpower, wdurability, wweight, wendurance,weaponcnt, purcnt);
                                 } else if (choice == 2) {
                                     man_weapon_property(manspeed, manstamina, manpower, weaponitem, wspeed, wpower, wdurability, wweight, weaponcnt, purcnt, day, man);
                                 } else {
@@ -591,7 +628,7 @@ public class Study20240419_1 {
     }
 
 
-    public static void weapon_property(String[][] weaponitem, int[][] wspeed, int[][] wpower, int[][] wdurabilty, int[][] wweight, int[] weaponcnt, int purcnt) { // 구매한 무기 속성보기 또한 자신의 속성까지 몰 수 있게
+    public static void weapon_property(String[][] weaponitem, int[][] wspeed, int[][] wpower, int[][] wdurabilty, int[][] wweight, int[][]wendurance,int[] weaponcnt, int purcnt) { // 구매한 무기 속성보기 또한 자신의 속성까지 몰 수 있게
         int cnt = 0;
         int c1 = 0;
         int c2 = 0;
@@ -606,6 +643,7 @@ public class Study20240419_1 {
             System.out.println("파워 : " + (wpower[c1][c2] + c3));
             System.out.println("내구성 : " + (wdurabilty[c1][c2] + c3));
             System.out.println("무게 : " + (wweight[c1][c2]));
+            System.out.println("지구력 소모량 : " + (wendurance[c1][c2]));
         }
     }
 
@@ -629,6 +667,7 @@ public class Study20240419_1 {
             System.out.println("민첩성 : " + (manspeed[day][man] + wspeed[c1][c2] + c3));
             System.out.println("파워 : " + (manpower[day][man] + wpower[c1][c2] + c3));
             System.out.println("지구력 : " + (manstamina[day][man])); // 무게에따라 지구력을 얼마나 쓸 수 있냐로 조정하고 싶긴함
+            // TODO 무기에 지구력 소모량 생겼으니 어떻게 수정할 지 체크하기
             // System.out.println("내구성 : " + (wdurabilty[c1][c2]+c3)); 일단 내구성은 무기에서만 다루기로 하기
         }
     }
@@ -951,6 +990,48 @@ public class Study20240419_1 {
         return wamount;
     }
 
+    public static int[][] wendurance(int wendurance[][]) { // 지구력 소모량
+        int k = 0;
+        for (int i = 0; i < wendurance.length; i++) {
+            //  if(i == 0) k = 50;
+            switch (i) {
+                case 0: // 한손검
+                    k = 2;
+                    break;
+                case 1: // 도끼
+                    k = 2;
+                    break;
+                case 2: // 철퇴
+                    k = 3;
+                    break;
+                case 3: // 활
+                    k = 2;
+                    break;
+                case 4: // 석궁
+                    k = 1;
+                    break;
+                case 5: // 창
+                    k = 2;
+                    break;
+                case 6: // 건틀릿
+                    k = 1;
+                    break;
+                case 7: // 단검
+                    k = 1;
+                    break;
+                case 8: // 랜스
+                    k = 4;
+                    break;
+                case 9: // 양손검
+                    k = 3;
+                    break;
+            }
+            for (int j = 0; j < wendurance.length; j++) {
+                wendurance[i][j] = k;
+            }
+        }
+        return wendurance;
+    }
     public static int[][] wspeed(int wspeed[][]) { // 스피드
         int k = 0;
         for (int i = 0; i < wspeed.length; i++) {
@@ -1125,7 +1206,7 @@ public class Study20240419_1 {
         return wpower;
     }
 
-    public static int[][] wprice(int wprice[][], int wdurablity[][], int wspeed[][], int wweight[][], int wpower[][]) { // 무기 가격설정
+    public static int[][] wprice(int wprice[][], int wdurablity[][], int wspeed[][], int wweight[][], int wpower[][], int[][] wendurance) { // 무기 가격설정
         int kspeed = 0;
         int kweight = 0;
         int allstat[][] = new int[10][10];
@@ -1165,8 +1246,14 @@ public class Study20240419_1 {
                     break;
             }
             for (int j = 0; j < wprice.length; j++) {
-                allstat[i][j] = wdurablity[i][j] + wpower[i][j] + kspeed + kweight;
+                allstat[i][j] = wdurablity[i][j] + wpower[i][j] + kspeed + kweight + wendurance[i][j];
                 wprice[i][j] = allstat[i][j] * 3;
+                if(wprice[i][j] > 50000) {
+                    wprice[i][j] = min(50000, wprice[i][j]); // 최대 5만원
+                } else if (wprice[i][j] < 1000) {
+                    wprice[i][j] = max(1000, wprice[i][j]); // 최소 천원
+                }
+
             }
 
         }
@@ -1216,7 +1303,11 @@ public class Study20240419_1 {
 
         allstat = wdurablity + wpower + kspeed + kweight;
         wprice = allstat * 3;
-
+        if(wprice > 50000) {
+            wprice = min(50000, wprice); // 최대 5만원
+        } else if (wprice < 1000) {
+            wprice = max(1000, wprice); // 최소 천원
+        }
 
         return wprice;
     }
@@ -1245,10 +1336,17 @@ public class Study20240419_1 {
     }
 
 
-    public static int[][] wamount(int wamount[][]) {
+    public static int[][] wamount(int wamount[][]) { // 무기 갯수설정
         for (int i = 0; i < wamount.length; i++) {
             for (int j = 0; j < wamount.length; j++) {
-                wamount[i][j] = 3;
+                if(j >= 0 && j <= 4) {
+                    wamount[i][j] = 3;
+                } else if (j >= 5 && j <= 7) {
+                    wamount[i][j] = 2;
+                } else if (j >= 8 && j <= 9) {
+                    wamount[i][j] = 1;
+                }
+
             }
         }
         return wamount;
@@ -1270,6 +1368,21 @@ public class Study20240419_1 {
         return wamount;
     }
 
+    public static int[][] weapon_ordering(int original_wamount[][], int wamount[][], int c1, int c2) { // 무기 재발주
+        wamount[c1][c2] = original_wamount[c1][c2];
+        return wamount;
+    }
+
+    public static int[][] reservation_weapon(int[][] reservation, int c1, int c2) { // 이 함수 끝나고 예약 3개가 되면 자동으로 발주 들어가게 만들기
+        if (reservation[c1][c2] < 3) {
+            reservation[c1][c2]++;
+        }
+        return reservation;
+    }
+    public static int[][] weapon_update(int original_wamount[][], int wamount[][], int c1, int c2) { // 이건 내가 직접 무기를 재발주 하는 시스템
+        wamount[c1][c2] = original_wamount[c1][c2];
+        return wamount;
+    }
 }
 
 
