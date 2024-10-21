@@ -137,11 +137,28 @@ public class Study20240419_1 {
                                 wprice = outweapon2(weaponitem, wprice, choice2); // 가격
                             }
                         } else if (choice == 4) {
-                            System.out.println("어떤 항목을 업데이트 하시겠습니까?");
-                            choice2 = sc.nextInt();
-                            sellercheck = seller_error_check(choice, choice2, weaponitem);
-                            if (sellercheck == 1) {
-                                wamount = amountweapon1(wamount, choice2);
+                            System.out.println("1.항목 갯수 업데이트 2. 재발주하기");
+                            choice = sc.nextInt();
+                            if(choice == 1) {
+                                System.out.println("어떤 무기를 업데이트 하시겠습니까?");
+                                choice2 = sc.nextInt();
+                                sellercheck = seller_error_check(choice, choice2, weaponitem);
+                                if (sellercheck == 1) {
+                                    wamount = amountweapon1(wamount, choice2);
+                                }
+                            } else if (choice == 2) {
+                                System.out.println("어떤 무기를 재발주 하시겠습니까?");
+                                choice2 = sc.nextInt();
+                                if (c1 != 0 && c2 == 0 && choice < 100) { // 10번을 선택했을 시 인덱스에서는 9번 그리고 20번하면 19번 이렇게 선택이 되어야함
+                                    c1--;
+                                    c2 = 9;
+                                } else if (c1 != 0 && c2 != 0 && choice < 100) { // 정상적인 진행이 될 때 c2는 --가 되어야함
+                                    c2--;
+                                } else if (c1 == 0 && c2 != 0 && choice < 100) {
+                                    c2--;
+                                }
+                                weapon_update(originalwamount, wamount, c1, c2);
+                                System.out.println(weaponname[c1][c2] + "가 재발주 되었습니다.");
                             }
                         } else if (choice == 5) { // 프로모션 설정
                             System.out.println("1.할인 2.1+1 이벤트 3.프로모션 해제"); // 만약 무수히 많은 포로모션이 생긴다면? 배열 앞에는 프로모션의 뭔지 넣고 2번째 프로모션에는 날짜를 넣는것을 시도해보자
@@ -1383,6 +1400,7 @@ public class Study20240419_1 {
         wamount[c1][c2] = original_wamount[c1][c2];
         return wamount;
     }
+    //TODO 무기 발주 하기
 }
 
 
