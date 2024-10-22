@@ -80,6 +80,14 @@ public class Study20240419_1 {
         String buyer_pw[][] = new String[30][30]; // 구매자 패스워드
         int logincheck = 0;
         int dayturn = 0;
+        int reservationman_c1[][] = new int[100][100]; //  인덱스 : 날짜, 사람, 값: 무기 번호
+        int reservationman_c2[][] = new int[100][100]; //  인덱스 : 날짜, 사람, 값: 무기 번호
+
+
+
+        // 몇 번째 무기를 예약했는지 변수 [1][1]
+        // 장사하는 날짜 reservation[day][person] = 67 여러개 예약할수도 있으니 String 형태로 넣고 짤라서 하자 , 로 짜르기
+        //
 
         weaponsort = weaponkind(weaponsort);
         weaponitem = weaponset(weaponsort, weaponitem);
@@ -105,7 +113,7 @@ public class Study20240419_1 {
                 logincheck = check_id(choice, buyer_id, buyer_pw, day, man, seller_id, seller_pw);
                 if (logincheck == 1) { //로그인 성공
                     while (flag2) { // 판매자
-                        System.out.println("1.항목 인벤토리 보기 2.새 항목 추가하기 3.항목 제거하기 4.항목 재고 업데이트 5. 프로모션 설정 6.판매 보고서 7.판매자 로그아웃");
+                        System.out.println("1.항목 인벤토리 보기 2.새 항목 추가하기 3.항목 제거하기 4.항목 재고 업데이트 및 재발주 5. 프로모션 설정 6.판매 보고서 7.판매자 로그아웃");
                         choice = sc.nextInt();
                         if (choice == 1) {
                             if (promotionday1 == 0 || promotionday2 == 0) { // 할인 x
@@ -157,7 +165,7 @@ public class Study20240419_1 {
                                 } else if (c1 == 0 && c2 != 0 && choice < 100) {
                                     c2--;
                                 }
-                                weapon_update(originalwamount, wamount, c1, c2);
+                                wamount = weapon_update(originalwamount, wamount, reservation, c1, c2);
                                 System.out.println(weaponname[c1][c2] + "가 재발주 되었습니다.");
                             }
                         } else if (choice == 5) { // 프로모션 설정
@@ -228,6 +236,11 @@ public class Study20240419_1 {
 
                         flag3 = true;
                         if (manc > 0) {
+                            if(reservation[c1][c2] == 3) {
+                                //TODO 물품 재발주
+                                wamount = weapon_ordering(originalwamount,wamount,c1,c2);
+                                reservation[c1][c2] = 0;
+                            }
                             System.out.println("1.구매하기 2.구매내역보기 3.기본통계보기 4.다음사람 5.다음 날 6.구매자 로그아웃");
                             choice = sc.nextInt();
                             if (choice == 1) {
@@ -336,11 +349,9 @@ public class Study20240419_1 {
                                                 flag3 = true;
                                             } else if (choice == 3) {
                                                 reservation = reservation_weapon(reservation,c1,c2);
-                                                if(reservation[c1][c2] == 3) {
-                                                    //TODO 물품 재발주
-                                                    weapon_ordering(originalwamount,wamount,c1,c2);
-                                                    reservation[c1][c2] = 0;
-                                                }
+                                                reservationman_c1[day][man] = c1;
+                                                reservationman_c2[day][man] = c2;
+                                                //day[person] TODO 물품 예약 손님한테 가게
                                                 System.out.println("상품이 예약되었습니다.");
                                                 System.out.println("다른 상품 구매를 원하시면 1번, 구매를 원치 않으시면 2번을 눌러주세요.");
                                                 choice = sc.nextInt();
@@ -1386,7 +1397,8 @@ public class Study20240419_1 {
     }
 
     public static int[][] weapon_ordering(int original_wamount[][], int wamount[][], int c1, int c2) { // 무기 재발주
-        wamount[c1][c2] = original_wamount[c1][c2];
+        // 3개 예약했으니 5개의 재고가 찰 수 있게
+        wamount[c1][c2] = 5;
         return wamount;
     }
 
@@ -1396,11 +1408,27 @@ public class Study20240419_1 {
         }
         return reservation;
     }
-    public static int[][] weapon_update(int original_wamount[][], int wamount[][], int c1, int c2) { // 이건 내가 직접 무기를 재발주 하는 시스템
-        wamount[c1][c2] = original_wamount[c1][c2];
+    public static int[][] weapon_update(int original_wamount[][], int wamount[][], int[][] reservation, int c1, int c2) { // 이건 내가 직접 무기를 재발주 하는 시스템
+        int choice = 0;
+        boolean flag = true;
+        if(reservation[c1][c2] > 0 ) {
+            System.out.println("최소" + reservation[c1][c2] + "개 보다 많이 발주해야합니다.");
+        }
+        while (flag) {
+            System.out.println("몇 개를 발주하시겠습니까?");
+            choice = sc.nextInt();
+            if (choice >= reservation[c1][c2]) {
+                wamount[c1][c2] = choice;
+                flag = false;
+            } else {
+                System.out.println(reservation[c1][c2] + "개 보다 많거나 같아야 합니다.");
+                flag = true;
+            }
+        }
         return wamount;
     }
-    //TODO 무기 발주 하기
+
+
 }
 
 
