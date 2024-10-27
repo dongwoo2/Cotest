@@ -1429,6 +1429,11 @@ public class Study20240419_1 {
     }
 
 
+    public static int[][] reservation_return(int reservationman_c1[][], int reservationman_c2[][] , int day_person[][], int weaponname[][], int weaponcount[][]) {
+        return reservationman_c1; // TODO 사람 리턴
+
+    }
+
 }
 
 
