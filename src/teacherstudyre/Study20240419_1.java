@@ -1,6 +1,5 @@
 package teacherstudyre;
 
-
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
@@ -38,6 +37,7 @@ public class Study20240419_1 {
         int manstamina[][] = new int[10][10]; // 지구력 - 무게
         int manpower[][] = new int[10][10]; // 힘 - 공격력
         int reservation[][] = new int[10][10]; // 무기 예약
+        int reser_day_man[][] = new int[100][100];
 
         boolean flag = true;
         boolean flag2 = true;
@@ -82,7 +82,9 @@ public class Study20240419_1 {
         int dayturn = 0;
         int reservationman_c1[][] = new int[100][100]; //  인덱스 : 날짜, 사람, 값: 무기 번호
         int reservationman_c2[][] = new int[100][100]; //  인덱스 : 날짜, 사람, 값: 무기 번호
-
+        int reservation_check = 0; // 예약 상품 총 갯수 체크 하는 애
+        int[][] reser_man = new int[3][2]; // [][0]: 날짜, [][1]: 사람 번호
+        int allman = 0; // 몇 번째 사람인지 총 인원수 체크 예약시스템 때문에 필요
 
 
         // 몇 번째 무기를 예약했는지 변수 [1][1]
@@ -115,7 +117,7 @@ public class Study20240419_1 {
                     while (flag2) { // 판매자
                         System.out.println("1.항목 인벤토리 보기 2.새 항목 추가하기 3.항목 제거하기 4.항목 재고 업데이트 및 재발주 5. 프로모션 설정 6.판매 보고서 7.판매자 로그아웃");
                         choice = sc.nextInt();
-                        if (choice == 1) {
+                        if (choice == 1) { // TODO 프로모션 있는 거 체크는 하나만 만들어서 그 안에서 또 따루 나누기
                             if (promotionday1 == 0 || promotionday2 == 0) { // 할인 x
                                 allweapon(weaponitem, wprice, wamount);
                             } else { // 할인 o
@@ -236,10 +238,31 @@ public class Study20240419_1 {
 
                         flag3 = true;
                         if (manc > 0) {
-                            if(reservation[c1][c2] == 3) {
-                                //TODO 물품 재발주
+                            if(reservation[c1][c2] >= 3) {
+                                System.out.println("예약상품을 재발주 합니다.");
+
                                 wamount = weapon_ordering(originalwamount,wamount,c1,c2);
                                 reservation[c1][c2] = 0;
+                                wamount[c1][c2] = wamount[c1][c2] - 3;
+                                reser_man = reservation_return(reservationman_c1, reservationman_c2 , c1, c2);
+                                for(int i = 0; i < 3; i++){
+                                    for(int j = 0; j < 2; j++){
+                                        //TODO reser_man 이용해서 구매내역 넣을 수 있게하고
+                                        onemanpurchase[][]
+                                    }
+                                }
+
+                                onemanpurchase[man][purcnt] = weaponitem[c1][c2]; // 한 사람의 구매내역
+                                weaponcnt[day]++; // TODO day 값을 바꿔야함 이것도 for문 안에 넣어야 할듯
+                                weaponname[day][daypurcnt] = weaponitem[c1][c2];
+                                if (promotionday1 != 0 || promotionday2 != 0) { // 프로모션 보고소
+                                    pro_weaponname[proday][daypurcnt] = weaponitem[c1][c2];
+                                    pro_weaponcnt++;
+                                    // proday++;
+                                }
+                                purcnt++;
+                                daypurcnt++;
+
                             }
                             System.out.println("1.구매하기 2.구매내역보기 3.기본통계보기 4.다음사람 5.다음 날 6.구매자 로그아웃");
                             choice = sc.nextInt();
@@ -348,18 +371,33 @@ public class Study20240419_1 {
                                             } else if (choice == 1) {
                                                 flag3 = true;
                                             } else if (choice == 3) {
-                                                reservation = reservation_weapon(reservation,c1,c2);
-                                                reservationman_c1[day][man] = c1;
-                                                reservationman_c2[day][man] = c2;
-                                                //day[person] TODO 물품 예약 손님한테 가게
-                                                System.out.println("상품이 예약되었습니다.");
-                                                System.out.println("다른 상품 구매를 원하시면 1번, 구매를 원치 않으시면 2번을 눌러주세요.");
-                                                choice = sc.nextInt();
-                                                if(choice == 1) {
-                                                    flag3 = true;
-                                                } else if (choice == 2) {
-                                                    flag3 = false;
+                                                //TODO 예약시스템 day man 설정 맞추기
+                                                if(reservationman_c1[day][man] == 0) {
+                                                    // int reser_day_man[][] = new int[100][100];
+                                                    reservation = reservation_weapon(reservation,c1,c2);
+                                                    reservationman_c1[day][man] = c1;
+                                                    reservationman_c2[day][man] = c2;
+
+
+                                                    reservation_check++;
+                                                    System.out.println("상품이 예약되었습니다.");
+                                                    System.out.println("다른 상품 구매를 원하시면 1번, 구매를 원치 않으시면 2번을 눌러주세요.");
+                                                    choice = sc.nextInt();
+                                                    if(choice == 1) {
+                                                        flag3 = true;
+                                                    } else if (choice == 2) {
+                                                        flag3 = false;
+                                                    }
+                                                } else {
+                                                    System.out.println("예약은 한 명당 1개 입니다.");
+                                                    System.out.println("다른 상품 구매를 원하시면 1번, 구매를 원치 않으시면 2번을 눌러주세요.");
+                                                    if(choice == 1) {
+                                                        flag3 = true;
+                                                    } else if (choice == 2) {
+                                                        flag3 = false;
+                                                    }
                                                 }
+
                                             }
                                         }
                                     }
@@ -1428,10 +1466,35 @@ public class Study20240419_1 {
         return wamount;
     }
 
+    // 예약이 3건 일때 실행되는 함수
 
-    public static int[][] reservation_return(int reservationman_c1[][], int reservationman_c2[][] , int day_person[][], int weaponname[][], int weaponcount[][]) {
-        return reservationman_c1; // TODO 사람 리턴
+    public static int[][] reservation_return(int[][] reservationman_c1, int[][] reservationman_c2, int c1, int c2) {
+        // 리턴 값을 사람으로만 하자 어차피 예약은 3건이고 3명만 리턴하면 돼
+        // 그리고 리턴 값은 3개 밑에 이거 3개
+        // 3명만 리턴 어떻게 리턴하지?
+        //  리턴 값으로 보내야할게 날짜 , 몇 번째 사람,
 
+        // 리턴할 배열 초기화 (최대 3건의 예약)
+        int[][] reser_man = new int[3][2]; // [][0]: 날짜, [][1]: 사람 번호
+        int count = 0; // 리턴할 예약 수 카운트
+
+        for (int i = 0; i < reservationman_c1.length; i++) {
+            for (int j = 0; j < reservationman_c2.length; j++) {
+                if (reservationman_c1[i][j] == c1 && reservationman_c2[i][j] == c2) {
+                    // 예약이 일치하는 경우, 날짜와 사람 번호 저장
+                    reser_man[count][0] = i; // 날짜 (i 인덱스)
+                    reser_man[count][1] = j; // 사람 번호 (j 인덱스)
+                    count++;
+
+                    // 최대 3건까지만 저장
+                    if (count >= 3) {
+                        return reser_man; // 3건이 채워지면 리턴
+                    }
+                }
+            }
+        }
+
+        return reser_man; // 예약 수가 3건 미만인 경우에도 리턴
     }
 
 }
