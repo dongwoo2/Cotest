@@ -20,8 +20,10 @@ public class Study20240419_1 {
     public static void solution() {
         String weaponsort[] = new String[10];
         String weaponitem[][] = new String[10][10];
+        int reser_weaponitem[][] = new int[10][10]; // 예약품 체크
         String weaponitem2[][] = new String[10][10]; // 대체품
         String onemanpurchase[][] = new String[30][30]; // 구매내역을 보기 위한 변수 어떤것을 구매했는지 알 수 있게 - 한 사람
+        String reser_onemanpurchase[][] = new String[30][30]; // 예약내역
         String allmanpurchase[][] = new String[30][30]; // 구매내역을 보기 위한 변수 어떤것을 구매했는지 알 수 있게 - 전체
         int wdurability[][] = new int[10][10]; // 내구도
         int wspeed[][] = new int[10][10]; // 스피드
@@ -85,8 +87,10 @@ public class Study20240419_1 {
         int reservation_check = 0; // 예약 상품 총 갯수 체크 하는 애
         int[][] reser_man = new int[3][2]; // [][0]: 날짜, [][1]: 사람 번호
         int allman = 0; // 몇 번째 사람인지 총 인원수 체크 예약시스템 때문에 필요
-
-
+        int reserman[] = new int[100];
+        int reser_per[] = new int[100];
+        int weapon_choice = 0;
+        // 예약한 무기 배열을 만들자
         // 몇 번째 무기를 예약했는지 변수 [1][1]
         // 장사하는 날짜 reservation[day][person] = 67 여러개 예약할수도 있으니 String 형태로 넣고 짤라서 하자 , 로 짜르기
         //
@@ -248,7 +252,9 @@ public class Study20240419_1 {
                                 for(int i = 0; i < 3; i++){
                                     for(int j = 0; j < 2; j++){
                                         //TODO reser_man 이용해서 구매내역 넣을 수 있게하고
-                                        onemanpurchase[][]
+                                        reser_onemanpurchase[man][purcnt] = weaponitem[c1][c2];
+
+
                                     }
                                 }
 
@@ -283,21 +289,21 @@ public class Study20240419_1 {
                                         minusitem = 1;
                                     }
                                     System.out.println("몇 번째 아이템을 구매하시겠습니까?");
-                                    choice = sc.nextInt(); // 구매하고 난 뒤에 갯수 줄이기
-                                    if (choice < 100) {
-                                        c1 = choice / 10;
-                                        c2 = choice % 10;
+                                    weapon_choice = sc.nextInt(); // 구매하고 난 뒤에 갯수 줄이기
+                                    if (weapon_choice < 100) {
+                                        c1 = weapon_choice / 10;
+                                        c2 = weapon_choice % 10;
                                         choice_check++;
                                     } else {
                                         System.out.println("항목에 없는것을 고르셨습니다 다시 선택해주세요.");
                                         choice_check = 0;
                                     }
-                                    if (c1 != 0 && c2 == 0 && choice < 100) { // 10번을 선택했을 시 인덱스에서는 9번 그리고 20번하면 19번 이렇게 선택이 되어야함
+                                    if (c1 != 0 && c2 == 0 && weapon_choice < 100) { // 10번을 선택했을 시 인덱스에서는 9번 그리고 20번하면 19번 이렇게 선택이 되어야함
                                         c1--;
                                         c2 = 9;
-                                    } else if (c1 != 0 && c2 != 0 && choice < 100) { // 정상적인 진행이 될 때 c2는 --가 되어야함
+                                    } else if (c1 != 0 && c2 != 0 && weapon_choice < 100) { // 정상적인 진행이 될 때 c2는 --가 되어야함
                                         c2--;
-                                    } else if (c1 == 0 && c2 != 0 && choice < 100) {
+                                    } else if (c1 == 0 && c2 != 0 && weapon_choice < 100) {
                                         c2--;
                                     }
 
@@ -371,32 +377,18 @@ public class Study20240419_1 {
                                             } else if (choice == 1) {
                                                 flag3 = true;
                                             } else if (choice == 3) {
-                                                //TODO 예약시스템 day man 설정 맞추기
-                                                if(reservationman_c1[day][man] == 0) {
-                                                    // int reser_day_man[][] = new int[100][100];
-                                                    reservation = reservation_weapon(reservation,c1,c2);
-                                                    reservationman_c1[day][man] = c1;
-                                                    reservationman_c2[day][man] = c2;
+                                                // TODO 예약무기 weapon_choice 로 할 껀데 이 값이 3개가 될 경우
+                                                // 예약할 때 마다 이 무기가 몇 번 째 체크인지 만들까?
+                                                // 그 전에 예약할 때 어떻게 예약이 체크되는지
+                                                // man, purchase에 대해서 구매가 되는데
+                                                // 예약했을 때 man purchase도 순번이 넘어가야하는데
+                                                // 그 사람의 마지막 purchase로 하는게 제일 깔끔해 보이는데
+                                                // 그게 너무 어렵다
+                                                // 중간 purchase도 할 수 있을까?
+                                                // 그렇다면 중간 purchase를 쓴다면 무기내역에 뜨면 안된다
+                                                // 하 개어렵다 진심 일단 onemaapurchase만 안넣고 나중에 man purchase에 넣으면 되는거 아닌가?
+                                                // 그렇다 나중에 넣으면 된다 예약무기니까
 
-
-                                                    reservation_check++;
-                                                    System.out.println("상품이 예약되었습니다.");
-                                                    System.out.println("다른 상품 구매를 원하시면 1번, 구매를 원치 않으시면 2번을 눌러주세요.");
-                                                    choice = sc.nextInt();
-                                                    if(choice == 1) {
-                                                        flag3 = true;
-                                                    } else if (choice == 2) {
-                                                        flag3 = false;
-                                                    }
-                                                } else {
-                                                    System.out.println("예약은 한 명당 1개 입니다.");
-                                                    System.out.println("다른 상품 구매를 원하시면 1번, 구매를 원치 않으시면 2번을 눌러주세요.");
-                                                    if(choice == 1) {
-                                                        flag3 = true;
-                                                    } else if (choice == 2) {
-                                                        flag3 = false;
-                                                    }
-                                                }
 
                                             }
                                         }
@@ -1496,6 +1488,8 @@ public class Study20240419_1 {
 
         return reser_man; // 예약 수가 3건 미만인 경우에도 리턴
     }
+    //reser_onemanpurchase[man][purcnt] = weaponitem[c1][c2];
+
 
 }
 
