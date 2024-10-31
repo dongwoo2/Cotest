@@ -90,6 +90,8 @@ public class Study20240419_1 {
         int reserman[] = new int[100];
         int reser_per[] = new int[100];
         int weapon_choice = 0;
+        int reser_weapon_choice[][] = new int[100][100];
+        String reser_weapon[][] = new String[100][100];
         // 예약한 무기 배열을 만들자
         // 몇 번째 무기를 예약했는지 변수 [1][1]
         // 장사하는 날짜 reservation[day][person] = 67 여러개 예약할수도 있으니 String 형태로 넣고 짤라서 하자 , 로 짜르기
@@ -242,34 +244,26 @@ public class Study20240419_1 {
 
                         flag3 = true;
                         if (manc > 0) {
-                            if(reservation[c1][c2] >= 3) {
-                                System.out.println("예약상품을 재발주 합니다.");
-
-                                wamount = weapon_ordering(originalwamount,wamount,c1,c2);
-                                reservation[c1][c2] = 0;
-                                wamount[c1][c2] = wamount[c1][c2] - 3;
-                                reser_man = reservation_return(reservationman_c1, reservationman_c2 , c1, c2);
-                                for(int i = 0; i < 3; i++){
-                                    for(int j = 0; j < 2; j++){
-                                        //TODO reser_man 이용해서 구매내역 넣을 수 있게하고
-                                        reser_onemanpurchase[man][purcnt] = weaponitem[c1][c2];
-
-
+                            // 예약시스템
+                                if(reser_weapon_choice[c1][c2] == 3) { // 예약이 3턴이 되면
+                                    System.out.println("예약상품을 재발주 합니다.");
+                                    wamount = weapon_ordering(originalwamount,wamount,c1,c2);
+                                    reser_weapon_choice[c1][c2] = 0;
+                                    for(int i = 0; i < reser_weapon.length; i++){
+                                        for(int j = 0; j < reser_weapon[i].length; j++){
+                                            if(reser_weapon[i][j] == weaponitem[c1][c2]) {
+                                                onemanpurchase[i][j] = weaponitem[c1][c2];
+                                                wamount[c1][c2]--;
+                                                weaponcnt[day]++;
+                                                weaponname[day][daypurcnt] = weaponitem[c1][c2];
+                                            }
+                                        }
                                     }
+
                                 }
 
-                                onemanpurchase[man][purcnt] = weaponitem[c1][c2]; // 한 사람의 구매내역
-                                weaponcnt[day]++; // TODO day 값을 바꿔야함 이것도 for문 안에 넣어야 할듯
-                                weaponname[day][daypurcnt] = weaponitem[c1][c2];
-                                if (promotionday1 != 0 || promotionday2 != 0) { // 프로모션 보고소
-                                    pro_weaponname[proday][daypurcnt] = weaponitem[c1][c2];
-                                    pro_weaponcnt++;
-                                    // proday++;
-                                }
-                                purcnt++;
-                                daypurcnt++;
 
-                            }
+
                             System.out.println("1.구매하기 2.구매내역보기 3.기본통계보기 4.다음사람 5.다음 날 6.구매자 로그아웃");
                             choice = sc.nextInt();
                             if (choice == 1) {
@@ -378,6 +372,14 @@ public class Study20240419_1 {
                                                 flag3 = true;
                                             } else if (choice == 3) {
                                                 // TODO 예약무기 weapon_choice 로 할 껀데 이 값이 3개가 될 경우
+                                                reser_weapon_choice[c1][c2]++;
+                                                reser_weapon[man][purcnt] = weaponitem[c1][c2];
+                                                purcnt++;
+                                                daypurcnt++;
+                                                // weapon_choice가 3개이면서 man purcnt가 같은 사람들 값 뽑아내기 몇 번째 사람인지
+                                                // 그리고 purcnt를 마지막에 추가하고 싶은데
+                                                // 어떻게 마지막에 추가를 할 까
+
                                                 // 예약할 때 마다 이 무기가 몇 번 째 체크인지 만들까?
                                                 // 그 전에 예약할 때 어떻게 예약이 체크되는지
                                                 // man, purchase에 대해서 구매가 되는데
@@ -1490,7 +1492,33 @@ public class Study20240419_1 {
     }
     //reser_onemanpurchase[man][purcnt] = weaponitem[c1][c2];
 
+    public static void processReservations(int[][] reservation_man, int[][] wamount, String[][] weaponitem, String[][] onemanpurchase, int[] purcnt) {
+        int c1, c2;
 
+        // 예약된 무기를 순차적으로 재발주 후 구매내역에 추가함
+        for (int i = 0; i < reservation_man.length; i++) {
+            int day = reservation_man[i][0]; // 예약된 날짜 [i][0]
+            int man = reservation_man[i][1]; // 예약자 순번 [i][1]
+
+            if (day == -1 || man == -1) continue; // 유효하지 않은 예약자임.
+
+            // 예약된 무기 좌표.
+            c1 = reservation_man[i][0];
+            c2 = reservation_man[i][1];
+
+            // 재고 업데이트 및 구매 내역 저장
+            if (wamount[c1][c2] > 0) {
+                // 무기 구매 내역에 추가해야해요
+                onemanpurchase[man][purcnt[man]] = weaponitem[c1][c2];
+                purcnt[man]++; // 예약자 구매내역 순번 증가
+                wamount[c1][c2]--; // 재고 감소
+
+                System.out.println("예약자 " + man + "의 구매내역에 " + weaponitem[c1][c2] + "가 추가되었습니다.");
+            } else {
+                System.out.println("재고가 부족하여 예약 무기 제공이 불가합니다.");
+            }
+        }
+    }
 }
 
 
