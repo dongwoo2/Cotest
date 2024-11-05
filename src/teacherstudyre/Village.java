@@ -14,6 +14,7 @@ public class Village {
     int people[] = new int[100]; // 사람 수 인덱스 0 부터 존 시작
     int maxTransfer = 0; // 각 구역이 다른 구역에 전달할 수 있는 에너지의 최대량 Max 함수를 사용해 결정 500
     int minEnergy = 0; // 각 구역이 필요로 하는 최소 에너지 Min 함수를 사용해 결정 100 사람 한 명당 1의 에너지라고 생각하자
+    int energy_building[] = new int[100]; // 1 빌딩, 2 호텔, 3 랜드마크
     Scanner sc = new Scanner(System.in);
 
 
