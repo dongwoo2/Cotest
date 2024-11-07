@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class Study20241031_1 {
     static Scanner sc = new Scanner(System.in);
+
     public static void main(String[] args) {
         int[] people = new int[5];
         int pass_energy = 0; // 에너지 전달
@@ -32,28 +33,27 @@ public class Study20241031_1 {
             turn++;
             villages = turnPlus(villages);
             while (flag2) {
-                int c = 1;
-                showEnergy(villages , c);
+                int c = 0;
+                showEnergy(villages, c);
                 System.out.println("1. 에너지 건물 구입 2. 에너지 대출");
                 choice = sc.nextInt();
-                if(choice == 1) {
+                if (choice == 1) {
                     villages = equipmentBuilding(villages, c); // 건물 구입 함수
-                } else if(choice == 2) {
+                } else if (choice == 2) {
 
                 }
                 c++;
-                if(c > villages.length) {
+                if (c > villages.length) {
                     c = 0;
                     flag2 = false;
                 }
             }
 
 
-
-
         }
 
     }
+
     public static Village[] setVillage(int choice, Village[] villages) {
         for (int i = 0; i < choice; i++) {
             System.out.println("마을 " + (i + 1) + "의 정보를 입력하세요:");
@@ -65,12 +65,12 @@ public class Study20241031_1 {
             int zoneCount = sc.nextInt();
             System.out.print("최대 전송량: ");
             int maxTransfer = sc.nextInt();
-            if(maxTransfer > 500) {
+            if (maxTransfer > 500) {
                 System.out.println("최대 전송량은 500을 넘을 수 없습니다. 500으로 고정됩니다.");
             }
             System.out.print("최소 에너지: ");
             int minEnergy = sc.nextInt();
-            if(minEnergy < 100) {
+            if (minEnergy < 100) {
                 System.out.println("최소 에너지 요구량은 100보다 작을 수 없습니다. 처음 턴에는 100으로 고정됩니다.");
                 // 최소 에너지 요구량은 에너지를 소비하는 건 사람 수 마다 소비하게 됨 1명당 1, 건물은 아직 안정함
             }
@@ -86,21 +86,22 @@ public class Study20241031_1 {
         }
         return villages;
     }
+
     public static Village[] turnPlus(Village[] vi) {
-        for(int i = 0; i < vi.length; i++){
-            for(int j = 0; j < vi[i].zoneCount; j++) {
+        for (int i = 0; i < vi.length; i++) {
+            for (int j = 0; j < vi[i].zoneCount; j++) {
                 // 최소 에너지 요구량은 에너지를 소비하는 건 사람 수 마다 소비하게 됨 1명당 1, 건물은 아직 안정함
                 // 근데 턴마다 사람으로 인해서 에너지를 2 얻음 그러니 그냥 더하기만 하면 됨
                 vi[i].zone[j] += vi[i].people[j];
             }
         }
-            return vi;
+        return vi;
     }
 
     public static void showEnergy(Village[] vi, int c) {
-        for(int i = c - 1; i < c; i++) {
-            for(int j = 0; j < vi[i].zoneCount; j++) {
-                System.out.println( vi[i].name +" 마을의 " + (j + 1) + "번 째 존의 에너지" + vi[i].zone[j]);
+        for (int i = c - 1; i < c; i++) {
+            for (int j = 0; j < vi[i].zoneCount; j++) {
+                System.out.println(vi[i].name + " 마을의 " + (j + 1) + "번 째 존의 에너지" + vi[i].zone[j]);
             }
         }
     }
@@ -116,7 +117,7 @@ public class Study20241031_1 {
         while (flag) { // 에너지빌딩[0] = 존[0] 즉 존에 있는 빌딩임
             System.out.println("몇 번째 존을 고르시겠습니까?");
             choice = sc.nextInt();
-            if(vi[c].zoneCount > choice || vi[c].zoneCount < choice) {
+            if (vi[c].zoneCount > choice || vi[c].zoneCount < choice) {
                 System.out.println("잘못 선택하셨습니다.");
                 System.out.println("zone 선택화면으로 돌아갑니다.");
             } else {
@@ -171,7 +172,7 @@ public class Study20241031_1 {
                                 System.out.println("금액이 모자랍니다. 선택화면으로 돌아갑니다.");
                             }
                         }
-                        if(whileout == 1) {
+                        if (whileout == 1) {
                             System.out.println("잘못 선택하셨습니다 건물 선택화면으로 돌아갑니다.");
                             whileout = 0;
                         }
@@ -184,10 +185,29 @@ public class Study20241031_1 {
         return vi;
     }
 
-    public static Village[] energyLoan(Village[] vi, int c) { // 대출
+    public static Village[] energyLoan(Village[] vi, int c) { // 그냥 대출할 때, 아니면 구입할 금액이 부족해서 대출할 때
         int choice = 0;
-        System.out.println("어느 존이 대출을 받겠습니까?");
-        choice = sc.nextInt();
+        boolean flag = true;
+        while (flag) {
+            System.out.println("어느 존이 대출을 받겠습니까?");
+            choice = sc.nextInt();
+            if (choice < vi[c].zoneCount) {
+                System.out.println(choice + "존 에너지 : " + vi[c].zone[choice - 1]);
+                System.out.println("어느 존에게 대출을 받겠습니까?");
+                choice = sc.nextInt();
+                if (choice < vi[c].zoneCount) {
+
+                } else {
+                    System.out.println("잘못 선택하셨습니다");
+                }
+
+            } else {
+                System.out.println("잘못 선택하셨습니다");
+            }
+
+
+        }
+
         //vi[c].zone[choice - 1]
 
 
