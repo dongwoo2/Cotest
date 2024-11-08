@@ -188,21 +188,23 @@ public class Study20241031_1 {
     public static Village[] energyLoan(Village[] vi, int c) { // 그냥 대출할 때, 아니면 구입할 금액이 부족해서 대출할 때
         int choice = 0;
         boolean flag = true;
+        boolean flag2 = true;
         while (flag) {
             System.out.println("어느 존이 대출을 받겠습니까?");
             choice = sc.nextInt();
-            if (choice < vi[c].zoneCount) {
-                System.out.println(choice + "존 에너지 : " + vi[c].zone[choice - 1]);
-                System.out.println("어느 존에게 대출을 받겠습니까?");
-                choice = sc.nextInt();
-                if (choice < vi[c].zoneCount) {
-
-                } else {
-                    System.out.println("잘못 선택하셨습니다");
-                }
-
-            } else {
+            if (choice > vi[c].zoneCount) { // choice 가 크면안됨 작아야함
                 System.out.println("잘못 선택하셨습니다");
+            } else {
+                while (flag2) {
+                    System.out.println(choice + "존 에너지 : " + vi[c].zone[choice - 1]);
+                    System.out.println("어느 존에게 대출을 받겠습니까?");
+                    choice = sc.nextInt();
+                    if (choice > vi[c].zoneCount) {
+                        System.out.println("잘못 선택하셨습니다");
+                    } else {
+
+                    }
+                }
             }
 
 
