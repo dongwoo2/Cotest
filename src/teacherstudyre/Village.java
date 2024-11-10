@@ -6,6 +6,7 @@ import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 
+// 그걸 에너지풀로 볼까
 public class Village {
     int EnergyPool = 0; // 전체 에너지 계수
     String name = ""; // 도시 이름
@@ -15,6 +16,12 @@ public class Village {
     int maxTransfer = 0; // 각 구역이 다른 구역에 전달할 수 있는 에너지의 최대량 Max 함수를 사용해 결정 500
     int minEnergy = 0; // 각 구역이 필요로 하는 최소 에너지 Min 함수를 사용해 결정 100 사람 한 명당 1의 에너지라고 생각하자
     int energy_building[] = new int[100]; // 1 빌딩, 2 호텔, 3 랜드마크
+    int panalty_check[] = new int[100]; // 이것도 존카운트 갯수만큼 페널티 체크
+    int energy_loan[][] = new int[100][100]; // 마을 갯수만큼 정해질꺼임 에너지 풀에 있는 에너지만 대출에 이용할 수 있음
+    // energy[0][2] = 300; 내가 1번째 마을 3번째 존에게 받을 에너지가 300만큼 있다
+    // energy[0][2] = -300; 내가 1번째 마을 3번째 존에게 줄 에너지가 300만큼 있다.
+    // 누가 누구한테 대출 받았는지 알아야할꺼 아니야
+    int allPanalty = 0; // 총 누적 패널티 갯수
     Scanner sc = new Scanner(System.in);
 
 
