@@ -1,0 +1,196 @@
+<head>
+    <meta charset="UTF-8">
+    <title>문서 제목</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<style>
+    /** {margin: 0; padding: 0}*/
+    .n_wrap { width: 100%; background-color:#ffffff; }
+    .n_wrap * { margin: 0; padding: 0; line-height: 0; }
+    .n_wrap img { max-width: 100%; border: 0; }
+    .n_wrap li { list-style: none; float: left; line-height: 0; }
+    .n_contents { width: 100%; max-width: 100%; position: relative; }
+    .n_contents img { margin: 0; padding: 0; vertical-align: top; line-height: 0; border: 0; }
+    .n_contents_navi img { float: left; }
+
+
+    .more_info_box {max-width: 1130px;}
+
+
+    .sec_1 {/*margin-top: 40px;*/ background: #f2f2f2; padding-bottom: 45px;}
+    .sec_1 .more_info_box {background: #fafafa; margin-top: 45px;*/}
+    .sec_1 .info_more_btn {font-size: 16px; font-weight: bolder; color: #0a0a0a ;cursor: pointer; text-decoration: underline; text-underline-position: under; line-height: 34px;}
+
+
+    .sec_2 {/*margin-top: 40px;*/ background: #72ffad; padding-bottom: 35px;}
+    .sec_2 .more_info_box {background: #fafafa; margin-top: 30px;}
+    .sec_2 .info_more_btn {font-size: 16px; font-weight: bolder; color: #0a0a0a ;cursor: pointer; text-decoration: underline; text-underline-position: under; line-height: 34px;}
+
+
+    .sec_2-1 {/*margin-top: 40px;*/; background: #ffcf62; padding-bottom: 35px;}
+    .sec_2-1 .more_info_box {background: #fafafa; margin-top: 30px;}
+    .sec_2-1 .info_more_btn {font-size: 16px; font-weight: bolder; color: #0a0a0a ;cursor: pointer; text-decoration: underline; text-underline-position: under; line-height: 34px;}
+
+
+    .more_info_box {max-height: 0; padding:0px 20px; overflow: hidden; transition: padding .2s ease-out, max-height .2s ease-out; font-size: 16px; text-align: left; color: #6e6e6e;}
+    .info_txt {font-size: 16px; line-height: 30px;}
+    .txt_b {font-weight: bold; color: #3e3e3e; font-size: 16px; line-height: 24px;}
+    .txt_notice {font-weight: bold; color: #130084; font-size: 16px; line-height: 24px;}
+
+
+    .link_box { position: absolute; /*background: #aa0000;*/ opacity: 0.3; }
+
+
+    .goods_box1-1 { width: 18.33%; height: 43.46%; left: 31.3%;  top: 48.32%; }
+    .goods_box1-2 { width: 31.8%; height: 47.72%; left: 55.9%;  top: 26.3%; }
+    .goods_box1-3 { width: 21%; height: 2.72%; left: 66.7%;  top: 55.9%; }
+
+    .p_tab_1_1 {width: 17%; height: 12.44%; left: 19.8%; top: 0;}
+    .p_tab_1_2 {width: 17%; height: 12.44%; left: 41.5%; top: 0;}
+    .p_tab_1_3 {width: 17%; height: 12.44%; left: 63.5%; top: 0;}
+
+    .p_tab_2_1 {width: 17%; height: 20.9%; left: 19.8%; top: 0;}
+    .p_tab_2_2 {width: 17%; height: 20.9%; left: 41.5%; top: 0;}
+    .p_tab_2_3 {width: 17%; height: 20.9%; left: 63.5%; top: 0;}
+
+    .p_tab_3_1 {width: 17%; height: 5.09%; left: 19.8%; top: 0;}
+    .p_tab_3_2 {width: 17%; height: 5.09%; left: 41.5%; top: 0;}
+    .p_tab_3_3 {width: 17%; height: 5.09%; left: 63.5%; top: 0;}
+
+</style>
+
+<center>
+    <div class="n_wrap">
+        <div class="n_contents">
+            <img width="100%" src="https://emonshome.hgodo.com/emonsmall/event/221229_1_promo/221227_1_promo_pc_01-1.gif">
+            <img width="100%" src="https://emonshome.hgodo.com/emonsmall/event/221229_1_promo/221227_1_promo_pc_02.jpg">
+
+            <div class="sec sec_1" id="sec_1">
+                <div style="position: relative;">
+                    <a href="#sec_1" class="link_box p_tab_1_1"></a>
+                    <a href="#sec_2" class="link_box p_tab_1_2"></a>
+                    <a href="#sec_3" class="link_box p_tab_1_3"></a>
+                    <img width="100%" src="https://emonshome.hgodo.com/emonsmall/event/221229_1_promo/221227_1_promo_pc_03.jpg">
+
+                    <a onclick="javascript:couponLinkDown('1494');" href="#;" class="link_box goods_box1-1"></a>
+                    <img width="100%" src="https://emonshome.hgodo.com/emonsmall/event/221229_1_promo/221227_1_promo_pc_04.jpg"></div>
+                <div class="info_more_btn" id="notice_button">NOTICE</div>
+                <div class="more_info_box">
+                    <div class="info_txt">
+                        ※ 본 행사는 당사 사정에 따라 예고 없이 변경되거나 중단될 수 있습니다.<br>
+                        <div class="txt_b">※ 네이버페이 결제 시 쿠폰&amp;마일리지 사용이 불가합니다.</div><br>
+                        <div class="txt_b">[혜택1. 회원가입 시 2% 즉시할인 + 1만마일리지 지급]</div>
+                        - 마일리지는 즉시 사용 가능하나 5만원 이상 제품 구입 시 결제금액의 최대 10% 금액까지 사용 가능합니다.<br>
+                        - 네이버페이 결제 시 사용이 불가합니다.<br><br>
+
+                        <div class="txt_b">[혜택2. (APP 전용) 5만원 이상 구매 시 추가 3% 즉시할인 쿠폰]</div>
+                        <div class="txt_b">- 상품별 적용되는 쿠폰입니다.</div>
+                        <div class="txt_b">- 회원가입 필수입니다.</div>
+                        <div class="txt_b">- 입점몰 상품, 이벤트 품목은 제외입니다.</div>
+                        <div class="txt_b">- 클릭 후 다운로드 가능합니다.</div>
+                        - 네이버페이 결제 시 사용이 불가합니다.<br><br>
+
+                        <div class="txt_b">[혜택3. 에몬스몰 회원구매 시 1% 마일리지 적립]</div>
+                        - 적립된 마일리지는 즉시 사용 가능하나 5만원 이상 제품 구입 시 결제금액의 최대 10% 금액까지 사용 가능합니다.<br>
+                        - 네이버페이 결제 시 사용이 불가합니다.<br>
+                        - 에몬스홈, 입점 상품 전체 적용입니다.<br><br>
+
+                        <div class="txt_b">[[혜택4. 포토리뷰 작성 시 커피쿠폰 + 마일리지 증정]</div>
+                        - 해당 이벤트는 에몬스몰 회원 대상으로 진행합니다. 비회원은 응모대상이 되지 않습니다.<br>
+                        &nbsp;&nbsp;(결제는 PC/모바일/앱 상관없습니다)<br>
+                        - 해당 이벤트는 에몬스몰 상품 구매 후 포토리뷰 또는 동영상리뷰 작성 시 자동 응모 됩니다.<br>
+                        &nbsp;&nbsp;(입점몰 상품은 해당되지 않습니다)<br>
+                        - 포토리뷰 또는 동영상리뷰 작성 시 유효글자 50자 이상으로 작성하셔야 이벤트에 자동 응모 됩니다.<br>
+                        &nbsp;&nbsp;(유효글자 : 띄어쓰기를 제외한 글자 수)<br>
+                        - 구매 금액 10만원 이상 상품 구매 시 응모 됩니다.<br>
+                        - 명시된 작성기간 이 후 작성한 리뷰는 응모대상에서 제외됩니다.<br>
+                        - 어떤 상품인지 알아볼수 없는 사진, 상품과 연관성이 없는 사진, 상품과 무관한 욕설리뷰는 응모대상에서 제외됩니다.<br>
+                        - 응모하신 사진은 마케팅 용도로 사용될 수 있습니다.<br>
+
+                    </div>
+                </div>
+            </div>
+            <div class="sec sec_2" id="sec_2">
+                <div style="position: relative;">
+                    <a href="#sec_1" class="link_box p_tab_2_1"></a>
+                    <a href="#sec_2" class="link_box p_tab_2_2"></a>
+                    <a href="#sec_3" class="link_box p_tab_2_3"></a>
+                    <img width="100%" src="https://emonshome.hgodo.com/emonsmall/event/221229_1_promo/221227_1_promo_pc_05.jpg">
+                    <img width="100%" src="https://emonshome.hgodo.com/emonsmall/event/221229_1_promo/221227_1_promo_pc_06.jpg">
+                </div>
+                <div class="info_more_btn">NOTICE</div>
+                <div class="more_info_box">
+                    <div class="info_txt">
+                        <div class="txt_b">※ 본 행사는 당사 사정에 따라 예고 없이 변경되거나 중단될 수 있습니다.</div><br>
+                        <div class="txt_b">[결제금액별 신세계 상품권 증정]</div>
+                        - 모바일 교환권은 60일 이내에 교환하여야하며 기간이 넘어가면 더 이상 백화점 상품권으로 교환이 불가능합니다.<br>
+                        - 고객님의 실수로 인한 잘못된 정보 입력에 대해서는 사은품 재발송 해드리지 않습니다.<br>
+                        - 유효기간이 지난 모바일 상품권은 재발급되지 않습니다.<br>
+                        - 본 이벤트 참여와 동시에 개인정보 제3자 제공에 동의로 간주됩니다.<br>
+                    </div>
+                </div>
+            </div>
+
+            <div style="position: relative;">
+                <a href="https://www.emonshome.co.kr/mypage/index.php"><div class="link_box goods_box1-2"></div></a>
+                <img width="100%" src="https://emonshome.hgodo.com/emonsmall/event/221229_1_promo/221227_1_promo_pc_07.jpg">
+            </div>
+
+            <div class="sec sec_2-1" id="sec_2-1">
+                <div style="position: relative;">
+                    <img width="100%" src="https://emonshome.hgodo.com/emonsmall/event/221229_1_promo/221227_1_promo_pc_08.jpg">
+                </div>
+                <div class="info_more_btn">NOTICE</div>
+                <div class="more_info_box">
+                    <div class="info_txt" id="test_dong">
+                        - 본 프로모션은 KB국민카드 회원(KB국민 기업 비씨, 선불카드 제외)만 적용됩니다.<br>
+                        - 신용카드 선택 후 KB국민카드로 결제한 경우만 적용됩니다. <br>
+                        &nbsp;&nbsp;(네이버페이, PAYCO 등 간편결제 선택 시 혜택 제외)
+                        - 문의 : KB국민카드 고객센터 (1588-1688)<br>
+                        - 본 프로모션은 KB국민카드 영업정책 및 제휴업체의 사정으로 변경 또는 중단 될 수 있습니다.<br>
+                        - 일정기간 원리금을 연체할 경우, 모든 원리금을 변제할 의무가 발생할 수 있습니다.<br>
+                        - 즉시할인 선착순 마감 시, 결제 페이지에서 할인 혜택이 보이지 않습니다.<br>
+                        - 결제 시 KCP 결제창에서 즉시할인쿠폰 선택 후 할인에 적용된 것을 확인한 후 결제 진행하셔야 합니다.<br>
+                        - 결제금액 기준은 쿠폰할인, 적립금 사용 등 선 할인 후 적용된 실 결제 금액입니다.<br>
+                        - 본 프로모션은 할인한도 소진 시 조기 종료됩니다.<br>
+                        - 상환능력에 비해 신용카드 사용액이 과도할 경우 귀하의 개인신용평점이 하락할 수 있습니다.<br>
+                        - 개인신용평점 하락 시 금융거래 관련된 불이익이 발생할 수 있습니다.<br>
+                        - 계약을 체결하기 전에 상품설명서와 약관을 확인하시기 바랍니다.<br>
+                        - 카드이용대금과 이에 수반되는 모든 수수료를 지정된 대금 결제일에 상환합니다.<br>
+                        - 금융소비자는 금소법 제 19조 제1항에 따라 해당상품 또는 서비스에 대하여 설명을 받을 권리가 있으며, 해당 설명을 듣고 내용을 충분히 이해한 후 거래하시기 바랍니다.<br>
+                        - 간편결제(네이버페이 등)/법인/기프트/선불카드 이용시 혜택이 적용되지 않습니다.<br>
+                        - 주문취소, 부분 취소 시 할인 대상에서 제외됩니다.<br>
+                    </div>
+                </div>
+            </div>
+            <div class="sec sec_3" id="sec_3">
+                <div style="position: relative;">
+                    <a href="#sec_1" class="link_box p_tab_3_1"></a>
+                    <a href="#sec_2" class="link_box p_tab_3_2"></a>
+                    <a href="#sec_3" class="link_box p_tab_3_3"></a>
+                    <a href="https://www.emonshome.co.kr/goods/event_sale.php?sno=402"><div class="link_box goods_box1-3"></div></a>
+                    <img width="100%" src="https://emonshome.hgodo.com/emonsmall/event/221229_1_promo/221227_1_promo_pc_09.jpg">
+                    <img width="100%" src="https://emonshome.hgodo.com/emonsmall/event/221229_1_promo/221227_1_promo_pc_10.jpg">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</center>
+<script>
+    $(document).ready(function () {
+        $(".info_more_btn").click(function(){
+            $(this).toggleClass("active");
+            var findsec = $(this).parents(".sec");
+            var panel = findsec.children(".more_info_box").prop("scrollHeight");
+            if($(this).hasClass("active")) {
+                findsec.children(".more_info_box").attr("style", "max-height : "+panel+"px");
+                findsec.children(".more_info_box").css("padding", "50px 50px");
+            } else {
+                findsec.children(".more_info_box").attr("style", "max-height : null");
+            }
+        });
+
+    });
+</script>
