@@ -9,6 +9,7 @@ import static java.lang.Math.min;
 // 그걸 에너지풀로 볼까
 public class Village {
     int EnergyPool = 0; // 전체 에너지 계수
+    int canEnergyPool = 0;
     String name = ""; // 도시 이름
     int zoneCount = 0;
     int zone[] = new int[100]; // 도시 안에 있는 구역 얘가 에너지 생산량도 포함함
@@ -31,6 +32,7 @@ public class Village {
 
     Village(int EnergyPool, String name, int zoneCount, int maxTransfer, int minEnergy) {
         this.EnergyPool = EnergyPool;
+        this.canEnergyPool = EnergyPool;
         this.name = name;
         this.zoneCount = zoneCount;
 

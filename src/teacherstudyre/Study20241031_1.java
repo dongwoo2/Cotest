@@ -46,8 +46,15 @@ public class Study20241031_1 {
                 showEnergy(villages, c);
                 System.out.println("1. 에너지 건물 구입 2. 에너지풀에 에너지 저장");
                 choice = sc.nextInt();
-                if (choice == 1) {
-                    villages = equipmentBuilding(villages, c); // 건물 구입 함수
+                if (choice < 2) {
+                    if (choice == 1){
+                        villages = equipmentBuilding(villages, c); // 건물 구입 함수
+                    } else if(choice == 2) {
+
+                    }
+
+                } else {
+                    System.out.println("잘못 입력");
                 }
                 c++;
                 // 턴 끝나면 zone을 0으로 만들어야 한다고? 그러면 바로 패널티 걸리잖아
@@ -337,11 +344,19 @@ public class Study20241031_1 {
             minener = Math.max(vi[c].minEnergy, vi[c].people[i]);
             if(vi[c].zone[i] > minener) { // 저장은 패널티 체크 다음이니까
                  saveener = vi[c].zone[i] - minener;
+                 // 실제로 에너지풀에 저장되는 에너지는 다음턴에 쓸 수 있음 좋겠는데
+                 // 거기에 에너지풀은 실제로는 들어가 있는데 쓸 수 있는 에너지는 몇입니다
+                 // 에너지 총량: , 가용 에너지 총량: 이런 식으로 하자
+                 // canEnergyPool에 적용되어야함 한 턴 지나면 다시 가용될 수 있게 더해지고 그 로직도 추가해야할 듯
                  vi[c].EnergyPool += saveener;
+                 vi[c].canEnergyPool = vi[c].EnergyPool - saveener;
+                 // 이 로직에서 다음 턴 지나면 더해질 수 있게
             }
         }
         return vi;
     }
+
+
 
 
 }
