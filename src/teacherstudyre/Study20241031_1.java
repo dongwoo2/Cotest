@@ -31,10 +31,12 @@ public class Study20241031_1 {
         //모두의 마블 생각해서 사람수대로 에너지 ++ 될 수 있게
         while (flag) {
             turn++;
+            // 여기서 canenergypool 이랑 energypool 맞춰야함 turn 지났으니까
             villages = turnPlus(villages);
             flag2 = true;
             while (flag2) {
-                System.out.println("패널티 체크전에 에너지를 이동시키겠습니까? 1.예 2.아니오");
+                villages[c].canEnergyPool = villages[c].EnergyPool;
+                System.out.println("패널티 체크 전에 에너지를 이동시키겠습니까? 1.예 2.아니오");
                 choice = sc.nextInt();
                 if(choice == 1) {
                     villages = energyLoan(villages, c); // 에너지 대출 이 함수가 패널티 체크전으로 가야함
@@ -50,7 +52,7 @@ public class Study20241031_1 {
                     if (choice == 1){
                         villages = equipmentBuilding(villages, c); // 건물 구입 함수
                     } else if(choice == 2) {
-
+                        villages = saveEnergy(villages, c);
                     }
 
                 } else {
@@ -123,6 +125,12 @@ public class Study20241031_1 {
     }
 
     public static Village[] equipmentBuilding(Village[] vi, int c) {
+        // 이 부분 사실 캔에너지 부분으로 써야했는데 이상해졌네 존에서 에너지 어떻게 하는건데?
+        // 어떻게 할건데? 에너지?
+        // 설계 미스인데 에너지 풀에서 쓰는 에너지만 써야하는데
+        // 존에 있는 에너지는 쓸 수 없을텐데 근데 페널티가 저장할때만 나오는거야? 그러면 패널티 나올일이 별로 없는데
+        // 그러면 패널티가 적다기보다는 건물이 많은 순으로 순위를 매겨야 할 거 같은데
+
         int choice = 0;
         int building_choice = 0;
         int building_price = 0;
