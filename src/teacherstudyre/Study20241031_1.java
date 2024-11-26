@@ -50,7 +50,7 @@ public class Study20241031_1 {
                     if (choice == 1){
                         villages = equipmentBuilding(villages, c); // 건물 구입 함수
                     } else if(choice == 2) {
-
+g
                     }
 
                 } else {
