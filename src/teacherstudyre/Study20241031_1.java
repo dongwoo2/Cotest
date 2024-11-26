@@ -206,6 +206,7 @@ public class Study20241031_1 {
 
 
         }
+        return vi;
     }
 
     public static Village[] equipmentBuilding2(Village[] vi, int c) {
