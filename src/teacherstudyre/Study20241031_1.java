@@ -52,6 +52,7 @@ public class Study20241031_1 {
                     if (choice == 1){
                         villages = equipmentBuilding(villages, c); // 건물 구입 함수
                     } else if(choice == 2) {
+                        System.out.println("1. 자동 에너지 저장 2. 수동 에너지 저장");
                         villages = saveEnergy(villages, c);
                     }
 
@@ -71,6 +72,7 @@ public class Study20241031_1 {
         }
 
     }
+
 
     public static Village[] setVillage(int choice, Village[] villages) {
         for (int i = 0; i < choice; i++) {
@@ -123,8 +125,90 @@ public class Study20241031_1 {
             }
         }
     }
-
     public static Village[] equipmentBuilding(Village[] vi, int c) {
+        int choice = 0;
+        int building_choice = 0;
+        int building_price = 0;
+        boolean flag = true;
+        boolean flag2 = true;
+        int check = 0;
+        int whileout = 0;
+
+        while (flag) { // 에너지빌딩[0] = 존[0] 즉 존에 있는 빌딩임
+            System.out.println("몇 번째 존을 고르시겠습니까?");
+            choice = sc.nextInt();
+            if (vi[c].zoneCount > choice || vi[c].zoneCount < choice) {
+                System.out.println("잘못 선택하셨습니다.");
+                System.out.println("zone 선택화면으로 돌아갑니다.");
+            } else {
+                while (flag2) {
+                    System.out.println("1. 빌딩 2. 호텔 3. 랜드마크"); // 가격 200,400,800
+                    building_choice = sc.nextInt();
+                    if (building_choice == 1) {
+                        building_price = 200;
+                        check = 1;
+                    } else if (building_choice == 2) {
+                        building_price = 400;
+                        check = 1;
+                    } else if (building_choice == 3) {
+                        building_price = 800;
+                        check = 1;
+                    } else {
+                        System.out.println("잘못된 번호를 선택하셨습니다.");
+                    }
+
+
+                    if (check == 1) {
+                        if (vi[c].energy_building[choice] == building_choice) { // 똑같은 건물을 선택했을 시
+                            System.out.println("현재 똑같은 건물을 소유하고 있습니다.");
+                            System.out.println("1. 다시선택 2. 나가기");
+                            choice = sc.nextInt();
+                            if (choice == 2) {
+                                flag = false;
+                                flag2 = false;
+                            } else if (choice == 1) {
+                                check = 0;
+                            } else {
+                                whileout = 1;
+                            }
+                        } else if (vi[c].energy_building[choice] > building_choice) {
+                            System.out.println("현재 선택한 건물보다 더 좋은 건물을 소유하고 있습니다.");
+                            System.out.println("1. 다시선택 2. 나가기");
+                            choice = sc.nextInt();
+                            if (choice == 2) {
+                                flag = false;
+                                flag2 = false;
+                            } else if (choice == 1) {
+                                check = 0;
+                            } else {
+                                whileout = 1;
+                            }
+                        } else {
+                            if (vi[c].canEnergyPool > building_price) {
+                                System.out.println("구입이 완료되었습니다.");
+                                vi[c].canEnergyPool -= building_price;
+                                flag2 = false;
+                                flag = false;
+                            } else {
+                                System.out.println("금액이 모자랍니다. 선택화면으로 돌아갑니다.");
+                                // 여기서 대출권도 있으면 좋겠는데 대출이 가능할까?
+                            }
+                        }
+                        if (whileout == 1) {
+                            System.out.println("잘못 선택하셨습니다 건물 선택화면으로 돌아갑니다.");
+                            whileout = 0;
+                        }
+                    }
+                }
+            }
+
+
+        }
+        return vi;
+    }
+
+
+    public static Village[] equipmentBuilding2(Village[] vi, int c) {
         // 이 부분 사실 캔에너지 부분으로 써야했는데 이상해졌네 존에서 에너지 어떻게 하는건데?
         // 어떻게 할건데? 에너지?
         // 설계 미스인데 에너지 풀에서 쓰는 에너지만 써야하는데
@@ -359,6 +443,26 @@ public class Study20241031_1 {
                  vi[c].EnergyPool += saveener;
                  vi[c].canEnergyPool = vi[c].EnergyPool - saveener;
                  // 이 로직에서 다음 턴 지나면 더해질 수 있게
+            }
+        }
+        return vi;
+    }
+
+    public static Village[] saveEnergy_2(Village[] vi, int c) { // 수동 저장
+        int minener = 0;
+        int saveener = 0;
+
+        for(int i = 0; i < vi[c].zoneCount; i++) {
+            minener = Math.max(vi[c].minEnergy, vi[c].people[i]);
+
+            if(vi[c].zone[i] > minener) {
+                System.out.println("에너지를 얼마나 저장하시겠습니까?");
+                System.out.println(i+1 + "존 에너지 현재 총량은 " + vi[c].zone[i] + " 입니다.");
+                System.out.println("에너지를 저장하고 난 후 " + minener + " 보다 적으면 패널티를 얻습니다.\n 얼마만큼의 에너지를 저장하시겠습니까?");
+
+                saveener = sc.nextInt();
+
+                
             }
         }
         return vi;
