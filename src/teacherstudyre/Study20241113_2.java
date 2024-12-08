@@ -110,34 +110,73 @@ public class Study20241113_2 {
         }
 
 
-         public int[][] goBack(int[][] map, int mapgaro, int mapsero, int lobotgaro, int lobotsero) { // 앞뒤
-            // 현재 로봇의 위치 0
-            // 로봇이 한 칸 움직일 때 마다
-            // 모든 숫자에 덧셈이 생기네
-            // 나는 한 칸 한 칸 움직였을 때 모든 숫자가 바뀌었음 좋겠음
-             // 목적지가 100이고
-             // 99를 피해서 가는건데 그 이외에 숫자는 로봇이 움직일 때 마다 바뀌는거임
-             // 로봇이 움직이는 조건은 1이 옆에 있을 때 움직이거나 제일 작은 수가 있을 떄 그 쪽으로 이동함
-             // 로봇이 움직이는 모습을 보여주고 싶음 로봇의 현재위치를 문자열로 로봇으로 보이게
-             // 로봇은 장애물을 피해서 움직여야함
-             //
-             for (int i = 0; i < mapgaro; i++) { // TODO while문으로 바꾸는거 고민
-                 for (int j = 0; j < mapsero; j++) { // TODO 여기 조건이 달라져야함
-                     if (map[i][j] == 99 || map[i][j] == 100) {
-                         continue;
-                     }
 
+    public static void goBack(int[][] map, int mapgaro, int mapsero, int lobotgaro, int lobotsero) {
+        // 현재 로봇의 위치 0
+        // 로봇이 한 칸 움직일 때 마다
+        // 모든 숫자에 덧셈이 생기네
+        // 나는 한 칸 한 칸 움직였을 때 모든 숫자가 바뀌었음 좋겠음
+        // 목적지가 100이고
+        // 99를 피해서 가는건데 그 이외에 숫자는 로봇이 움직일 때 마다 바뀌는거임
+        // 로봇이 움직이는 조건은 1이 옆에 있을 때 움직이거나 제일 작은 수가 있을 떄 그 쪽으로 이동함
+        // 로봇이 움직이는 모습을 보여주고 싶음 로봇의 현재위치를 문자열로 로봇으로 보이게
+        // 로봇은 장애물을 피해서 움직여야함
+        // 로봇의 현재 위치를 0으로 설정
+        map[lobotgaro][lobotsero] = 0;
 
-                 }
-             }
+        // 로봇이 이동할 수 있는 방향 (상, 하, 좌, 우)
+        int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}}; // (위, 아래, 왼쪽, 오른쪽)
 
-            return map;
-         }
+        while (true) {
+            int minValue = Integer.MAX_VALUE;
+            int nextGaro = lobotgaro;
+            int nextSero = lobotsero;
 
-         public int[][] upDown(int[][] map) { // 위아래
-             return map;
-         }
+            // 인접한 칸 중에서 가장 작은 값을 찾기
+            for (int[] direction : directions) {
+                int newGaro = lobotgaro + direction[0];
+                int newSero = lobotsero + direction[1];
 
+                // 맵의 범위를 벗어나지 않고 장애물이 없는 경우
+                if (newGaro >= 0 && newGaro < mapgaro && newSero >= 0 && newSero < mapsero) {
+                    if (map[newGaro][newSero] != 99 && map[newGaro][newSero] < minValue) {
+                        minValue = map[newGaro][newSero];
+                        nextGaro = newGaro;
+                        nextSero = newSero;
+                    }
+                }
+            }
+
+            // 목적지에 도달했거나 더 이상 이동할 수 없는 경우 종료
+            if (map[nextGaro][nextSero] == 100 || minValue == Integer.MAX_VALUE) {
+                break;
+            }
+
+            // 로봇의 위치 업데이트
+            lobotgaro = nextGaro;
+            lobotsero = nextSero;
+
+            // 로봇의 현재 위치를 0으로 설정
+            map[lobotgaro][lobotsero] = 0;
+
+            // 현재 맵 상태 출력
+            printMap(map, mapgaro, mapsero, lobotgaro, lobotsero);
+        }
+    }
+    // 맵을 출력하는 메서드
+    public static void printMap(int[][] map, int mapgaro, int mapsero, int lobotgaro, int lobotsero) {
+        for (int i = 0; i < mapgaro; i++) {
+            for (int j = 0; j < mapsero; j++) {
+                if (i == lobotgaro && j == lobotsero) {
+                    System.out.print("로봇 "); // 로봇의 위치 표시
+                } else {
+                    System.out.print(map[i][j] + " ");
+                }
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
 
 }
 
