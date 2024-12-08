@@ -8,8 +8,9 @@ import java.util.Scanner;
 //
 public class Study20241113_2 {
     static Scanner sc = new Scanner(System.in);
+
     public static void main(String[] args) {
-        int[][] map= new int[100][100];
+        int[][] map = new int[100][100];
         int mapgaro = 0;
         int mapsero = 0;
         int lobot_start_garo = 0;
@@ -41,69 +42,102 @@ public class Study20241113_2 {
         // 장애물 값 99
         // 맵에 초기값을 어떻게 주지 그냥 거리에 따라 줄까
         //
-        map = setting_first(map,mapgaro,mapsero,lobot_start_garo,lobot_start_sero, obstacle_garo,obstacle_sero);
+        map = setting_first(map, mapgaro, mapsero, lobot_start_garo, lobot_start_sero, obstacle_garo, obstacle_sero, goal_garo, goal_sero);
     }
 
 
-    public static int[][] setting_first(int[][] map, int mapgaro, int mapsero, int lobotgaro, int lobotsero, int obstacle_garo, int obstacle_sero){
-        map[obstacle_garo][obstacle_sero] = 99; // 장애물 99
+    public static int[][] setting_first(int[][] map, int mapgaro, int mapsero, int lobotgaro, int lobotsero, int obstacle_garo, int obstacle_sero, int goalgaro, int goalsero) {
+
         int garoset = 0;
         int seroset = 0;
-        for(int i = 0; i < mapgaro; i++) {
-            for(int j = 0; j < mapsero; j++) {
-                if(map[i][j] == 99) {
+        lobotgaro -= 1;
+        lobotsero -= 1;
+        obstacle_garo -= 1;
+        goalgaro -= 1;
+        goalsero -= 1;
+        obstacle_sero -= 1;
+        map[obstacle_garo][obstacle_sero] = 99; // 장애물 99
+        map[goalgaro][goalsero] = 100;
+        for (int i = 0; i < mapgaro; i++) {
+            for (int j = 0; j < mapsero; j++) {
+                if (map[i][j] == 99 || map[i][j] == 100) {
                     continue;
                 }
                 map[lobotgaro][lobotsero] = 0;
-                if(lobotgaro > i) { // 가로에서 지금 순서가 로봇보다 위에 있을 때
-                    garoset = lobotgaro - i;
-                } else if(lobotgaro == i) { // 같은 가로에 있을 때
+                if (lobotgaro == i && lobotsero < j) { // 같은 가로에 있고 세로열이 지금 열보다 왼쪽에 있을경우
                     garoset = 0;
-                } else { // 가로에서 지금 순서가 로봇보다 아래에 있을 때
-                    garoset = i - lobotgaro;
-                }
-                if(lobotsero > j) { // 세로에서 지금 순서가 로봇보다 왼쪽에 있을때
+                    seroset = j - lobotsero;
+                } else if (lobotgaro == i && lobotsero > j) { // 같은 가로에 있고 세로열이 지금 열보다 오른쪽에 있을경우
+                    garoset = 0;
                     seroset = lobotsero - j;
-                } else if (lobotsero == j) { // 같은 세로에 있을 때
+                } else if (lobotgaro < i && lobotsero == j) { // 로봇의 위치보다 밑에 있고 세로가 같을 경우
+                    garoset = i - lobotgaro;
                     seroset = 0;
-                } else {
-                    seroset = lobotsero - j; // 로봇보다 오른쪽에 있을 때
+                } else if (lobotgaro < i && lobotsero < j) { // 로봇의 위치보다 밑에 있고 세로가 오른쪽에 있을경우
+                    garoset = i - lobotgaro;
+                    seroset = j - lobotsero;
+                } else if (lobotgaro < i && lobotsero > j) { // 로봇보다 밑에 있고 왼쪽에 있을 경우
+                    garoset = i - lobotgaro;
+                    seroset = lobotsero - j;
+                } else if (lobotgaro > i && lobotsero == j) { // 로봇의 위치보다 위에 있고 세로가 같을 경우
+                    garoset = lobotgaro - i ;
+                    seroset = 0;
+                } else if (lobotgaro > i && lobotsero < j) { // 로봇의 위치보다 위에 있고 세로가 오른쪽에 있을경우
+                    garoset = lobotgaro - i;
+                    seroset = j - lobotsero;
+                } else if (lobotgaro > i && lobotsero > j) { // 로봇보다 위에 있고 왼쪽에 있을 경우
+                    garoset = lobotgaro - i;
+                    seroset = lobotsero - j;
+
                 }
-
-                if(garoset == 1 && seroset == 1) {
-                    map[i][j] = 2;
-                } else if (garoset == 1 && seroset > 0) {
-                    map[i][j] = seroset;
-                } else if (garoset > 0  && seroset == 1) {
-                    map[i][j] = garoset;
+                    // 5번 다 도는데
+                    // 일단 시작위치 기준으로
+                    // 로봇이랑 거리가 1이면 값 1, 2이면 2, 3이면 3 최대는 8 최대 8을 어떻게 지정이 되는지
+                map[i][j] = garoset + seroset;
                 }
-                // 5번 다 도는데
-                // 일단 시작위치 기준으로
-                // 로봇이랑 거리가 1이면 값 1, 2이면 2, 3이면 3 최대는 8 최대 8을 어떻게 지정이 되는지
             }
-        }
-        for(int t = 0; t < mapgaro; t++){
-            System.out.println(" ");
-            for(int k = 0; k < mapsero; k++) {
-                System.out.print(map[t][k]);
+            for (int t = 0; t < mapgaro; t++) {
+                System.out.println(" ");
+                for (int k = 0; k < mapsero; k++) {
+
+                    System.out.print(map[t][k] + " ");
+                    // TODO if 로봇의 위치일경우 로봇이렇게 표기
+                }
             }
+
+
+            return map;
         }
 
-        return map;
-    }
+
+         public int[][] goBack(int[][] map, int mapgaro, int mapsero, int lobotgaro, int lobotsero) { // 앞뒤
+            // 현재 로봇의 위치 0
+            // 로봇이 한 칸 움직일 때 마다
+            // 모든 숫자에 덧셈이 생기네
+            // 나는 한 칸 한 칸 움직였을 때 모든 숫자가 바뀌었음 좋겠음
+             // 목적지가 100이고
+             // 99를 피해서 가는건데 그 이외에 숫자는 로봇이 움직일 때 마다 바뀌는거임
+             // 로봇이 움직이는 조건은 1이 옆에 있을 때 움직이거나 제일 작은 수가 있을 떄 그 쪽으로 이동함
+             // 로봇이 움직이는 모습을 보여주고 싶음 로봇의 현재위치를 문자열로 로봇으로 보이게
+             // 로봇은 장애물을 피해서 움직여야함
+             //
+             for (int i = 0; i < mapgaro; i++) { // TODO while문으로 바꾸는거 고민
+                 for (int j = 0; j < mapsero; j++) { // TODO 여기 조건이 달라져야함
+                     if (map[i][j] == 99 || map[i][j] == 100) {
+                         continue;
+                     }
 
 
+                 }
+             }
 
-    /**
-    public int[][] goBack(int[][] map) { // 앞뒤
+            return map;
+         }
+
+         public int[][] upDown(int[][] map) { // 위아래
+             return map;
+         }
 
 
-
-        return map;
-    }
-
-    public int[][] upDown() { // 위아래
-
-    }
-     **/
 }
+
