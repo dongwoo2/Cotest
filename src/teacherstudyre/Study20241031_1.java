@@ -52,8 +52,14 @@ public class Study20241031_1 {
                     if (choice == 1){
                         villages = equipmentBuilding(villages, c); // 건물 구입 함수
                     } else if(choice == 2) {
+<<<<<<< HEAD
                         System.out.println("1. 자동 에너지 저장 2. 수동 에너지 저장");
+=======
+                        // 얼마만큼의 에너지를 저장하겠습니까?
+                        // 여기서도 분기 나누기 1은 자동저장 2는 얼마만큼 저장하겠다
+>>>>>>> c1fdd972ad0f9bb7765a12598e897566518b5e61
                         villages = saveEnergy(villages, c);
+
                     }
 
                 } else {
@@ -207,7 +213,10 @@ public class Study20241031_1 {
         return vi;
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> c1fdd972ad0f9bb7765a12598e897566518b5e61
     public static Village[] equipmentBuilding2(Village[] vi, int c) {
         // 이 부분 사실 캔에너지 부분으로 써야했는데 이상해졌네 존에서 에너지 어떻게 하는건데?
         // 어떻게 할건데? 에너지?
