@@ -43,7 +43,7 @@ public class Study20241113_2 {
         // 맵에 초기값을 어떻게 주지 그냥 거리에 따라 줄까
         //
         map = setting_first(map, mapgaro, mapsero, lobot_start_garo, lobot_start_sero, obstacle_garo, obstacle_sero, goal_garo, goal_sero);
-        goBack(map, mapgaro, mapsero, lobot_start_garo - 1, lobot_start_sero - 1); // 인덱스 조정
+        goBack(map, mapgaro, mapsero, lobot_start_garo - 1, lobot_start_sero - 1, goal_garo, goal_sero); // 인덱스 조정
     }
 
 
@@ -112,26 +112,38 @@ public class Study20241113_2 {
 
 
 
-    public static void goBack(int[][] map, int mapgaro, int mapsero, int lobotgaro, int lobotsero) {
+    public static void goBack(int[][] map, int mapgaro, int mapsero, int lobotgaro, int lobotsero, int goalgaro, int goalsero) {
+
         // 로봇이 이동할 수 있는 방향 (상, 하, 좌, 우)
         int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}}; // (위, 아래, 왼쪽, 오른쪽)
-
+        int destinationGaro = goalgaro;
+        int destinationSero = goalsero;
         while (true) {
             int minValue = Integer.MAX_VALUE;
             int nextGaro = lobotgaro;
             int nextSero = lobotsero;
 
+
             // 인접한 칸 중에서 가장 작은 값을 찾기
+            // 인접한 칸 중에서 가장 작은 값을 찾고, 목적지에 더 가까운 방향으로 이동하기
             for (int[] direction : directions) {
                 int newGaro = lobotgaro + direction[0];
                 int newSero = lobotsero + direction[1];
 
                 // 맵의 범위를 벗어나지 않고 장애물이 없는 경우
                 if (newGaro >= 0 && newGaro < mapgaro && newSero >= 0 && newSero < mapsero) {
+                    // 뉴가로가 맵가로보다 작고 뉴세로가 맵 세로보다 작다면
                     if (map[newGaro][newSero] != 99 && map[newGaro][newSero] < minValue) {
-                        minValue = map[newGaro][newSero];
-                        nextGaro = newGaro;
-                        nextSero = newSero;
+                        // 현재 위치에서 목적지까지의 거리 계산
+                        int currentDistance = Math.abs(newGaro - destinationGaro) + Math.abs(newSero - destinationSero);
+                        int bestDistance = Math.abs(lobotgaro - destinationGaro) + Math.abs(lobotsero - destinationSero);
+
+                        // 현재 위치에서 목적지까지의 거리가 줄어드는 경우
+                        if (currentDistance < bestDistance) {
+                            minValue = map[newGaro][newSero];
+                            nextGaro = newGaro;
+                            nextSero = newSero;
+                        }
                     }
                 }
             }
