@@ -97,14 +97,14 @@ public class Study20241113_2 {
                 map[i][j] = garoset + seroset;
                 }
             }
-            for (int t = 0; t < mapgaro; t++) {
-                System.out.println(" ");
-                for (int k = 0; k < mapsero; k++) {
-
-                    System.out.print(map[t][k] + " ");
-                    // TODO if 로봇의 위치일경우 로봇이렇게 표기
-                }
-            }
+//            for (int t = 0; t < mapgaro; t++) {
+//                System.out.println(" ");
+//                for (int k = 0; k < mapsero; k++) {
+//
+//                    System.out.print(map[t][k] + " ");
+//                    // TODO if 로봇의 위치일경우 로봇이렇게 표기
+//                }
+//            }
 
 
             return map;
@@ -114,6 +114,11 @@ public class Study20241113_2 {
 
     public static void goBack(int[][] map, int mapgaro, int mapsero, int lobotgaro, int lobotsero, int goalgaro, int goalsero) {
 
+        int cnt = 0;
+        if(cnt == 0) {
+            printMap(map, mapgaro, mapsero, lobotgaro, lobotsero);
+            cnt++;
+        }
         // 로봇이 이동할 수 있는 방향 (상, 하, 좌, 우)
         int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}}; // (위, 아래, 왼쪽, 오른쪽)
         int destinationGaro = goalgaro;
@@ -128,11 +133,13 @@ public class Study20241113_2 {
             // 인접한 칸 중에서 가장 작은 값을 찾고, 목적지에 더 가까운 방향으로 이동하기
             for (int[] direction : directions) {
                 int newGaro = lobotgaro + direction[0];
+//                System.out.println("direction0 = " + direction[0]);
                 int newSero = lobotsero + direction[1];
+//                System.out.println("direction1 = " + direction[1]);
 
                 // 맵의 범위를 벗어나지 않고 장애물이 없는 경우
                 if (newGaro >= 0 && newGaro < mapgaro && newSero >= 0 && newSero < mapsero) {
-                    // 뉴가로가 맵가로보다 작고 뉴세로가 맵 세로보다 작다면
+
                     if (map[newGaro][newSero] != 99 && map[newGaro][newSero] < minValue) {
                         // 현재 위치에서 목적지까지의 거리 계산
                         int currentDistance = Math.abs(newGaro - destinationGaro) + Math.abs(newSero - destinationSero);
@@ -149,9 +156,7 @@ public class Study20241113_2 {
             }
 
             // 목적지에 도달했거나 더 이상 이동할 수 없는 경우 종료
-            if (map[nextGaro][nextSero] == 100 || minValue == Integer.MAX_VALUE) {
-                break;
-            }
+
 
             // 로봇의 현재 위치를 -1로 설정 (지나간 자리 표시)
             map[lobotgaro][lobotsero] = -1;
@@ -168,6 +173,10 @@ public class Study20241113_2 {
 
             // 현재 맵 상태 출력
             printMap(map, mapgaro, mapsero, lobotgaro, lobotsero);
+            if (map[nextGaro][nextSero] == 100 || minValue == Integer.MAX_VALUE) {
+//                printMap(map, mapgaro, mapsero, lobotgaro, lobotsero);
+                break;
+            }
         }
     }
     // 주변값을 업데이트 하는 메서드
