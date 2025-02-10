@@ -23,7 +23,7 @@ public class Study20250202_1 {
         book.bookyear[1] = 2025;
         book.cnt[0] = 10;
         book.cnt[1] = 10;
-        book.showBook();
+        book.showAllBooks();
 
 
         System.out.println("어떤 책을 구매하시겠습니까?");
@@ -33,7 +33,13 @@ public class Study20250202_1 {
         choice1 = sc.nextInt();
         book.sellBook(choice, choice1);
 
-
+        if(choice1 > 0) {
+            choice1--;
+        }
+        if(book.cnt[choice1] == 0) {
+            System.out.println((choice1+1) + "번 책의 재고가 모두 소진된 것을 알게 된 사장님이 책을 추가로 10권을 더 가져왔습니다.");
+            book.addBook(choice1, 10);
+        }
 
     }
 
