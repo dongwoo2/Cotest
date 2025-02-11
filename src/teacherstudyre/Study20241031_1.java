@@ -14,6 +14,7 @@ public class Study20241031_1 {
         boolean flag2 = true;
         boolean flag3 = true;
         int turn = 0;
+        int turnmax = 10;
         int choice = 0;
         int c = 0;
 
@@ -34,11 +35,20 @@ public class Study20241031_1 {
             // 여기서 canenergypool 이랑 energypool 맞춰야함 turn 지났으니까
             villages = turnPlus(villages);
             flag2 = true;
+            if(turn == turnmax) {
+                System.out.println("마지막 턴입니다.");
+            } else if(turn > turnmax) {
+                System.out.println("게임 종료");
+                flag2 = false;
+                flag = false;
+            }
+
             while (flag2) {
                 villages[c].canEnergyPool = villages[c].EnergyPool;
                 System.out.println("패널티 체크 전에 에너지를 이동시키겠습니까? 1.예 2.아니오");
                 choice = sc.nextInt();
                 if(choice == 1) {
+                    showEnergy(villages, c); // 패널티 체크 전에도 에너지가 얼마있는지 봐야함
                     villages = energyLoan(villages, c); // 에너지 대출 이 함수가 패널티 체크전으로 가야함
                 }
                 villages = panaltyCheck(villages, c); // 패널티 체크
