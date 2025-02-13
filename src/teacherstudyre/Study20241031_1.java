@@ -13,6 +13,7 @@ public class Study20241031_1 {
         boolean flag = true;
         boolean flag2 = true;
         boolean flag3 = true;
+        boolean flag4 = true;
         int turn = 0;
         int turnmax = 10;
         int choice = 0;
@@ -55,22 +56,39 @@ public class Study20241031_1 {
                 villages = panalty(villages, c); // 패널티 부과
                 villages = payOut(villages, c); // 돈 자동으로 갚아지는거
                 // 패널티 체크 시작하고 들어가야함
-                showEnergy(villages, c);
-                System.out.println("1. 에너지 건물 구입 2. 에너지풀에 에너지 저장");
-                choice = sc.nextInt();
-                if (choice < 2) {
-                    if (choice == 1){
-                        villages = equipmentBuilding(villages, c); // 건물 구입 함수
-                    } else if(choice == 2) {
-                        System.out.println("1. 자동 에너지 저장 2. 수동 에너지 저장");
-                        // 얼마만큼의 에너지를 저장하겠습니까?
-                        // 여기서도 분기 나누기 1은 자동저장 2는 얼마만큼 저장하겠다
-                        villages = saveEnergy(villages, c);
+                while (flag3) {
+                    showEnergy(villages, c);
+                    System.out.println("1. 에너지 건물 구입 2. 에너지풀에 에너지 저장");
+                    choice = sc.nextInt();
+                    if (choice < 3) {
+                        if (choice == 1) {
+                            villages = equipmentBuilding(villages, c); // 건물 구입 함수
+                            flag3 = false;
+                        } else if (choice == 2) {
+                            while (flag4) {
+                                System.out.println("1. 자동 에너지 저장 2. 수동 에너지 저장");
+                                choice = sc.nextInt();
+                                flag3 = false;
+                                if (choice == 1) {
+                                    saveEnergy(villages, c);
+                                    flag4 = false;
+                                } else if (choice == 2) {
+                                    saveEnergy_2(villages, c);
+                                    flag4 = false;
+                                } else {
+                                    System.out.println("잘못 입력 다시");
+                                    flag4 = true;
+                                }
+                                // 얼마만큼의 에너지를 저장하겠습니까?
+                                // 여기서도 분기 나누기 1은 자동저장 2는 얼마만큼 저장하겠다
+                                villages = saveEnergy(villages, c);
 
+                            }
+                        }
+                    } else {
+                        System.out.println("잘못 입력 다시");
+                        flag3 = true;
                     }
-
-                } else {
-                    System.out.println("잘못 입력");
                 }
                 c++;
                 // 턴 끝나면 zone을 0으로 만들어야 한다고? 그러면 바로 패널티 걸리잖아
