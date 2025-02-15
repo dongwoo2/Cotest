@@ -7,7 +7,7 @@ public class Study20250215_1 {
     public static void main(String[] args) {
 
         int choice = 0;
-        int choiceArray[] = new int[10];
+        float choiceArray[][] = new float[10][1];
         characterClass();
         System.out.println("직업을 선택하세요.");
         choice = sc.nextInt();
@@ -29,7 +29,7 @@ public class Study20250215_1 {
                 "9.마창사 클래스, (magicspearman)");
     }
 
-    public static float[] showAbility(int choice) { // 능력치 선택 choice는 직업
+    public static float[][] showAbility(int choice) { // 능력치 선택 choice는 직업
         boolean flag = true;
         System.out.println("능력치를 선택하세요.");//
         // 전사, 격투가, 창술가
