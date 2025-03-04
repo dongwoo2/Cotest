@@ -7,7 +7,7 @@ public class Study20250215_1 {
     public static void main(String[] args) {
 
         int choice = 0;
-        float choiceArray[][] = new float[10][1];
+        float choiceArray[] = new float[10];
         characterClass();
         System.out.println("직업을 선택하세요.");
         choice = sc.nextInt();
@@ -29,17 +29,18 @@ public class Study20250215_1 {
                 "9.마창사 클래스, (magicspearman)");
     }
 
-    public static float[][] showAbility(int choice) { // 능력치 선택 choice는 직업
+    public static float[] showAbility(int choice) { // 능력치 선택 choice는 직업
         boolean flag = true;
         System.out.println("능력치를 선택하세요.");//
         // 전사, 격투가, 창술가
         int choice1 = 0;
         int paty = 0; // 자신한테 맞는 능력치
-        int[] haveAblity = new int[10];// 가지고 있는 기본 능력치
+        float[] haveAblity = new float[10];// 가지고 있는 기본 능력치
+        int cntHaveAblity = 0;
         int goodCnt = 0;
         // 조건이 2개 들어가야할텐데 8번에서 16번 사이중에
         // 고른 능력치가 8번에서 16번이가 paty가 같다면 1들어가고 아니면 직업이 맞지 않아서 반감된 값이 들어가게
-        float choiceArray[][] = new float[10][1];
+        //float choiceArray[][] = new float[10][1]; // 이 친구 안써도 될 듯
         int abiltyCnt = 0;
         int cant = 0;
         System.out.println("1.힘\n" +
@@ -64,38 +65,45 @@ public class Study20250215_1 {
                 paty = 8;
                 haveAblity[0] = 1;
                 haveAblity[1] = 5;
+                cntHaveAblity = 2;
                 break;
             case 2: // 격투가
                 abiltyCnt = 4;
                 paty = 15;
                 haveAblity[0] = 1;
                 haveAblity[1] = 5;
+                cntHaveAblity = 2;
                 break;
             case 3: // 창술가
                 abiltyCnt = 4;
                 paty = 16;
                 haveAblity[0] = 1;
                 haveAblity[1] = 5;
+                cntHaveAblity = 2;
                 break;
             case 4: // 정령사
                 abiltyCnt = 5;
                 paty = 16;
                 haveAblity[0] = 2;
+                cntHaveAblity = 1;
                 break;
             case 5: // 힐러
                 abiltyCnt = 5;
                 paty = 13;
                 haveAblity[0] = 2;
+                cntHaveAblity = 1;
                 break;
             case 6: // 마법사
                 abiltyCnt = 5;
                 paty = 11;
                 haveAblity[0] = 2;
+                cntHaveAblity = 1;
                 break;
             case 7: // 궁수
                 abiltyCnt = 5;
                 paty = 9;
                 haveAblity[0] = 2;
+                cntHaveAblity = 1;
                 break;
             case 8: // 마검사
                 abiltyCnt = 3;
@@ -103,6 +111,7 @@ public class Study20250215_1 {
                 haveAblity[0] = 2;
                 haveAblity[1] = 4;
                 haveAblity[2] = 5;
+                cntHaveAblity = 3;
                 break;
             case 9: // 마창사
                 abiltyCnt = 3;
@@ -110,6 +119,7 @@ public class Study20250215_1 {
                 haveAblity[0] = 2;
                 haveAblity[1] = 4;
                 haveAblity[2] = 5;
+                cntHaveAblity = 3;
                 break;
 
         }
@@ -120,26 +130,21 @@ public class Study20250215_1 {
         while (flag) {
             choice1 = sc.nextInt(); //능력치 선택
             System.out.println(goodCnt+"번 째 능력치 선택");
-            for(int j = 0; j < abiltyCnt; j++) { // 이미 가지고 있는 능력치
+            for(int j = 0; j < abiltyCnt + cntHaveAblity; j++) { // 이미 가지고 있는 능력치
                 if(haveAblity[j] == choice1) {
                     System.out.println("이미 가지고 있는 능력치 입니다. 다시 선택해주세요");
-                }
-            }
-            for(int i = 0; i < abiltyCnt; i++) { // 중복 능력치
-                if(i > 0) {
-                    if(choiceArray[i][0] == choice1) {
-                        System.out.println("중복입니다. 다시 선택해주세요");
-                    }
-                }
-                if(choice > 7 && paty == choice1) { // 기술이면서 자기 직업이랑 부합한 능력치 일 때
+                } else if(choice > 7 && paty == choice1) { // 기술이면서 자기 직업이랑 부합한 능력치 일 때
                     // 어떤 기술인지는 어떻게 넣지?
                     // 이차원 배열해서 1.기술번호 2. 능력치 이렇게 하자
-                    choiceArray[i][0] = 1;
+                    haveAblity[j] = 1;
                 } else { // 기술이면서 자기 직업이랑 부합한 능력치가 아닐 때
-                    choiceArray[i][0] = 0.5f;
+                    haveAblity[j] = 0.5f;
                 }
-
             }
+
+
+
+
 
 
             if(goodCnt == abiltyCnt) {
@@ -149,7 +154,7 @@ public class Study20250215_1 {
         }
         // while 로 바꾸자
 
-        return choiceArray;
+        return haveAblity;
     }
 
 }
