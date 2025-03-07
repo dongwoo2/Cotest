@@ -8,11 +8,16 @@ public class Study20250215_1 {
 
         int choice = 0;
         float choiceArray[][] = new float[10][2];
+        System.out.println("이름을 적어주세요.");
+        String name = sc.next();
         characterClass();
         System.out.println("직업을 선택하세요.");
         choice = sc.nextInt();
 
         choiceArray = showAbility(choice);
+
+        System.out.println("name = " + name);
+        strSkillName(choiceArray);
     }
 
     public static void characterClass() { // 직업 보여주기
@@ -177,8 +182,64 @@ public class Study20250215_1 {
         return haveAblity;
     }
 
-    public String[] strSkillName() {
-        return new String[1];
+    public static void strSkillName(float haveAblity[][]) {
+        for(int i = 0; i < haveAblity.length; i++) {
+            
+            if(haveAblity[i][0] == 1) {
+                System.out.println("힘");
+                System.out.println(haveAblity[i][1]);
+            } else if (haveAblity[i][0] == 2) {
+                System.out.println("지능");
+                System.out.println(haveAblity[i][1]);
+            } else if (haveAblity[i][0] == 3) {
+                System.out.println("HP");
+                System.out.println(haveAblity[i][1]);
+            } else if (haveAblity[i][0] == 4) {
+                System.out.println("MP");
+                System.out.println(haveAblity[i][1]);
+            } else if (haveAblity[i][0] == 5) {
+                System.out.println("민첩");
+                System.out.println(haveAblity[i][1]);
+            } else if (haveAblity[i][0] == 6) {
+                System.out.println("운");
+                System.out.println(haveAblity[i][1]);
+            } else if (haveAblity[i][0] == 7) {
+                System.out.println("스피드");
+                System.out.println(haveAblity[i][1]);
+            } else if (haveAblity[i][0] == 8) {
+                System.out.println("검술");
+                System.out.println(haveAblity[i][1]);
+            } else if (haveAblity[i][0] == 9) {
+                System.out.println("궁술");
+                System.out.println(haveAblity[i][1]);
+            } else if (haveAblity[i][0] == 10) {
+                System.out.println("마검술");
+                System.out.println(haveAblity[i][1]);
+            } else if (haveAblity[i][0] == 11) {
+                System.out.println("마창술");
+                System.out.println(haveAblity[i][1]);
+            } else if (haveAblity[i][0] == 12) {
+                System.out.println("마법");
+                System.out.println(haveAblity[i][1]);
+            } else if (haveAblity[i][0] == 13) {
+                System.out.println("힐");
+                System.out.println(haveAblity[i][1]);
+            } else if (haveAblity[i][0] == 14) {
+                System.out.println("정령");
+                System.out.println(haveAblity[i][1]);
+            } else if (haveAblity[i][0] == 15) {
+                System.out.println("격투");
+                System.out.println(haveAblity[i][1]);
+            } else if (haveAblity[i][0] == 16) {
+                System.out.println("창술");
+                System.out.println(haveAblity[i][1]);
+            } else {
+                System.out.println(" ");
+            }
+
+            
+        }
+        
     }
 
 }
