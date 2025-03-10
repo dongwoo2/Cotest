@@ -242,5 +242,38 @@ public class Study20250215_1 {
         
     }
 
+    public static String[] welcomeJoin() {
+        System.out.println("회원가입을 시작합니다.");
+        System.out.println("아이디를 입력해주세요");
+        boolean flag = true;
+        String id = sc.next();
+        String pw = sc.next();
+        String idPw[] = new String[2];
+        while (flag) {
+            if(id.length() > 4) {
+                System.out.println("id 입력 완료");
+                idPw[0] = id;
+                while (flag) {
+                    System.out.println("비밀번호를 입력해주세요");
+                    pw = sc.next();
+                    if (pw.length() > 6) {
+                        System.out.println("비번 입력 완료");
+                        idPw[1] = pw;
+                        flag = false;
+                    } else {
+                        System.out.println("6자보다 길게 입력해주세요.");
+                        flag = true;
+                        pw = sc.next();
+                    }
+                }
+            } else {
+                System.out.println("4글자보다 길게 입력해주세요.");
+                flag = true;
+                id = sc.next();
+            }
+        }
+        return idPw;
+    }
+
 }
 
