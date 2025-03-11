@@ -8,7 +8,9 @@ public class Study20250215_1 {
 
         int choice = 0;
         float choiceArray[][] = new float[10][2];
-        System.out.println("이름을 적어주세요.");
+        String idPw[] = new String[2];
+        idPw = welcomeJoin();
+        System.out.println("캐릭터의 이름을 적어주세요.");
         String name = sc.next();
         characterClass();
         System.out.println("직업을 선택하세요.");
@@ -151,9 +153,9 @@ public class Study20250215_1 {
 
 
         while (flag) {
-            choice1 = sc.nextInt(); //능력치 선택
-            System.out.println(goodCnt+"번 째 능력치 선택");
-            for(int j = 0; j < abiltyCnt + cntHaveAblity; j++) { // 이미 가지고 있는 능력치
+            for(int j = 0; j < abiltyCnt; j++) { // 이미 가지고 있는 능력치
+                choice1 = sc.nextInt(); //능력치 선택
+                System.out.println((goodCnt+1)+"번 째 능력치 선택");
                 if(haveAblity[j][0] == choice1) {
                     System.out.println("이미 가지고 있는 능력치 입니다. 다시 선택해주세요");
                 } else if(choice > 7 && paty == choice1) { // 기술이면서 자기 직업이랑 부합한 능력치 일 때
@@ -247,7 +249,7 @@ public class Study20250215_1 {
         System.out.println("아이디를 입력해주세요");
         boolean flag = true;
         String id = sc.next();
-        String pw = sc.next();
+        String pw = "";
         String idPw[] = new String[2];
         while (flag) {
             if(id.length() > 4) {
@@ -263,7 +265,6 @@ public class Study20250215_1 {
                     } else {
                         System.out.println("6자보다 길게 입력해주세요.");
                         flag = true;
-                        pw = sc.next();
                     }
                 }
             } else {
