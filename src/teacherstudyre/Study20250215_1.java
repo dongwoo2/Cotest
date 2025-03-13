@@ -40,7 +40,6 @@ public class Study20250215_1 {
     // float[무슨 능력][값 0.5 또는 1]
     public static float[][] showAbility(int choice) { // 능력치 선택 choice는 직업
         boolean flag = true;
-        System.out.println("능력치를 선택하세요.");//
         // 전사, 격투가, 창술가
         int choice1 = 0;
         int paty = 0; // 자신한테 맞는 능력치
@@ -68,6 +67,7 @@ public class Study20250215_1 {
                 "14.정령\n" +
                 "15.격투\n" +
                 "16.창술");
+
         switch (choice) {
             case 1: // 전사
                 abiltyCnt = 4;
@@ -148,26 +148,32 @@ public class Study20250215_1 {
                 break;
 
         }
-
+        System.out.println("능력치를 선택하세요.");
         System.out.println(abiltyCnt + "개를 선택하세요"); // 중복도 다시고려
 
 
         while (flag) {
-            for(int j = 0; j < abiltyCnt; j++) { // 이미 가지고 있는 능력치
-                choice1 = sc.nextInt(); //능력치 선택
+            for(int j = cntHaveAblity; j < abiltyCnt + cntHaveAblity; j++) { // 이미 가지고 있는 능력치
                 System.out.println((goodCnt+1)+"번 째 능력치 선택");
-                if(haveAblity[j][0] == choice1) {
-                    System.out.println("이미 가지고 있는 능력치 입니다. 다시 선택해주세요");
-                } else if(choice > 7 && paty == choice1) { // 기술이면서 자기 직업이랑 부합한 능력치 일 때
+                choice1 = sc.nextInt(); //능력치 선택
+                strSkillName(haveAblity);
+                for(int i = 0; i < abiltyCnt + cntHaveAblity; i++) {
+                    if(haveAblity[i][0] == choice1) {
+                        System.out.println("이미 가지고 있는 능력치 입니다. 다시 선택해주세요");
+                        cant++;
+                    }
+                }
+                if (choice > 7 && paty == choice1 && cant == 0) { // 기술이면서 자기 직업이랑 부합한 능력치 일 때
                     // 어떤 기술인지는 어떻게 넣지?
                     haveAblity[j][0] = choice1;
                     haveAblity[j][1] = 1; // haveAblity 대신 딴 거 들어가야함
                     goodCnt++;
                 } else { // 기술이면서 자기 직업이랑 부합한 능력치가 아닐 때
                     haveAblity[j][0] = choice1;
-                    haveAblity[j][0] = 0.5f;
+                    haveAblity[j][1] = 0.5f;
                     goodCnt++;
                 }
+                System.out.println("haveAblity : " + j + haveAblity[j][0]);
                 if(cntHaveAblity + goodCnt > 6) {
                     System.out.println("능력치 선택이 끝났습니다.");
                     flag = false;
@@ -186,7 +192,6 @@ public class Study20250215_1 {
 
     public static void strSkillName(float haveAblity[][]) {
         for(int i = 0; i < haveAblity.length; i++) {
-            
             if(haveAblity[i][0] == 1) {
                 System.out.println("힘");
                 System.out.println(haveAblity[i][1]);
@@ -236,7 +241,7 @@ public class Study20250215_1 {
                 System.out.println("창술");
                 System.out.println(haveAblity[i][1]);
             } else {
-                System.out.println(" ");
+                System.out.println("오류");
             }
 
             
