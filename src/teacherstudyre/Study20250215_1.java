@@ -281,5 +281,101 @@ public class Study20250215_1 {
         return idPw;
     }
 
+
+            /**"
+             * 1.전사 클래스, (warrior)\n" +
+                 * - 방패치기
+                 * - 강타
+             "2.격투가 클래스, (fighter)\n" +
+                 * - 화려한 스텝 - 회피 확률을 높여줌
+                 * - 발차기
+             "3.창술가 클래스, (spearman)\n" +
+                 * - 찌르기
+                 * - 약점 공격
+
+             "4.정령사 클래스, (spiritist)\n" +
+                 * - 원소 공격 - 정령의 기술을 이용가능 - 여러가지 타입이 있을거임 불, 물 , 번개 이런거
+                 * - 원소 강화
+             "5.힐러 클래스, (healer)\n" +
+                 * - 힐
+                 * - 방어막
+             "6.마법사 클래스, (wizard)\n" +
+                 * - 파이어볼
+                 * - 텔레포트
+             "7.궁수 클래스, (Archer)\n" +
+                 * - 속사
+                 * - 스나이핑
+             "8.마검사 클래스, (magicwarrior)\n" +
+                 * - 마법 부여
+                 * - 베기
+             "9.마창사 클래스, (magicspearman)");
+                 * -
+
+
+             근데 스킬에 전제조건 같은 게 있음 힘 10 민첩 5 이런 거
+             */
+
+    public static void skillName(int choice) {
+
+        int skillLevel[] = new int[10];
+
+        switch (choice) {
+            case 1:
+                System.out.println("전사의 스킬입니다.");
+                System.out.println("방패치기");
+                System.out.println("강타");
+                break;
+            case 2:
+                System.out.println("격투사의 스킬입니다.");
+                System.out.println("화려한 스텝");
+                System.out.println("발차기");
+                break;
+            case 3:
+                System.out.println("창술가의 스킬입니다.");
+                System.out.println("찌르기");
+                System.out.println("약점공격");
+                break;
+            case 4:
+                System.out.println("정령사의 스킬입니다.");
+                System.out.println("원소 공격");
+                System.out.println("원소 강화");
+                break;
+            case 5:
+                System.out.println("힐러의 스킬입니다.");
+                System.out.println("힐");
+                System.out.println("방어막");
+                break;
+            case 6:
+                System.out.println("마법사의 스킬입니다.");
+                System.out.println("파이어볼");
+                System.out.println("텔레포트");
+                break;
+            case 7:
+                System.out.println("궁수의 스킬입니다.");
+                System.out.println("속사");
+                System.out.println("스나이핑");
+                break;
+            case 8:
+                System.out.println("마검사의 스킬입니다.");
+                System.out.println("마법 부여");
+                System.out.println("강타");
+                break;
+            case 9:
+                System.out.println("마창사의 스킬입니다.");
+                System.out.println("마법 부여");
+                System.out.println("찌르기");
+                break;
+        }
+        skillLevel[0] = 1;
+        skillLevel[1] = 1;
+
+    }
+
+
+    public static void useSkill() {
+
+    }
+
 }
+
 
