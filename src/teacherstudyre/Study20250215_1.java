@@ -5,7 +5,9 @@ import java.util.Scanner;
 public class Study20250215_1 {
     static Scanner sc = new Scanner(System.in);
     public static void main(String[] args) {
-
+        String id = "";
+        String pw = "";
+        boolean flag = true;
         int choice = 0;
         float choiceArray[][] = new float[10][2];
         String idPw[] = new String[2];
@@ -14,12 +16,29 @@ public class Study20250215_1 {
         String name = sc.next();
         characterClass();
         System.out.println("직업을 선택하세요.");
-        choice = sc.nextInt();
 
-        choiceArray = showAbility(choice);
+
+        while (flag) {
+            choice = sc.nextInt();
+            if (choice > 9 || choice < 0) {
+                System.out.println("없는 직업입니다 다시 선택해주세요.");
+            } else {
+                choiceArray = showAbility(choice);
+                flag = false;
+            }
+        }
+
+
+
 
         System.out.println("name = " + name);
         strSkillName(choiceArray);
+
+        System.out.println("로그인을 시작합니다.");
+        System.out.println("id를 입력해주세요.");
+        id = sc.next();
+        System.out.println("pw를 입력해주세요.");
+        pw = sc.next();
     }
 
     public static void characterClass() { // 직업 보여주기
@@ -155,8 +174,8 @@ public class Study20250215_1 {
         while (flag) {
             for(int j = cntHaveAblity; j < abiltyCnt + cntHaveAblity; j++) { // 이미 가지고 있는 능력치
                 System.out.println((goodCnt+1)+"번 째 능력치 선택");
+                cant = 0;
                 choice1 = sc.nextInt(); //능력치 선택
-                strSkillName(haveAblity);
                 for(int i = 0; i < abiltyCnt + cntHaveAblity; i++) {
                     if(haveAblity[i][0] == choice1) {
                         System.out.println("이미 가지고 있는 능력치 입니다. 다시 선택해주세요");
@@ -164,16 +183,23 @@ public class Study20250215_1 {
                     }
                 }
                 if (choice > 7 && paty == choice1 && cant == 0) { // 기술이면서 자기 직업이랑 부합한 능력치 일 때
-                    // 어떤 기술인지는 어떻게 넣지?
                     haveAblity[j][0] = choice1;
-                    haveAblity[j][1] = 1; // haveAblity 대신 딴 거 들어가야함
+                    haveAblity[j][1] = 1;
                     goodCnt++;
-                } else { // 기술이면서 자기 직업이랑 부합한 능력치가 아닐 때
+                } else if(choice > 7 && paty != choice1 && cant == 0){ // 기술이면서 자기 직업이랑 부합한 능력치가 아닐 때
                     haveAblity[j][0] = choice1;
                     haveAblity[j][1] = 0.5f;
                     goodCnt++;
+                } else if(choice < 7 && paty != choice1 && cant == 0) {
+                    haveAblity[j][0] = choice1;
+                    haveAblity[j][1] = 0.5f;
+                    goodCnt++;
+                } else if(choice < 7 && paty == choice1 && cant == 0) {
+                    haveAblity[j][0] = choice1;
+                    haveAblity[j][1] = 1;
+                    goodCnt++;
                 }
-                System.out.println("haveAblity : " + j + haveAblity[j][0]);
+                strSkillName(haveAblity);
                 if(cntHaveAblity + goodCnt > 6) {
                     System.out.println("능력치 선택이 끝났습니다.");
                     flag = false;
@@ -241,7 +267,7 @@ public class Study20250215_1 {
                 System.out.println("창술");
                 System.out.println(haveAblity[i][1]);
             } else {
-                System.out.println("오류");
+
             }
 
             
