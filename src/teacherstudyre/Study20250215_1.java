@@ -11,9 +11,24 @@ public class Study20250215_1 {
         int choice = 0;
         float choiceArray[][] = new float[10][2];
         String idPw[] = new String[2];
+        String havaSkill[][] = new String[10][2];
+
+        // 1. 회원가입
         idPw = welcomeJoin();
+
+        // 2. 로그인
+        System.out.println("로그인을 시작합니다.");
+        System.out.println("id를 입력해주세요.");
+        id = sc.next();
+        System.out.println("pw를 입력해주세요.");
+        pw = sc.next();
+
+        //3. 캐릭터 이름 선택
         System.out.println("캐릭터의 이름을 적어주세요.");
         String name = sc.next();
+        System.out.println("name = " + name);
+
+        //4. 직업 선택
         characterClass();
         System.out.println("직업을 선택하세요.");
 
@@ -29,16 +44,10 @@ public class Study20250215_1 {
         }
 
 
-
-
-        System.out.println("name = " + name);
+        // 5. 능력치 선택
         strSkillName(choiceArray);
 
-        System.out.println("로그인을 시작합니다.");
-        System.out.println("id를 입력해주세요.");
-        id = sc.next();
-        System.out.println("pw를 입력해주세요.");
-        pw = sc.next();
+
     }
 
     public static void characterClass() { // 직업 보여주기
@@ -310,8 +319,8 @@ public class Study20250215_1 {
 
             /**"
              * 1.전사 클래스, (warrior)\n" +
-                 * - 방패치기
-                 * - 강타
+                 * - 방패치기 - 힘3, 민첩1
+                 * - 강타 - 힘5, 민첩2
              "2.격투가 클래스, (fighter)\n" +
                  * - 화려한 스텝 - 회피 확률을 높여줌
                  * - 발차기
@@ -339,66 +348,176 @@ public class Study20250215_1 {
 
 
              근데 스킬에 전제조건 같은 게 있음 힘 10 민첩 5 이런 거
+             전제 조건 값 넣을 방법
              */
 
-    public static void skillName(int choice) {
 
-        int skillLevel[] = new int[10];
+    /*
+        [0][0] = 스킬 이름
+        [0][1] = 스킬 레벨
+
+    */
+    public static String[][] skillNameLevel(int choice) {
+
+        String havaSkill[][] = new String[10][2];
 
         switch (choice) {
             case 1:
                 System.out.println("전사의 스킬입니다.");
                 System.out.println("방패치기");
                 System.out.println("강타");
+                havaSkill[0][0] = "방패치기";
+                havaSkill[1][0] = "강타";
+                havaSkill[0][1] = "1";
+                havaSkill[1][1] = "1";
                 break;
             case 2:
                 System.out.println("격투사의 스킬입니다.");
                 System.out.println("화려한 스텝");
                 System.out.println("발차기");
+                havaSkill[0][0] = "화려한 스텝";
+                havaSkill[1][0] = "발차기";
+                havaSkill[0][1] = "1";
+                havaSkill[1][1] = "1";
                 break;
             case 3:
                 System.out.println("창술가의 스킬입니다.");
                 System.out.println("찌르기");
                 System.out.println("약점공격");
+                havaSkill[0][0] = "찌르기";
+                havaSkill[1][0] = "약점공격";
+                havaSkill[0][1] = "1";
+                havaSkill[1][1] = "1";
                 break;
             case 4:
                 System.out.println("정령사의 스킬입니다.");
                 System.out.println("원소 공격");
                 System.out.println("원소 강화");
+                havaSkill[0][0] = "원소 공격";
+                havaSkill[1][0] = "원소 강화";
+                havaSkill[0][1] = "1";
+                havaSkill[1][1] = "1";
                 break;
             case 5:
                 System.out.println("힐러의 스킬입니다.");
                 System.out.println("힐");
                 System.out.println("방어막");
+                havaSkill[0][0] = "힐";
+                havaSkill[1][0] = "방어막";
+                havaSkill[0][1] = "1";
+                havaSkill[1][1] = "1";
                 break;
             case 6:
                 System.out.println("마법사의 스킬입니다.");
                 System.out.println("파이어볼");
                 System.out.println("텔레포트");
+                havaSkill[0][0] = "파이어볼";
+                havaSkill[1][0] = "텔레포트";
+                havaSkill[0][1] = "1";
+                havaSkill[1][1] = "1";
                 break;
             case 7:
                 System.out.println("궁수의 스킬입니다.");
                 System.out.println("속사");
                 System.out.println("스나이핑");
+                havaSkill[0][0] = "속사";
+                havaSkill[1][0] = "스나이핑";
+                havaSkill[0][1] = "1";
+                havaSkill[1][1] = "1";
                 break;
             case 8:
                 System.out.println("마검사의 스킬입니다.");
                 System.out.println("마법 부여");
                 System.out.println("강타");
+                havaSkill[0][0] = "마법 부여";
+                havaSkill[1][0] = "강타";
+                havaSkill[0][1] = "1";
+                havaSkill[1][1] = "1";
                 break;
             case 9:
                 System.out.println("마창사의 스킬입니다.");
                 System.out.println("마법 부여");
                 System.out.println("찌르기");
+                havaSkill[0][0] = "마법 부여";
+                havaSkill[1][0] = "찌르기";
+                havaSkill[0][1] = "1";
+                havaSkill[1][1] = "1";
                 break;
         }
-        skillLevel[0] = 1;
-        skillLevel[1] = 1;
+        return havaSkill;
 
     }
 
 
-    public static void useSkill() {
+    /*
+        매개변수 : 캐릭터 직업, 고른 스킬
+        리턴 : 스킬 사용이 가능한지 체크하고, 스킬사용
+
+     */
+    public static void useSkill(int cClass, int choice, String[][] haveSkill) {
+        // 미리 스킬 제한 능력치를 값으로 설정해두고
+        // 이름으로 판별
+        // 판별 값은 캐릭터의 직업과 능력치
+        // 그 능력치를 for문으로 돌려서 .equals("힘") 이렇게 찾아서 캐릭터의 힘 능력치가 몇 인지 찾아야하고
+        // 그것을 if문으로 판별 후 제공
+        //
+
+
+    }
+
+    // 스킬 제한 능력치를 설정해둬야 하는데
+    // 아직 아무 설정이 없음
+    //
+    /**"
+     * 1.전사 클래스, (warrior)\n" +
+     * - 방패치기 - 힘3, 민첩1
+     * - 강타 - 힘5, 민첩2
+     "2.격투가 클래스, (fighter)\n" +
+     * - 화려한 스텝 - 회피 확률을 높여줌
+     * - 발차기
+     "3.창술가 클래스, (spearman)\n" +
+     * - 찌르기
+     * - 약점 공격
+
+     "4.정령사 클래스, (spiritist)\n" +
+     * - 원소 공격 - 정령의 기술을 이용가능 - 여러가지 타입이 있을거임 불, 물 , 번개 이런거
+     * - 원소 강화
+     "5.힐러 클래스, (healer)\n" +
+     * - 힐
+     * - 방어막
+     "6.마법사 클래스, (wizard)\n" +
+     * - 파이어볼
+     * - 텔레포트
+     "7.궁수 클래스, (Archer)\n" +
+     * - 속사
+     * - 스나이핑
+     "8.마검사 클래스, (magicwarrior)\n" +
+     * - 마법 부여
+     * - 베기
+     "9.마창사 클래스, (magicspearman)");
+     * -
+
+
+     근데 스킬에 전제조건 같은 게 있음 힘 10 민첩 5 이런 거
+     전제 조건 값 넣을 방법
+     */
+    public static void alReadySkill() {
+        // 전제 조건
+        // 일단 최대 필요 조건은 3개
+        String sName[][] = new String[100][3];
+        int sNeed[][] = new int[100][3];
+        // 방패치기
+        sName[0][0] = "방패치기";
+        sName[0][1] = "힘 3";
+        sName[0][2] = "민 1";
+        // 강타
+        sName[1][0] = "강타";
+        sName[0][1] = "힘 5";
+        sName[0][2] = "민 2";
+
+
+
+
 
     }
 
