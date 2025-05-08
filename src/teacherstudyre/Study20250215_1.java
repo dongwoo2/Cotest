@@ -454,13 +454,38 @@ public class Study20250215_1 {
         리턴 : 스킬 사용이 가능한지 체크하고, 스킬사용
 
      */
-    public static void useSkill(int cClass, int choice, String[][] haveSkill) {
-        // 미리 스킬 제한 능력치를 값으로 설정해두고
-        // 이름으로 판별
-        // 판별 값은 캐릭터의 직업과 능력치
-        // 그 능력치를 for문으로 돌려서 .equals("힘") 이렇게 찾아서 캐릭터의 힘 능력치가 몇 인지 찾아야하고
-        // 그것을 if문으로 판별 후 제공
-        //
+    public static void useSkill(int cClass, int choice, String[][] haveSkill, int[][] sNeed, float haveAblity[][]) {
+        // 일단 스킬 사용시에 스킬을 사용할려면 사용자의 직업을 알아야함
+        // 그래서 직업과 매치 시켜야함 클래스의 값에 따라 index가 정해지니 cClass를 인덱스로 넣으면 되잖아
+        // cClass의 최소값은 1일테고
+        // 사용자의 능력치가 필요함
+        // 근데 사용자의 능력치가 그냥 이상하게 들어가있네 이거 수정해야함
+        int cant = 0;
+        if(cClass > 0) {
+            for(int i = 0; i < sNeed[cClass-1].length; i++) {
+                for(int j = 0; j < sNeed[cClass-1].length; j++) {
+                    if (sNeed[cClass -1][i] != 0) { // 사용자의 i번째 능력치를 가지고 와야함
+                        if(haveAblity[j][0] == i) { // 0이 힘 지능 이런거 따지는 순서 1이 그거에 대한 값
+                            if(sNeed[cClass-1][i] > haveAblity[j][1]) {
+                                System.out.println("스킬 사용 불가");
+                                cant++;
+                                // 근데 처음에 cant가 0일수도 있으니까 이게 들어갈 수가 있네 스킬 사용가능이
+                                // 나는 능력치 전부 다 체크한다음에 해보고 싶은데 그러면 마지막 순번에 하면 되겠네
+                            } else if(cant == 0 && sNeed[cClass-1][i] < haveAblity[j][1]) { // 사용자가 가진 능력치가 더 크다면
+                                if(i == sNeed[cClass-1].length) { // 마지막일 때
+                                    System.out.println("스킬 사용 가능");
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+            if(sNeed[cClass-1][0] != 0) {
+
+            }
+        }
+
 
 
     }
@@ -502,7 +527,9 @@ public class Study20250215_1 {
      근데 스킬에 전제조건 같은 게 있음 힘 10 민첩 5 이런 거
      전제 조건 값 넣을 방법
      */
-    public static void alReadySkill() {
+
+
+    public static int[][] alReadySkill(int cClass) {
         // 전제 조건
         // 일단 최대 필요 조건은 3개
         String sName[][] = new String[100][3];
@@ -526,13 +553,50 @@ public class Study20250215_1 {
         14. 정령
         15. 격투
         16. 창술
+         haveAblity[j][0] = choice1; // 힘 지능 이런거 이렇게 되어 있음 이거 헷갈려
+         haveAblity[j][1] = 1;
+         앞에를 전사 기술 이렇게 바꿔버리니까 기준이 너무 헷갈려저 버림
+         다시 기준을 만들어야함
+         0~10 이렇게 기준 놓는거는 나쁘지 않은데
+         결국 내가 가지고 있는 능력치와 스킬 요구 능력치를 비교하는게 어려워서 고민중
+         비교를 할 수 있긴 한데 여기 있는 기준을 더 쉽게 바꾸는게 앞으로도 훨씬 쉬워보임
+         왜냐면 이미 능력치는 그렇게 셋팅되어 있는게 편하니까 그 기준에 맞춰서 가야함
+         근데 굳이 모든 스킬을 셋팅할 필요가 있을까? 일단 자기 직업군에 맞는 스킬만 셋팅해주면 되는거 아닌가?
+         하나로 통일시켜서
+         다시 자기 직업군에 맞는 스킬만 셋팅하자
+         내 직업을 매개변수로 받고 그거에 따라서 switch를 쓰든 if문을 쓰든 하자
+         됐다.
+         cClass 받아서 셋팅하자
          */
+        switch (cClass) { // case 1: 전사 이렇게
+            case 1:
+                sName[0][0] = "방패치기";
+                sName[0][1] = "힘 3";
+                sName[0][2] = "민 1";
+                sNeed[0][0] = 1; // 사실 이런식으로 되어야하는데 힘이 1번이니까 1
+                sNeed[0][1] = 3; // 이게 값 왜냐면 이런식으로 되어있으니까
+                sNeed[1][0] = 5;
+                sNeed[1][1] = 1; // 이제 그러면 겹침 그리고 값을 어떻게 알건지도 헷갈림 방패치기인거 어떻게 알건데? 잘 모르겠음
+
+                sName[11][0] = "강타";
+                sName[11][1] = "힘 5";
+                sName[11][2] = "민 2";
+                sNeed[11][0] = 1;
+                sNeed[11][1] = 5;
+                sNeed[12][0] = 5;
+                sNeed[12][1] = 2;
+                break;
+                case 2:
+
+        }
         // 일단 0~10은 전사 기술로 하자
         sName[0][0] = "방패치기";
         sName[0][1] = "힘 3";
         sName[0][2] = "민 1";
-        sNeed[0][1] = 3;
-        sNeed[0][5] = 1;
+        sNeed[0][0] = 1; // 사실 이런식으로 되어야하는데 힘이 1번이니까 1
+        sNeed[0][1] = 3; // 이게 값 왜냐면 이런식으로 되어있으니까
+        sNeed[1][0] = 5;
+        sNeed[1][1] = 1; // 이제 그러면 겹침 그리고 값을 어떻게 알건지도 헷갈림 방패치기인거 어떻게 알건데? 잘 모르겠음
         // 강타
         sName[1][0] = "강타";
         sName[1][1] = "힘 5";
@@ -662,7 +726,6 @@ public class Study20250215_1 {
 //                * - 마법 부여
 //                * - 찌르기
 
-
         // 마법 부여
         sName[81][0] = "마법 부여";
         sName[81][1] = "MP 3";
@@ -675,8 +738,15 @@ public class Study20250215_1 {
         sName[82][2] = "마창술 3";
         sNeed[82][5] = 3;
         sNeed[82][11] = 3;
+
+        return sNeed;
     }
 
+
+
 }
+
+
+
 
 
