@@ -17,6 +17,7 @@ public class Study20250215_1 {
         float[][] skillNeedAblity = new float[10][2];
         String[] idPw = new String[2];
         String[][] characterSkills = new String[10][2];
+        int baseDamage = 0;
 
         idPw = welcomeJoin();
         login(idPw);
@@ -459,5 +460,26 @@ public class Study20250215_1 {
             }
         }
         System.out.println("=======================");
+    }
+    // 매개변수 1 능력치, 매개변수 2 직업
+    /*
+        전사, 격투가, 창술가 > 4개 선택 > 힘, 민첩[2개]
+        마법사, 궁수, 힐러, 정령사 > 5개 선택 > 지식[1개]
+        마검사, 마창사 > 지식, MP, 스피드 > 3개밖에 선택 못함
+        1. 힘, 2. 지능, 3. HP , 4. MP, 5. 민첩, 6. 운, 7. 스피드,8. 검술
+        9. 궁술, 10 .마검술, 11. 마창술, 12. 마법, 13. 힐, 14. 정령, 15. 격투, 16. 창술
+     */
+
+    public static int baseDamageSet(float[][] abilityValues, int choice) {
+        if(choice == 1) { // 전사
+
+        }
+        for (int i = 0; i < abilityValues.length-1; i++) {
+            if (abilityValues[i][0] > 0) {
+                int skillId = (int)abilityValues[i][0];
+                System.out.println(SKILL_NAMES[skillId] + ": " + abilityValues[i][1]);
+            }
+        }
+            return 1;
     }
 }
