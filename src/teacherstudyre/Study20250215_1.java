@@ -470,16 +470,115 @@ public class Study20250215_1 {
         9. 궁술, 10 .마검술, 11. 마창술, 12. 마법, 13. 힐, 14. 정령, 15. 격투, 16. 창술
      */
 
-    public static int baseDamageSet(float[][] abilityValues, int choice) {
-        if(choice == 1) { // 전사
-
+    public static float baseDamageSet(float[][] abilityValues, int choice) {
+        float baseDamage = 0;
+        switch (choice) {
+            case 1: // 전사 ,전사의 경우 힘1당 기본공격력 5 민첩은 3, 검술 1당 5
+                if(abilityValues[0][0] == 1) {
+                    baseDamage = abilityValues[0][1] * 5;
+                }
+                if(abilityValues[1][0] == 5) {
+                    baseDamage += abilityValues[0][1] * 3;
+                }
+                for(int i = 0; i < abilityValues.length; i++) {
+                    if(abilityValues[i][0] == 8) {
+                        baseDamage += abilityValues[i][1] * 5;
+                    }
+                }
+                break;
+            case 2: // 격투가 , 격투가의 경우 힘1당 기본공격력 4 민첩은 4, 갹투1당 5
+                if(abilityValues[0][0] == 1) {
+                    baseDamage = abilityValues[0][1] * 4;
+                }
+                if(abilityValues[1][0] == 5) {
+                    baseDamage += abilityValues[0][1] * 4;
+                }
+                for(int i = 0; i < abilityValues.length; i++) {
+                    if(abilityValues[i][0] == 15) {
+                        baseDamage += abilityValues[i][1] * 5;
+                    }
+                }
+                break;
+            case 3: // 창술사 , 창술가의 경우 힘1당 기본공격력 3 민첩은 5 창술1당 5
+                if(abilityValues[0][0] == 1) {
+                    baseDamage = abilityValues[0][1] * 3;
+                }
+                if(abilityValues[1][0] == 5) {
+                    baseDamage += abilityValues[0][1] * 5;
+                }
+                for(int i = 0; i < abilityValues.length; i++) {
+                    if(abilityValues[i][0] == 16) {
+                        baseDamage += abilityValues[i][1] * 5;
+                    }
+                }
+                break;
+            case 4: // 정령사
+                if(abilityValues[0][0] == 2) {
+                    baseDamage = abilityValues[0][1] * 10;
+                }
+                for(int i = 0; i < abilityValues.length; i++) {
+                    if(abilityValues[i][0] == 14) {
+                        baseDamage += abilityValues[i][1] * 5;
+                    }
+                }
+                break;
+            case 5: // 힐러
+                if(abilityValues[0][0] == 2) {
+                    baseDamage = abilityValues[0][1] * 10;
+                }
+                for(int i = 0; i < abilityValues.length; i++) {
+                    if(abilityValues[i][0] == 13) {
+                        baseDamage += abilityValues[i][1] * 5;
+                    }
+                }
+                break;
+            case 6: // 마법사
+                if(abilityValues[0][0] == 2) {
+                    baseDamage = abilityValues[0][1] * 10;
+                }
+                for(int i = 0; i < abilityValues.length; i++) {
+                    if(abilityValues[i][0] == 12) {
+                        baseDamage += abilityValues[i][1] * 5;
+                    }
+                }
+                break;
+            case 7: // 궁수
+                if(abilityValues[0][0] == 2) {
+                    baseDamage = abilityValues[0][1] * 10;
+                }
+                for(int i = 0; i < abilityValues.length; i++) {
+                    if(abilityValues[i][0] == 9) {
+                        baseDamage += abilityValues[i][1] * 5;
+                    }
+                }
+                break;
+            case 8: // 마검사
+                if(abilityValues[0][0] == 2) {
+                    baseDamage = abilityValues[0][1] * 3;
+                }
+                if(abilityValues[1][0] == 7) {
+                    baseDamage += abilityValues[0][1] * 5;
+                }
+                for(int i = 0; i < abilityValues.length; i++) {
+                    if(abilityValues[i][0] == 10) {
+                        baseDamage += abilityValues[i][1] * 5;
+                    }
+                }
+                break;
+            case 9: // 마창사
+                if(abilityValues[0][0] == 2) {
+                    baseDamage = abilityValues[0][1] * 3;
+                }
+                if(abilityValues[1][0] == 7) {
+                    baseDamage += abilityValues[0][1] * 5;
+                }
+                for(int i = 0; i < abilityValues.length; i++) {
+                    if(abilityValues[i][0] == 11) {
+                        baseDamage += abilityValues[i][1] * 5;
+                    }
+                }
+                break;
         }
-        for (int i = 0; i < abilityValues.length-1; i++) {
-            if (abilityValues[i][0] > 0) {
-                int skillId = (int)abilityValues[i][0];
-                System.out.println(SKILL_NAMES[skillId] + ": " + abilityValues[i][1]);
-            }
-        }
-            return 1;
+            return baseDamage;
     }
 }
