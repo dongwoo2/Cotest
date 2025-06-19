@@ -17,7 +17,8 @@ public class Study20250215_1 {
         float[][] skillNeedAblity = new float[10][2];
         String[] idPw = new String[2];
         String[][] characterSkills = new String[10][2];
-        int baseDamage = 0;
+        float baseDamage = 0;
+
 
         idPw = welcomeJoin();
         login(idPw);
@@ -271,10 +272,11 @@ public class Study20250215_1 {
                 skills[1][1] = "치명타 공격이 적중합니다.";
                 break;
             case 4:
-                skills[0][0] = "원소 공격";
-                skills[0][1] = "상대에 특성에 따른 원소 데미지가 들어갑니다."; // 빛,어둠,물,불,바람, 이런 특성
-                skills[1][0] = "원소 강화";
-                skills[1][1] = "원소의 30% 능력이 강화됩니다.";
+                skills[0][0] = "정령의 힘";
+                skills[0][1] = "물,불,대지,바람 4개의 정령 1개의 힘을 빌립니다."; // 정령의 스킬 빌리기 가능
+                // 물 - 워터젯 - 단일기 , 대지 - 돌 벽 - 방어기, 불 - 파이어스톰 - 광역기, 바람 - 신속의 바람 - 움직이는 속도 up
+                skills[1][0] = "정령 강화";
+                skills[1][1] = "정령의 30% 능력이 강화됩니다.";
                 break;
             case 5:
                 skills[0][0] = "힐";
@@ -284,7 +286,7 @@ public class Study20250215_1 {
                 break;
             case 6:
                 skills[0][0] = "파이어볼";
-                skills[0][1] = "상대에게 마법 100% 데미지를 입히고 화상 효과가 적중합니다.";
+                skills[0][1] = "상대에게 마법 100% 데미지를 입히고 화상 효과가 적중합니다."; // 화상효과 5초동안 도트뎀 3 - 5초 지속
                 skills[1][0] = "텔레포트";
                 skills[1][1] = "50m의 거리를 이동합니다.";
                 break;
@@ -292,7 +294,7 @@ public class Study20250215_1 {
                 skills[0][0] = "속사";
                 skills[0][1] = "연속 기본공격이 3회 적중합니다.";
                 skills[1][0] = "스나이핑";
-                skills[1][1] = "3 ~ 5초의 차징시간이 필요하고 상대에게 5배의 데미지를 입힙니다.";
+                skills[1][1] = "3 ~ 5초의 차징시간이 필요하고 상대에게 기본공격의 5배의 데미지를 입힙니다.";
                 break;
             case 8:
                 skills[0][0] = "마법 부여";
@@ -302,7 +304,7 @@ public class Study20250215_1 {
                 break;
             case 9:
                 skills[0][0] = "마법 부여";
-                skills[0][1] = "창에 마법을 부여합니다.";
+                skills[0][1] = "창에 마법을 부여합니다."; // 불,얼음,전격
                 skills[1][0] = "찌르기";
                 skills[1][1] = "상대에게 1.5배의 데미지를 입힙니다 창에 부여된 마법에 따라 추가 데미지가 들어갑니다.";
                 break;
@@ -470,12 +472,11 @@ public class Study20250215_1 {
         9. 궁술, 10 .마검술, 11. 마창술, 12. 마법, 13. 힐, 14. 정령, 15. 격투, 16. 창술
      */
 
-    public static float baseDamageSet(float[][] abilityValues, int choice) {
-        float baseDamage = 0;
+    public static float baseDamageSet(float[][] abilityValues, int choice, float baseDamage) {
         switch (choice) {
             case 1: // 전사 ,전사의 경우 힘1당 기본공격력 5 민첩은 3, 검술 1당 5
                 if(abilityValues[0][0] == 1) {
-                    baseDamage = abilityValues[0][1] * 5;
+                    baseDamage += abilityValues[0][1] * 5;
                 }
                 if(abilityValues[1][0] == 5) {
                     baseDamage += abilityValues[0][1] * 3;
@@ -488,7 +489,7 @@ public class Study20250215_1 {
                 break;
             case 2: // 격투가 , 격투가의 경우 힘1당 기본공격력 4 민첩은 4, 갹투1당 5
                 if(abilityValues[0][0] == 1) {
-                    baseDamage = abilityValues[0][1] * 4;
+                    baseDamage += abilityValues[0][1] * 4;
                 }
                 if(abilityValues[1][0] == 5) {
                     baseDamage += abilityValues[0][1] * 4;
@@ -501,7 +502,7 @@ public class Study20250215_1 {
                 break;
             case 3: // 창술사 , 창술가의 경우 힘1당 기본공격력 3 민첩은 5 창술1당 5
                 if(abilityValues[0][0] == 1) {
-                    baseDamage = abilityValues[0][1] * 3;
+                    baseDamage += abilityValues[0][1] * 3;
                 }
                 if(abilityValues[1][0] == 5) {
                     baseDamage += abilityValues[0][1] * 5;
@@ -514,7 +515,7 @@ public class Study20250215_1 {
                 break;
             case 4: // 정령사
                 if(abilityValues[0][0] == 2) {
-                    baseDamage = abilityValues[0][1] * 10;
+                    baseDamage += abilityValues[0][1] * 10;
                 }
                 for(int i = 0; i < abilityValues.length; i++) {
                     if(abilityValues[i][0] == 14) {
@@ -524,7 +525,7 @@ public class Study20250215_1 {
                 break;
             case 5: // 힐러
                 if(abilityValues[0][0] == 2) {
-                    baseDamage = abilityValues[0][1] * 10;
+                    baseDamage += abilityValues[0][1] * 10;
                 }
                 for(int i = 0; i < abilityValues.length; i++) {
                     if(abilityValues[i][0] == 13) {
@@ -534,7 +535,7 @@ public class Study20250215_1 {
                 break;
             case 6: // 마법사
                 if(abilityValues[0][0] == 2) {
-                    baseDamage = abilityValues[0][1] * 10;
+                    baseDamage += abilityValues[0][1] * 10;
                 }
                 for(int i = 0; i < abilityValues.length; i++) {
                     if(abilityValues[i][0] == 12) {
@@ -544,7 +545,7 @@ public class Study20250215_1 {
                 break;
             case 7: // 궁수
                 if(abilityValues[0][0] == 2) {
-                    baseDamage = abilityValues[0][1] * 10;
+                    baseDamage += abilityValues[0][1] * 10;
                 }
                 for(int i = 0; i < abilityValues.length; i++) {
                     if(abilityValues[i][0] == 9) {
@@ -554,7 +555,7 @@ public class Study20250215_1 {
                 break;
             case 8: // 마검사
                 if(abilityValues[0][0] == 2) {
-                    baseDamage = abilityValues[0][1] * 3;
+                    baseDamage += abilityValues[0][1] * 3;
                 }
                 if(abilityValues[1][0] == 7) {
                     baseDamage += abilityValues[0][1] * 5;
@@ -567,7 +568,7 @@ public class Study20250215_1 {
                 break;
             case 9: // 마창사
                 if(abilityValues[0][0] == 2) {
-                    baseDamage = abilityValues[0][1] * 3;
+                    baseDamage += abilityValues[0][1] * 3;
                 }
                 if(abilityValues[1][0] == 7) {
                     baseDamage += abilityValues[0][1] * 5;
@@ -581,4 +582,121 @@ public class Study20250215_1 {
         }
             return baseDamage;
     }
+    // 회피율, 명중율, 이런 특성도 만들자 만들 특성
+    // 회피, 명중
+//
+//    Acc(Accuracy)	명중률,
+//    Avd(Avoidability) 회피율
+    public static float[][] accAvd(float[][] accAvd, float abilityValues[][], int choice) {
+        // 회피먼저 설정하자
+        // 회피는 동일하게 해버리자 - 민첩,운,스피드
+        switch (choice) {
+            case 1: // 전사 ,전사의 경우 힘1당 기본공격력 5 민첩은 3, 검술 1당 5
+                if(abilityValues[0][0] == 1) {
+                    baseDamage += abilityValues[0][1] * 5;
+                }
+                if(abilityValues[1][0] == 5) {
+                    baseDamage += abilityValues[0][1] * 3;
+                }
+                for(int i = 0; i < abilityValues.length; i++) {
+                    if(abilityValues[i][0] == 8) {
+                        baseDamage += abilityValues[i][1] * 5;
+                    }
+                }
+                break;
+            case 2: // 격투가 , 격투가의 경우 힘1당 기본공격력 4 민첩은 4, 갹투1당 5
+                if(abilityValues[0][0] == 1) {
+                    baseDamage += abilityValues[0][1] * 4;
+                }
+                if(abilityValues[1][0] == 5) {
+                    baseDamage += abilityValues[0][1] * 4;
+                }
+                for(int i = 0; i < abilityValues.length; i++) {
+                    if(abilityValues[i][0] == 15) {
+                        baseDamage += abilityValues[i][1] * 5;
+                    }
+                }
+                break;
+            case 3: // 창술사 , 창술가의 경우 힘1당 기본공격력 3 민첩은 5 창술1당 5
+                if(abilityValues[0][0] == 1) {
+                    baseDamage += abilityValues[0][1] * 3;
+                }
+                if(abilityValues[1][0] == 5) {
+                    baseDamage += abilityValues[0][1] * 5;
+                }
+                for(int i = 0; i < abilityValues.length; i++) {
+                    if(abilityValues[i][0] == 16) {
+                        baseDamage += abilityValues[i][1] * 5;
+                    }
+                }
+                break;
+            case 4: // 정령사
+                if(abilityValues[0][0] == 2) {
+                    baseDamage += abilityValues[0][1] * 10;
+                }
+                for(int i = 0; i < abilityValues.length; i++) {
+                    if(abilityValues[i][0] == 14) {
+                        baseDamage += abilityValues[i][1] * 5;
+                    }
+                }
+                break;
+            case 5: // 힐러
+                if(abilityValues[0][0] == 2) {
+                    baseDamage += abilityValues[0][1] * 10;
+                }
+                for(int i = 0; i < abilityValues.length; i++) {
+                    if(abilityValues[i][0] == 13) {
+                        baseDamage += abilityValues[i][1] * 5;
+                    }
+                }
+                break;
+            case 6: // 마법사
+                if(abilityValues[0][0] == 2) {
+                    baseDamage += abilityValues[0][1] * 10;
+                }
+                for(int i = 0; i < abilityValues.length; i++) {
+                    if(abilityValues[i][0] == 12) {
+                        baseDamage += abilityValues[i][1] * 5;
+                    }
+                }
+                break;
+            case 7: // 궁수
+                if(abilityValues[0][0] == 2) {
+                    baseDamage += abilityValues[0][1] * 10;
+                }
+                for(int i = 0; i < abilityValues.length; i++) {
+                    if(abilityValues[i][0] == 9) {
+                        baseDamage += abilityValues[i][1] * 5;
+                    }
+                }
+                break;
+            case 8: // 마검사
+                if(abilityValues[0][0] == 2) {
+                    baseDamage += abilityValues[0][1] * 3;
+                }
+                if(abilityValues[1][0] == 7) {
+                    baseDamage += abilityValues[0][1] * 5;
+                }
+                for(int i = 0; i < abilityValues.length; i++) {
+                    if(abilityValues[i][0] == 10) {
+                        baseDamage += abilityValues[i][1] * 5;
+                    }
+                }
+                break;
+            case 9: // 마창사
+                if(abilityValues[0][0] == 2) {
+                    baseDamage += abilityValues[0][1] * 3;
+                }
+                if(abilityValues[1][0] == 7) {
+                    baseDamage += abilityValues[0][1] * 5;
+                }
+                for(int i = 0; i < abilityValues.length; i++) {
+                    if(abilityValues[i][0] == 11) {
+                        baseDamage += abilityValues[i][1] * 5;
+                    }
+                }
+                break;
+        }
+    }
+
 }
