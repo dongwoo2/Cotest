@@ -447,6 +447,121 @@ public class Study20250215_1 {
         return needAbilities;
     }
 
+    public static float[][] skillLevelUp(int choice, float[][] needAbilities) {
+        switch (choice) {
+            case 1: // 전사
+                // 전사라면 방패치기 2렙 힘3,민첩3
+                // 방패치기 3렙 힘4, 민첩4 이런식으로
+                // 방패치기 , 힘 2, 민첩 2
+                needAbilities[0][0] = 1; // 힘
+                needAbilities[0][1] = 2; // 필요한 능력치 값
+                needAbilities[1][0] = 5; // 민첩
+                needAbilities[1][1] = 2; // 필요한 능력치 값
+                // 강타 , 힘 3, 민첩 1
+                needAbilities[2][0] = 1; // 힘
+                needAbilities[2][1] = 3; // 필요한 능력치 값
+                needAbilities[3][0] = 5; // 민첩
+                needAbilities[3][1] = 1; // 필요한 능력치 값
+                break;
+            case 2: // 격투가
+                // 화려한 스텝 , 스피드 1, 민첩 3
+                needAbilities[0][0] = 7; // 스피드
+                needAbilities[0][1] = 1; // 필요한 능력치 값
+                needAbilities[1][0] = 5; // 민첩
+                needAbilities[1][1] = 3; // 필요한 능력치 값
+                // 발차기 , 힘 1, 민첩 3
+                needAbilities[2][0] = 1; // 힘
+                needAbilities[2][1] = 3; // 필요한 능력치 값
+                needAbilities[3][0] = 5; // 민첩
+                needAbilities[3][1] = 3; // 필요한 능력치 값
+                break;
+            case 3: // 창술사
+                // 찌르기 , 창술 1, 민첩 2
+                needAbilities[0][0] = 16; // 창술
+                needAbilities[0][1] = 1; // 필요한 능력치 값
+                needAbilities[1][0] = 5; // 민첩
+                needAbilities[1][1] = 2; // 필요한 능력치 값
+                // 약점공격 , 지능 1, 민첩 2
+                needAbilities[2][0] = 2; // 지능
+                needAbilities[2][1] = 1; // 필요한 능력치 값
+                needAbilities[3][0] = 5; // 민첩
+                needAbilities[3][1] = 2; // 필요한 능력치 값
+                break;
+            case 4: // 정령사
+                // 원소 공격 , 정령 1, MP 1
+                needAbilities[0][0] = 14; // 정령
+                needAbilities[0][1] = 1; // 필요한 능력치 값
+                needAbilities[1][0] = 4; // MP
+                needAbilities[1][1] = 1; // 필요한 능력치 값
+                // 원소 강화 , 정령 1, MP 2
+                needAbilities[2][0] = 14; // 정령
+                needAbilities[2][1] = 1; // 필요한 능력치 값
+                needAbilities[3][0] = 4; // MP
+                needAbilities[3][1] = 2; // 필요한 능력치 값
+                break;
+            case 5: // 힐러
+                // 힐 , 힐 1, 마법 1
+                needAbilities[0][0] = 13; // 힐
+                needAbilities[0][1] = 1; // 필요한 능력치 값
+                needAbilities[1][0] = 12; // 마법
+                needAbilities[1][1] = 1; // 필요한 능력치 값
+                // 방어막 , 마법 1, MP 2
+                needAbilities[2][0] = 12; // 마법
+                needAbilities[2][1] = 1; // 필요한 능력치 값
+                needAbilities[3][0] = 4; // MP
+                needAbilities[3][1] = 2; // 필요한 능력치 값
+                break;
+            case 6: // 마법사
+                // 파이어볼 , 마법 1, MP 2
+                needAbilities[0][0] = 12; // 마법
+                needAbilities[0][1] = 1; // 필요한 능력치 값
+                needAbilities[1][0] = 4; // MP
+                needAbilities[1][1] = 2; // 필요한 능력치 값
+                // 텔레포트 , 마법 2, MP 2
+                needAbilities[2][0] = 12; // 마법
+                needAbilities[2][1] = 2; // 필요한 능력치 값
+                needAbilities[3][0] = 4; // MP
+                needAbilities[3][1] = 2; // 필요한 능력치 값
+                break;
+            case 7: // 궁수
+                // 속사 , 궁술 1, 민첩 2
+                needAbilities[0][0] = 9; // 궁술
+                needAbilities[0][1] = 1; // 필요한 능력치 값
+                needAbilities[1][0] = 5; // 민첩
+                needAbilities[1][1] = 2; // 필요한 능력치 값
+                // 스나이핑 , 궁술 1, 힘 2
+                needAbilities[2][0] = 9; // 궁술
+                needAbilities[2][1] = 1; // 필요한 능력치 값
+                needAbilities[3][0] = 1; // 힘
+                needAbilities[3][1] = 2; // 필요한 능력치 값
+                break;
+            case 8: // 마검사
+                // 마법 부여 , 마검술 1, MP 2
+                needAbilities[0][0] = 10; // 마검술
+                needAbilities[0][1] = 1; // 필요한 능력치 값
+                needAbilities[1][0] = 4; // MP
+                needAbilities[1][1] = 2; // 필요한 능력치 값
+                // 베기 , 마검술 1, 민첩 2
+                needAbilities[2][0] = 10; // 마검술
+                needAbilities[2][1] = 1; // 필요한 능력치 값
+                needAbilities[3][0] = 5; // 민첩
+                needAbilities[3][1] = 2; // 필요한 능력치 값
+                break;
+            case 9: // 마창사
+                // 마법 부여 , 마창술 1, MP 2
+                needAbilities[0][0] = 11; // 마창술
+                needAbilities[0][1] = 1; // 필요한 능력치 값
+                needAbilities[1][0] = 4; // MP
+                needAbilities[1][1] = 2; // 필요한 능력치 값
+                // 찌르기 , 마창술 1, 민첩 2
+                needAbilities[2][0] = 11; // 마창술
+                needAbilities[2][1] = 1; // 필요한 능력치 값
+                needAbilities[3][0] = 5; // 민첩
+                needAbilities[3][1] = 2; // 필요한 능력치 값
+                break;
+        }
+    }
+
     public static void displayCharacterInfo(String name, int classChoice, float[][] abilities, String[][] skills) {
         System.out.println("\n======= 캐릭터 정보 =======");
         System.out.println("이름: " + name);
@@ -587,116 +702,47 @@ public class Study20250215_1 {
 //
 //    Acc(Accuracy)	명중률,
 //    Avd(Avoidability) 회피율
-    public static float[][] accAvd(float[][] accAvd, float abilityValues[][], int choice) {
+    public static float[] accAvd(float[] accAvd, float abilityValues[][], int choice) {
         // 회피먼저 설정하자
         // 회피는 동일하게 해버리자 - 민첩,운,스피드
-        switch (choice) {
-            case 1: // 전사 ,전사의 경우 힘1당 기본공격력 5 민첩은 3, 검술 1당 5
-                if(abilityValues[0][0] == 1) {
-                    baseDamage += abilityValues[0][1] * 5;
-                }
-                if(abilityValues[1][0] == 5) {
-                    baseDamage += abilityValues[0][1] * 3;
-                }
-                for(int i = 0; i < abilityValues.length; i++) {
-                    if(abilityValues[i][0] == 8) {
-                        baseDamage += abilityValues[i][1] * 5;
-                    }
-                }
-                break;
-            case 2: // 격투가 , 격투가의 경우 힘1당 기본공격력 4 민첩은 4, 갹투1당 5
-                if(abilityValues[0][0] == 1) {
-                    baseDamage += abilityValues[0][1] * 4;
-                }
-                if(abilityValues[1][0] == 5) {
-                    baseDamage += abilityValues[0][1] * 4;
-                }
-                for(int i = 0; i < abilityValues.length; i++) {
-                    if(abilityValues[i][0] == 15) {
-                        baseDamage += abilityValues[i][1] * 5;
-                    }
-                }
-                break;
-            case 3: // 창술사 , 창술가의 경우 힘1당 기본공격력 3 민첩은 5 창술1당 5
-                if(abilityValues[0][0] == 1) {
-                    baseDamage += abilityValues[0][1] * 3;
-                }
-                if(abilityValues[1][0] == 5) {
-                    baseDamage += abilityValues[0][1] * 5;
-                }
-                for(int i = 0; i < abilityValues.length; i++) {
-                    if(abilityValues[i][0] == 16) {
-                        baseDamage += abilityValues[i][1] * 5;
-                    }
-                }
-                break;
-            case 4: // 정령사
-                if(abilityValues[0][0] == 2) {
-                    baseDamage += abilityValues[0][1] * 10;
-                }
-                for(int i = 0; i < abilityValues.length; i++) {
-                    if(abilityValues[i][0] == 14) {
-                        baseDamage += abilityValues[i][1] * 5;
-                    }
-                }
-                break;
-            case 5: // 힐러
-                if(abilityValues[0][0] == 2) {
-                    baseDamage += abilityValues[0][1] * 10;
-                }
-                for(int i = 0; i < abilityValues.length; i++) {
-                    if(abilityValues[i][0] == 13) {
-                        baseDamage += abilityValues[i][1] * 5;
-                    }
-                }
-                break;
-            case 6: // 마법사
-                if(abilityValues[0][0] == 2) {
-                    baseDamage += abilityValues[0][1] * 10;
-                }
-                for(int i = 0; i < abilityValues.length; i++) {
-                    if(abilityValues[i][0] == 12) {
-                        baseDamage += abilityValues[i][1] * 5;
-                    }
-                }
-                break;
-            case 7: // 궁수
-                if(abilityValues[0][0] == 2) {
-                    baseDamage += abilityValues[0][1] * 10;
-                }
-                for(int i = 0; i < abilityValues.length; i++) {
-                    if(abilityValues[i][0] == 9) {
-                        baseDamage += abilityValues[i][1] * 5;
-                    }
-                }
-                break;
-            case 8: // 마검사
-                if(abilityValues[0][0] == 2) {
-                    baseDamage += abilityValues[0][1] * 3;
-                }
-                if(abilityValues[1][0] == 7) {
-                    baseDamage += abilityValues[0][1] * 5;
-                }
-                for(int i = 0; i < abilityValues.length; i++) {
-                    if(abilityValues[i][0] == 10) {
-                        baseDamage += abilityValues[i][1] * 5;
-                    }
-                }
-                break;
-            case 9: // 마창사
-                if(abilityValues[0][0] == 2) {
-                    baseDamage += abilityValues[0][1] * 3;
-                }
-                if(abilityValues[1][0] == 7) {
-                    baseDamage += abilityValues[0][1] * 5;
-                }
-                for(int i = 0; i < abilityValues.length; i++) {
-                    if(abilityValues[i][0] == 11) {
-                        baseDamage += abilityValues[i][1] * 5;
-                    }
-                }
-                break;
+        //  민첩 운 스피드 5 6 7
+        for(int i = 0; i < abilityValues.length; i++) {
+            if(abilityValues[i][0] == 5) {
+                accAvd[0] += abilityValues[i][1] * 5;
+            } else if (abilityValues[i][0] == 6) {
+                accAvd[0] += abilityValues[i][1] * 3;
+            } else if (abilityValues[i][0] == 7) {
+                accAvd[0] += abilityValues[i][1] * 4;
+            }
         }
+
+        if(choice <= 3) { //힘3 민첩5 -> 전사, 격투가, 창술가
+            for(int i = 0; i < abilityValues.length; i++) {
+                if(abilityValues[i][0] == 1) {
+                    accAvd[1] += abilityValues[i][1] * 3;
+                } else if (abilityValues[i][0] == 5) {
+                    accAvd[1] += abilityValues[i][1] * 5;
+                }
+            }
+        } else if(choice <= 7) { // 지능 5, 운4 -> 마법사, 궁수, 힐러, 정령사 운은 필수 스텟이 아니라 1 더 높게
+            for(int i = 0; i < abilityValues.length; i++) {
+                if(abilityValues[i][0] == 2) {
+                    accAvd[1] += abilityValues[i][1] * 5;
+                } else if (abilityValues[i][0] == 6) {
+                    accAvd[1] += abilityValues[i][1] * 5;
+                }
+            }
+        } else if (choice <= 9) { // 지능 5, 스피드 3 -> 마검사, 마창사
+            for(int i = 0; i < abilityValues.length; i++) {
+                if(abilityValues[i][0] == 2) {
+                    accAvd[1] += abilityValues[i][1] * 5;
+                } else if (abilityValues[i][0] == 7) {
+                    accAvd[1] += abilityValues[i][1] * 3;
+                }
+            }
+        }
+        return accAvd;
     }
 
+    // 스킬 레벨업 만들어야함 업그레이드 가능하게
 }
