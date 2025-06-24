@@ -447,21 +447,56 @@ public class Study20250215_1 {
         return needAbilities;
     }
 
-    public static float[][] skillLevelUp(int choice, float[][] needAbilities) {
+    public static float[][] skillLevelUp(int choice, float[][] needAbilities, int[] skillLevel) {
+        int money = 0;
+        // 니드 어벨리티로 체크
+        // skilllevel[0] = 1 번째 스킬 고정되어있음 스킬은 방패치기가 0 번째 레벨도 체크
+
+        // 방패치기 레벨을 중급으로 올리시겠습니까? 그러면 일단 이렇게 상급으로 올리시겠습니까도 한번 올려주고
+        // 근데 스킬 1개씩만 올려야되는 경우도 생기겠네
+        // 일단 빨리 구현하자
+        for(int i = 0; i <= 3; i++) { // 일단 중급일 경우 이런식으로 needablity 올려주고 한 번에 올릴 수 있음
+            needAbilities[i][1] += 1;
+        }
+        // 중급일경우
+        for (int i = 0; i < needAbilities.length-1; i++) {
+            if (needAbilities[i][0] > 0) {
+                int skillId = (int)needAbilities[i][0];
+                System.out.println(SKILL_NAMES[skillId] + ": " + needAbilities[i][1]);
+            }
+        }
+
         switch (choice) {
             case 1: // 전사
+                System.out.println("어떤 스킬을 레벨업 하시겠습니까?");
+                System.out.println("1. 방패치기 2. 강타");
+                choice = sc.nextInt();
                 // 전사라면 방패치기 2렙 힘3,민첩3
                 // 방패치기 3렙 힘4, 민첩4 이런식으로
                 // 방패치기 , 힘 2, 민첩 2
                 needAbilities[0][0] = 1; // 힘
-                needAbilities[0][1] = 2; // 필요한 능력치 값
+                needAbilities[0][1] = 3; // 필요한 능력치 값
                 needAbilities[1][0] = 5; // 민첩
-                needAbilities[1][1] = 2; // 필요한 능력치 값
+                needAbilities[1][1] = 3; // 필요한 능력치 값
                 // 강타 , 힘 3, 민첩 1
                 needAbilities[2][0] = 1; // 힘
                 needAbilities[2][1] = 3; // 필요한 능력치 값
                 needAbilities[3][0] = 5; // 민첩
                 needAbilities[3][1] = 1; // 필요한 능력치 값
+
+                if(skillLevel[0] == 1) {
+
+                }
+                if(choice == 1) {
+                    if(skillLevel[choice - 1] == 1)
+                    needAbilities[0][0] = 1;
+                    needAbilities[0][1] = 3;
+
+                    needAbilities[1][0] = 5;
+                    needAbilities[1][1] = 3;
+                }
+                // 1이 올라가는 기준 스텟? 변경시 ㅇㅇㅇ
+
                 break;
             case 2: // 격투가
                 // 화려한 스텝 , 스피드 1, 민첩 3
