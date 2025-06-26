@@ -13,6 +13,7 @@ public class Study20250215_1 {
         String id = "";
         String pw = "";
         int choice = 0;
+        int classIndex = 0;
         float[][] abilityValues = new float[10][2];
         float[][] skillNeedAblity = new float[10][2];
         String[] idPw = new String[2];
@@ -25,6 +26,7 @@ public class Study20250215_1 {
         String name = createCharacter();
         displayCharacterClasses();
         choice = selectClass();
+        classIndex = choice;
         abilityValues = selectAbilities(choice);
         characterSkills = skillNameLevel(choice);
         displayCharacterInfo(name, choice, abilityValues, characterSkills);
@@ -447,14 +449,14 @@ public class Study20250215_1 {
         return needAbilities;
     }
 
-    public static float[][] skillLevelUp(int choice, float[][] needAbilities, int[] skillLevel) {
+    public static float[][] skillLevelUp(int choice, float[][] needAbilities, int[] skillLevel, String[] CLASS_NAMES, int classIndex, float[][] abilityValues) {
         int money = 0;
+        int check = 0;
         // 니드 어벨리티로 체크
         // skilllevel[0] = 1 번째 스킬 고정되어있음 스킬은 방패치기가 0 번째 레벨도 체크
 
         // 방패치기 레벨을 중급으로 올리시겠습니까? 그러면 일단 이렇게 상급으로 올리시겠습니까도 한번 올려주고
-        // 근데 스킬 1개씩만 올려야되는 경우도 생기겠네
-        // 일단 빨리 구현하자
+        // 아니지 어쩃든 이렇게 일씩 더하는걸 사야하는 거잖아 맞네
         for(int i = 0; i <= 3; i++) { // 일단 중급일 경우 이런식으로 needablity 올려주고 한 번에 올릴 수 있음
             needAbilities[i][1] += 1;
         }
@@ -462,11 +464,12 @@ public class Study20250215_1 {
         for (int i = 0; i < needAbilities.length-1; i++) {
             if (needAbilities[i][0] > 0) {
                 int skillId = (int)needAbilities[i][0];
+                System.out.println("skillId = " + skillId); //
                 System.out.println(SKILL_NAMES[skillId] + ": " + needAbilities[i][1]);
             }
         }
 
-        switch (choice) {
+        switch (classIndex) {
             case 1: // 전사
                 System.out.println("어떤 스킬을 레벨업 하시겠습니까?");
                 System.out.println("1. 방패치기 2. 강타");
@@ -474,6 +477,29 @@ public class Study20250215_1 {
                 // 전사라면 방패치기 2렙 힘3,민첩3
                 // 방패치기 3렙 힘4, 민첩4 이런식으로
                 // 방패치기 , 힘 2, 민첩 2
+                if(choice == 1) {
+                    // choice가 1이면 needAbilities[i][0] > 0 && (needAbilities[i][0] == 1 || needAbilities[i][0] == 5
+                    // 여기부분 하드코딩이 아니라 데이터가 들어가게 바꾸고 싶은데 방패치기는 1,5번 능력치가 필요하고 필요능력치는 몇이다 라는거
+                    for (int i = 0; i < needAbilities.length - 1; i++) {
+                        if (needAbilities[i][0] > 0 && (needAbilities[i][0] == 1 || needAbilities[i][0] == 5)) {
+                            int skillId = (int) needAbilities[i][0];
+                            if(abilityValues[i][1] >= needAbilities[i][i]) {
+                                if(i == needAbilities.length - 1 && check == 0) {
+                                    skillLevel[1]++;
+                                }
+                            } else  {
+                                check++;
+                                System.out.println(SKILL_NAMES[skillId] + ": " + needAbilities[i][1] + "이 필요합니다.");
+                                System.out.println("능력치가 부족합니다.");
+                            }
+
+                        }
+                    }
+                } else if(choice == 2) {
+
+                }
+
+                check = 0;
                 needAbilities[0][0] = 1; // 힘
                 needAbilities[0][1] = 3; // 필요한 능력치 값
                 needAbilities[1][0] = 5; // 민첩
