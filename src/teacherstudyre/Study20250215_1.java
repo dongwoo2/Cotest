@@ -29,6 +29,15 @@ public class Study20250215_1 {
         classIndex = choice;
         abilityValues = selectAbilities(choice);
         characterSkills = skillNameLevel(choice);
+//        skills[0][0] = "마법 부여";
+//        skills[0][1] = "창에 마법을 부여합니다."; // 불,얼음,전격
+//        skills[1][0] = "찌르기";
+//        skills[1][1] = "상대에게 1.5배의 데미지를 입힙니다 창에 부여된 마법에 따라 추가 데미지가 들어갑니다.";
+//        break;
+//    }
+//
+//        for (int i = 0; i < 2; i++) {
+//        skills[i][2] = "1";
         displayCharacterInfo(name, choice, abilityValues, characterSkills);
         skillNameLevel(choice);
         skillNeedAblity = skillNeedAblity(choice);
@@ -180,14 +189,14 @@ public class Study20250215_1 {
         int abilitiesNeeded = 0;
         int specialSkillId = 0;
 
-        for (int i = 0; i < abilities.length-1; i++) {
+        for (int i = 0; i < abilities.length - 1; i++) {
             if (abilities[i][0] > 0) {
                 baseAbilityCount++; // 베이스로 능력치 몇 개 설정되어있는지 확인
             }
         }
 
-        abilitiesNeeded = (int)abilities[9][0]; // 설정 가능한 능력치 갯수
-        specialSkillId = (int)abilities[9][1]; // 무슨 스페셜 스킬값이 들어갔는지
+        abilitiesNeeded = (int) abilities[9][0]; // 설정 가능한 능력치 갯수
+        specialSkillId = (int) abilities[9][1]; // 무슨 스페셜 스킬값이 들어갔는지
 
         System.out.println("능력치를 선택하세요.");
         System.out.println("추가로 " + abilitiesNeeded + "개를 선택해야 합니다.");
@@ -198,7 +207,7 @@ public class Study20250215_1 {
 
         int selectedCount = 0;
         while (selectedCount < abilitiesNeeded) {
-            System.out.println((selectedCount+1) + "번째 추가 능력치를 선택하세요:");
+            System.out.println((selectedCount + 1) + "번째 추가 능력치를 선택하세요:");
             int choice = sc.nextInt();
 
             // continue를 잘 확인해보자 내가 while을 한 개만 쓸 수 있게 할 수 있는 방법인듯
@@ -238,9 +247,9 @@ public class Study20250215_1 {
     }
 
     public static void displayAbilities(float[][] abilities) {
-        for (int i = 0; i < abilities.length-1; i++) {
+        for (int i = 0; i < abilities.length - 1; i++) {
             if (abilities[i][0] > 0) {
-                int skillId = (int)abilities[i][0];
+                int skillId = (int) abilities[i][0];
                 System.out.println(SKILL_NAMES[skillId] + ": " + abilities[i][1]);
             }
         }
@@ -314,11 +323,12 @@ public class Study20250215_1 {
 
         for (int i = 0; i < 2; i++) {
             skills[i][2] = "1";
-            System.out.println((i+1) + ". " + skills[i][0] + " (레벨 " + skills[i][2] + ")");
+            System.out.println((i + 1) + ". " + skills[i][0] + " (레벨 " + skills[i][2] + ")");
         }
 
         return skills;
     }
+
     /*
     -스킬 속성-
     이름: 스킬의 명칭 (예: "방패치기")
@@ -449,21 +459,24 @@ public class Study20250215_1 {
         return needAbilities;
     }
 
-    public static float[][] skillLevelUp(int choice, float[][] needAbilities, int[] skillLevel, String[] CLASS_NAMES, int classIndex, float[][] abilityValues) {
-        int money = 0;
+    // abilityValues - 현재 내 능력치
+    public static String[][] skillLevelUp(float[][] needAbilities, int classIndex, float[][] abilityValues, String[][] characterSkills) {
         int check = 0;
+        boolean flag = true;
+        int choice = 0;
+        String level = "2";
         // 니드 어벨리티로 체크
         // skilllevel[0] = 1 번째 스킬 고정되어있음 스킬은 방패치기가 0 번째 레벨도 체크
 
         // 방패치기 레벨을 중급으로 올리시겠습니까? 그러면 일단 이렇게 상급으로 올리시겠습니까도 한번 올려주고
         // 아니지 어쩃든 이렇게 일씩 더하는걸 사야하는 거잖아 맞네
-        for(int i = 0; i <= 3; i++) { // 일단 중급일 경우 이런식으로 needablity 올려주고 한 번에 올릴 수 있음
+        for (int i = 0; i <= 3; i++) { // 일단 중급일 경우 이런식으로 needablity 올려주고 한 번에 올릴 수 있음
             needAbilities[i][1] += 1;
         }
         // 중급일경우
-        for (int i = 0; i < needAbilities.length-1; i++) {
+        for (int i = 0; i < needAbilities.length - 1; i++) {
             if (needAbilities[i][0] > 0) {
-                int skillId = (int)needAbilities[i][0];
+                int skillId = (int) needAbilities[i][0];
                 System.out.println("skillId = " + skillId); //
                 System.out.println(SKILL_NAMES[skillId] + ": " + needAbilities[i][1]);
             }
@@ -471,157 +484,435 @@ public class Study20250215_1 {
 
         switch (classIndex) {
             case 1: // 전사
-                System.out.println("어떤 스킬을 레벨업 하시겠습니까?");
-                System.out.println("1. 방패치기 2. 강타");
-                choice = sc.nextInt();
-                // 전사라면 방패치기 2렙 힘3,민첩3
-                // 방패치기 3렙 힘4, 민첩4 이런식으로
-                // 방패치기 , 힘 2, 민첩 2
-                if(choice == 1) {
-                    // choice가 1이면 needAbilities[i][0] > 0 && (needAbilities[i][0] == 1 || needAbilities[i][0] == 5
-                    // 여기부분 하드코딩이 아니라 데이터가 들어가게 바꾸고 싶은데 방패치기는 1,5번 능력치가 필요하고 필요능력치는 몇이다 라는거
-                    for (int i = 0; i < needAbilities.length - 1; i++) {
-                        if (needAbilities[i][0] > 0 && (needAbilities[i][0] == 1 || needAbilities[i][0] == 5)) {
-                            int skillId = (int) needAbilities[i][0];
-                            if(abilityValues[i][1] >= needAbilities[i][i]) {
-                                if(i == needAbilities.length - 1 && check == 0) {
-                                    skillLevel[1]++;
+                while (flag) {
+                    System.out.println("어떤 스킬을 레벨업 하시겠습니까?");
+                    System.out.println("1. 방패치기 2. 강타");
+                    choice = sc.nextInt();
+                    if(characterSkills[choice][2].equals(level)) { // 스킬 등급이 중일 때 level을 3으로 변경 현재 레벨은 상중하만 있음
+                        level = "3";
+                    }
+                    if(choice == 1) {
+                        // 니드 어빌리티는 설정되서 옴
+                        // 어빌리티 발류를 for문을 돌아서
+                        // 어빌리티 발류가
+                        needAbilities[0][0] = 1;
+                        needAbilities[1][0] = 5;
+                    } else if (choice == 2) {
+                        needAbilities[2][0] = 1;
+                        needAbilities[3][0] = 5;
+                    } else {
+                        System.out.println("잘못된 숫자를 입력하셨습니다.");
+                        flag = true;
+                    }
+                    int j = 0;
+                    if(choice == 2) {
+                        j+=2;
+                    }
+                    for(int i = 0; i < abilityValues.length; i++) {
+                        int skillId = (int) needAbilities[j][0];
+                        if(abilityValues[i][0] == needAbilities[j][0]) {
+                            if(abilityValues[i][1] >= needAbilities[j][1]) {
+                                j++;
+                                i = 0;
+                                if(j == 2 && choice == 1) {
+                                    System.out.println("스킬레벨이 상승하였습니다.");
+                                    characterSkills[choice][2] = level;
+                                    // 리턴을 어떻게 할려고 한거지?
+                                    // 리턴값 어떻게 할려고?
+                                    // 그 값에 맞게 할려고?
+                                } else if(j == 4 && choice == 2) {
+                                    System.out.println("스킬레벨이 상승하였습니다.");
+                                    characterSkills[choice][2] = level;
                                 }
-                            } else  {
-                                check++;
+                            } else {
                                 System.out.println(SKILL_NAMES[skillId] + ": " + needAbilities[i][1] + "이 필요합니다.");
                                 System.out.println("능력치가 부족합니다.");
                             }
-
                         }
                     }
-                } else if(choice == 2) {
-
+                    flag = false;
                 }
-
-                check = 0;
-                needAbilities[0][0] = 1; // 힘
-                needAbilities[0][1] = 3; // 필요한 능력치 값
-                needAbilities[1][0] = 5; // 민첩
-                needAbilities[1][1] = 3; // 필요한 능력치 값
-                // 강타 , 힘 3, 민첩 1
-                needAbilities[2][0] = 1; // 힘
-                needAbilities[2][1] = 3; // 필요한 능력치 값
-                needAbilities[3][0] = 5; // 민첩
-                needAbilities[3][1] = 1; // 필요한 능력치 값
-
-                if(skillLevel[0] == 1) {
-
-                }
-                if(choice == 1) {
-                    if(skillLevel[choice - 1] == 1)
-                    needAbilities[0][0] = 1;
-                    needAbilities[0][1] = 3;
-
-                    needAbilities[1][0] = 5;
-                    needAbilities[1][1] = 3;
-                }
-                // 1이 올라가는 기준 스텟? 변경시 ㅇㅇㅇ
-
                 break;
             case 2: // 격투가
-                // 화려한 스텝 , 스피드 1, 민첩 3
-                needAbilities[0][0] = 7; // 스피드
-                needAbilities[0][1] = 1; // 필요한 능력치 값
-                needAbilities[1][0] = 5; // 민첩
-                needAbilities[1][1] = 3; // 필요한 능력치 값
-                // 발차기 , 힘 1, 민첩 3
-                needAbilities[2][0] = 1; // 힘
-                needAbilities[2][1] = 3; // 필요한 능력치 값
-                needAbilities[3][0] = 5; // 민첩
-                needAbilities[3][1] = 3; // 필요한 능력치 값
+                while (flag) {
+                    System.out.println("어떤 스킬을 레벨업 하시겠습니까?");
+                    System.out.println("1. 화려한 스텝 2. 발차기");
+                    choice = sc.nextInt();
+                    if(characterSkills[choice][2].equals(level)) { // 스킬 등급이 중일 때 level을 3으로 변경 현재 레벨은 상중하만 있음
+                        level = "3";
+                    }
+                    if(choice == 1) {
+                        // 니드 어빌리티는 설정되서 옴
+                        // 어빌리티 발류를 for문을 돌아서
+                        // 어빌리티 발류가
+                        needAbilities[0][0] = 7;
+                        needAbilities[1][0] = 5;
+                    } else if (choice == 2) {
+                        needAbilities[2][0] = 1;
+                        needAbilities[3][0] = 5;
+                    } else {
+                        System.out.println("잘못된 숫자를 입력하셨습니다.");
+                        flag = true;
+                    }
+                    int j = 0;
+                    if(choice == 2) {
+                        j+=2;
+                    }
+                    for(int i = 0; i < abilityValues.length; i++) {
+                        int skillId = (int) needAbilities[j][0];
+                        if(abilityValues[i][0] == needAbilities[j][0]) {
+                            if(abilityValues[i][1] >= needAbilities[j][1]) {
+                                j++;
+                                i = 0;
+                                if(j == 2 && choice == 1) {
+                                    System.out.println("스킬레벨이 상승하였습니다.");
+                                    characterSkills[choice][2] = level;
+                                } else if(j == 4 && choice == 2) {
+                                    System.out.println("스킬레벨이 상승하였습니다.");
+                                    characterSkills[choice][2] = level;
+                                }
+                            } else {
+                                System.out.println(SKILL_NAMES[skillId] + ": " + needAbilities[i][1] + "이 필요합니다.");
+                                System.out.println("능력치가 부족합니다.");
+                            }
+                        }
+                    }
+                    flag = false;
+                }
                 break;
             case 3: // 창술사
-                // 찌르기 , 창술 1, 민첩 2
-                needAbilities[0][0] = 16; // 창술
-                needAbilities[0][1] = 1; // 필요한 능력치 값
-                needAbilities[1][0] = 5; // 민첩
-                needAbilities[1][1] = 2; // 필요한 능력치 값
-                // 약점공격 , 지능 1, 민첩 2
-                needAbilities[2][0] = 2; // 지능
-                needAbilities[2][1] = 1; // 필요한 능력치 값
-                needAbilities[3][0] = 5; // 민첩
-                needAbilities[3][1] = 2; // 필요한 능력치 값
+                while (flag) {
+                    System.out.println("어떤 스킬을 레벨업 하시겠습니까?");
+                    System.out.println("1. 찌르기 2. 약점공격");
+                    choice = sc.nextInt();
+                    if(characterSkills[choice][2].equals(level)) { // 스킬 등급이 중일 때 level을 3으로 변경 현재 레벨은 상중하만 있음
+                        level = "3";
+                    }
+                    if(choice == 1) {
+                        // 니드 어빌리티는 설정되서 옴
+                        // 어빌리티 발류를 for문을 돌아서
+                        // 어빌리티 발류가
+                        needAbilities[0][0] = 16;
+                        needAbilities[1][0] = 5;
+                    } else if (choice == 2) {
+                        needAbilities[2][0] = 2;
+                        needAbilities[3][0] = 5;
+                    } else {
+                        System.out.println("잘못된 숫자를 입력하셨습니다.");
+                        flag = true;
+                    }
+                    int j = 0;
+                    if(choice == 2) {
+                        j+=2;
+                    }
+                    for(int i = 0; i < abilityValues.length; i++) {
+                        int skillId = (int) needAbilities[j][0];
+                        if(abilityValues[i][0] == needAbilities[j][0]) {
+                            if(abilityValues[i][1] >= needAbilities[j][1]) {
+                                j++;
+                                i = 0;
+                                if(j == 2 && choice == 1) {
+                                    System.out.println("스킬레벨이 상승하였습니다.");
+                                    characterSkills[choice][2] = level;
+                                } else if(j == 4 && choice == 2) {
+                                    System.out.println("스킬레벨이 상승하였습니다.");
+                                    characterSkills[choice][2] = level;
+                                }
+                            } else {
+                                System.out.println(SKILL_NAMES[skillId] + ": " + needAbilities[i][1] + "이 필요합니다.");
+                                System.out.println("능력치가 부족합니다.");
+                            }
+                        }
+                    }
+                    flag = false;
+                }
                 break;
             case 4: // 정령사
-                // 원소 공격 , 정령 1, MP 1
-                needAbilities[0][0] = 14; // 정령
-                needAbilities[0][1] = 1; // 필요한 능력치 값
-                needAbilities[1][0] = 4; // MP
-                needAbilities[1][1] = 1; // 필요한 능력치 값
-                // 원소 강화 , 정령 1, MP 2
-                needAbilities[2][0] = 14; // 정령
-                needAbilities[2][1] = 1; // 필요한 능력치 값
-                needAbilities[3][0] = 4; // MP
-                needAbilities[3][1] = 2; // 필요한 능력치 값
+                while (flag) {
+                    System.out.println("어떤 스킬을 레벨업 하시겠습니까?");
+                    System.out.println("1. 원소 공격 2. 원소 강화");
+                    choice = sc.nextInt();
+                    if(characterSkills[choice][2].equals(level)) { // 스킬 등급이 중일 때 level을 3으로 변경 현재 레벨은 상중하만 있음
+                        level = "3";
+                    }
+                    if(choice == 1) {
+                        // 니드 어빌리티는 설정되서 옴
+                        // 어빌리티 발류를 for문을 돌아서
+                        // 어빌리티 발류가
+                        needAbilities[0][0] = 14;
+                        needAbilities[1][0] = 4;
+                    } else if (choice == 2) {
+                        needAbilities[2][0] = 14;
+                        needAbilities[3][0] = 4;
+                    } else {
+                        System.out.println("잘못된 숫자를 입력하셨습니다.");
+                        flag = true;
+                    }
+                    int j = 0;
+                    if(choice == 2) {
+                        j+=2;
+                    }
+                    for(int i = 0; i < abilityValues.length; i++) {
+                        int skillId = (int) needAbilities[j][0];
+                        if(abilityValues[i][0] == needAbilities[j][0]) {
+                            if(abilityValues[i][1] >= needAbilities[j][1]) {
+                                j++;
+                                i = 0;
+                                if(j == 2 && choice == 1) {
+                                    System.out.println("스킬레벨이 상승하였습니다.");
+                                    characterSkills[choice][2] = level;
+                                } else if(j == 4 && choice == 2) {
+                                    System.out.println("스킬레벨이 상승하였습니다.");
+                                    characterSkills[choice][2] = level;
+                                }
+                            } else {
+                                System.out.println(SKILL_NAMES[skillId] + ": " + needAbilities[i][1] + "이 필요합니다.");
+                                System.out.println("능력치가 부족합니다.");
+                            }
+                        }
+                    }
+                    flag = false;
+                }
                 break;
             case 5: // 힐러
-                // 힐 , 힐 1, 마법 1
-                needAbilities[0][0] = 13; // 힐
-                needAbilities[0][1] = 1; // 필요한 능력치 값
-                needAbilities[1][0] = 12; // 마법
-                needAbilities[1][1] = 1; // 필요한 능력치 값
-                // 방어막 , 마법 1, MP 2
-                needAbilities[2][0] = 12; // 마법
-                needAbilities[2][1] = 1; // 필요한 능력치 값
-                needAbilities[3][0] = 4; // MP
-                needAbilities[3][1] = 2; // 필요한 능력치 값
+                while (flag) {
+                    System.out.println("어떤 스킬을 레벨업 하시겠습니까?");
+                    System.out.println("1. 힐 2. 방어막");
+                    choice = sc.nextInt();
+                    if(characterSkills[choice][2].equals(level)) { // 스킬 등급이 중일 때 level을 3으로 변경 현재 레벨은 상중하만 있음
+                        level = "3";
+                    }
+                    if(choice == 1) {
+                        // 니드 어빌리티는 설정되서 옴
+                        // 어빌리티 발류를 for문을 돌아서
+                        // 어빌리티 발류가
+                        needAbilities[0][0] = 13;
+                        needAbilities[1][0] = 12;
+                    } else if (choice == 2) {
+                        needAbilities[2][0] = 12;
+                        needAbilities[3][0] = 4;
+                    } else {
+                        System.out.println("잘못된 숫자를 입력하셨습니다.");
+                        flag = true;
+                    }
+                    int j = 0;
+                    if(choice == 2) {
+                        j+=2;
+                    }
+                    for(int i = 0; i < abilityValues.length; i++) {
+                        int skillId = (int) needAbilities[j][0];
+                        if(abilityValues[i][0] == needAbilities[j][0]) {
+                            if(abilityValues[i][1] >= needAbilities[j][1]) {
+                                j++;
+                                i = 0;
+                                if(j == 2 && choice == 1) {
+                                    System.out.println("스킬레벨이 상승하였습니다.");
+                                    characterSkills[choice][2] = level;
+                                } else if(j == 4 && choice == 2) {
+                                    System.out.println("스킬레벨이 상승하였습니다.");
+                                    characterSkills[choice][2] = level;
+                                }
+                            } else {
+                                System.out.println(SKILL_NAMES[skillId] + ": " + needAbilities[i][1] + "이 필요합니다.");
+                                System.out.println("능력치가 부족합니다.");
+                            }
+                        }
+                    }
+                    flag = false;
+                }
                 break;
             case 6: // 마법사
-                // 파이어볼 , 마법 1, MP 2
-                needAbilities[0][0] = 12; // 마법
-                needAbilities[0][1] = 1; // 필요한 능력치 값
-                needAbilities[1][0] = 4; // MP
-                needAbilities[1][1] = 2; // 필요한 능력치 값
-                // 텔레포트 , 마법 2, MP 2
-                needAbilities[2][0] = 12; // 마법
-                needAbilities[2][1] = 2; // 필요한 능력치 값
-                needAbilities[3][0] = 4; // MP
-                needAbilities[3][1] = 2; // 필요한 능력치 값
+                while (flag) {
+                    System.out.println("어떤 스킬을 레벨업 하시겠습니까?");
+                    System.out.println("1. 파이어볼 2. 텔레포트");
+                    choice = sc.nextInt();
+                    if(characterSkills[choice][2].equals(level)) { // 스킬 등급이 중일 때 level을 3으로 변경 현재 레벨은 상중하만 있음
+                        level = "3";
+                    }
+                    if(choice == 1) {
+                        // 니드 어빌리티는 설정되서 옴
+                        // 어빌리티 발류를 for문을 돌아서
+                        // 어빌리티 발류가
+                        needAbilities[0][0] = 12;
+                        needAbilities[1][0] = 4;
+                    } else if (choice == 2) {
+                        needAbilities[2][0] = 12;
+                        needAbilities[3][0] = 4;
+                    } else {
+                        System.out.println("잘못된 숫자를 입력하셨습니다.");
+                        flag = true;
+                    }
+                    int j = 0;
+                    if(choice == 2) {
+                        j+=2;
+                    }
+                    for(int i = 0; i < abilityValues.length; i++) {
+                        int skillId = (int) needAbilities[j][0];
+                        if(abilityValues[i][0] == needAbilities[j][0]) {
+                            if(abilityValues[i][1] >= needAbilities[j][1]) {
+                                j++;
+                                i = 0;
+                                if(j == 2 && choice == 1) {
+                                    System.out.println("스킬레벨이 상승하였습니다.");
+                                    characterSkills[choice][2] = level;
+                                } else if(j == 4 && choice == 2) {
+                                    System.out.println("스킬레벨이 상승하였습니다.");
+                                    characterSkills[choice][2] = level;
+                                }
+                            } else {
+                                System.out.println(SKILL_NAMES[skillId] + ": " + needAbilities[i][1] + "이 필요합니다.");
+                                System.out.println("능력치가 부족합니다.");
+                            }
+                        }
+                    }
+                    flag = false;
+                }
                 break;
             case 7: // 궁수
-                // 속사 , 궁술 1, 민첩 2
-                needAbilities[0][0] = 9; // 궁술
-                needAbilities[0][1] = 1; // 필요한 능력치 값
-                needAbilities[1][0] = 5; // 민첩
-                needAbilities[1][1] = 2; // 필요한 능력치 값
-                // 스나이핑 , 궁술 1, 힘 2
-                needAbilities[2][0] = 9; // 궁술
-                needAbilities[2][1] = 1; // 필요한 능력치 값
-                needAbilities[3][0] = 1; // 힘
-                needAbilities[3][1] = 2; // 필요한 능력치 값
+                while (flag) {
+                    System.out.println("어떤 스킬을 레벨업 하시겠습니까?");
+                    System.out.println("1. 속사 2. 스나이핑");
+                    choice = sc.nextInt();
+                    if(characterSkills[choice][2].equals(level)) { // 스킬 등급이 중일 때 level을 3으로 변경 현재 레벨은 상중하만 있음
+                        level = "3";
+                    }
+                    if(choice == 1) {
+                        // 니드 어빌리티는 설정되서 옴
+                        // 어빌리티 발류를 for문을 돌아서
+                        // 어빌리티 발류가
+                        needAbilities[0][0] = 9;
+                        needAbilities[1][0] = 5;
+                    } else if (choice == 2) {
+                        needAbilities[2][0] = 9;
+                        needAbilities[3][0] = 1;
+                    } else {
+                        System.out.println("잘못된 숫자를 입력하셨습니다.");
+                        flag = true;
+                    }
+                    int j = 0;
+                    if(choice == 2) {
+                        j+=2;
+                    }
+                    for(int i = 0; i < abilityValues.length; i++) {
+                        int skillId = (int) needAbilities[j][0];
+                        if(abilityValues[i][0] == needAbilities[j][0]) {
+                            if(abilityValues[i][1] >= needAbilities[j][1]) {
+                                j++;
+                                i = 0;
+                                if(j == 2 && choice == 1) {
+                                    System.out.println("스킬레벨이 상승하였습니다.");
+                                    characterSkills[choice][2] = level;
+                                } else if(j == 4 && choice == 2) {
+                                    System.out.println("스킬레벨이 상승하였습니다.");
+                                    characterSkills[choice][2] = level;
+                                }
+                            } else {
+                                System.out.println(SKILL_NAMES[skillId] + ": " + needAbilities[i][1] + "이 필요합니다.");
+                                System.out.println("능력치가 부족합니다.");
+                            }
+                        }
+                    }
+                    flag = false;
+                }
                 break;
             case 8: // 마검사
-                // 마법 부여 , 마검술 1, MP 2
-                needAbilities[0][0] = 10; // 마검술
-                needAbilities[0][1] = 1; // 필요한 능력치 값
-                needAbilities[1][0] = 4; // MP
-                needAbilities[1][1] = 2; // 필요한 능력치 값
-                // 베기 , 마검술 1, 민첩 2
-                needAbilities[2][0] = 10; // 마검술
-                needAbilities[2][1] = 1; // 필요한 능력치 값
-                needAbilities[3][0] = 5; // 민첩
-                needAbilities[3][1] = 2; // 필요한 능력치 값
+                while (flag) {
+                    System.out.println("어떤 스킬을 레벨업 하시겠습니까?");
+                    System.out.println("1. 마법 부여 2. 베기");
+                    choice = sc.nextInt();
+                    if(characterSkills[choice][2].equals(level)) { // 스킬 등급이 중일 때 level을 3으로 변경 현재 레벨은 상중하만 있음
+                        level = "3";
+                    }
+                    if(choice == 1) {
+                        // 니드 어빌리티는 설정되서 옴
+                        // 어빌리티 발류를 for문을 돌아서
+                        // 어빌리티 발류가
+                        needAbilities[0][0] = 10;
+                        needAbilities[1][0] = 4;
+                    } else if (choice == 2) {
+                        needAbilities[2][0] = 10;
+                        needAbilities[3][0] = 5;
+                    } else {
+                        System.out.println("잘못된 숫자를 입력하셨습니다.");
+                        flag = true;
+                    }
+                    int j = 0;
+                    if(choice == 2) {
+                        j+=2;
+                    }
+                    for(int i = 0; i < abilityValues.length; i++) {
+                        int skillId = (int) needAbilities[j][0];
+                        if(abilityValues[i][0] == needAbilities[j][0]) {
+                            if(abilityValues[i][1] >= needAbilities[j][1]) {
+                                j++;
+                                i = 0;
+                                if(j == 2 && choice == 1) {
+                                    System.out.println("스킬레벨이 상승하였습니다.");
+                                    characterSkills[choice][2] = level;
+                                } else if(j == 4 && choice == 2) {
+                                    System.out.println("스킬레벨이 상승하였습니다.");
+                                    characterSkills[choice][2] = level;
+                                }
+                            } else {
+                                System.out.println(SKILL_NAMES[skillId] + ": " + needAbilities[i][1] + "이 필요합니다.");
+                                System.out.println("능력치가 부족합니다.");
+                            }
+                        }
+                    }
+                    flag = false;
+                }
                 break;
             case 9: // 마창사
-                // 마법 부여 , 마창술 1, MP 2
-                needAbilities[0][0] = 11; // 마창술
-                needAbilities[0][1] = 1; // 필요한 능력치 값
-                needAbilities[1][0] = 4; // MP
-                needAbilities[1][1] = 2; // 필요한 능력치 값
-                // 찌르기 , 마창술 1, 민첩 2
-                needAbilities[2][0] = 11; // 마창술
-                needAbilities[2][1] = 1; // 필요한 능력치 값
-                needAbilities[3][0] = 5; // 민첩
-                needAbilities[3][1] = 2; // 필요한 능력치 값
+                while (flag) {
+                    System.out.println("어떤 스킬을 레벨업 하시겠습니까?");
+                    System.out.println("1. 마법 부여 2. 찌르기");
+                    choice = sc.nextInt();
+                    if(characterSkills[choice][2].equals(level)) { // 스킬 등급이 중일 때 level을 3으로 변경 현재 레벨은 상중하만 있음
+                        level = "3";
+                    }
+                    if(choice == 1) {
+                        // 니드 어빌리티는 설정되서 옴
+                        // 어빌리티 발류를 for문을 돌아서
+                        // 어빌리티 발류가
+                        needAbilities[0][0] = 11;
+                        needAbilities[1][0] = 4;
+                    } else if (choice == 2) {
+                        needAbilities[2][0] = 11;
+                        needAbilities[3][0] = 5;
+                    } else {
+                        System.out.println("잘못된 숫자를 입력하셨습니다.");
+                        flag = true;
+                    }
+                    int j = 0;
+                    if(choice == 2) {
+                        j+=2;
+                    }
+                    for(int i = 0; i < abilityValues.length; i++) {
+                        int skillId = (int) needAbilities[j][0];
+                        if(abilityValues[i][0] == needAbilities[j][0]) {
+                            if(abilityValues[i][1] >= needAbilities[j][1]) {
+                                j++;
+                                i = 0;
+                                if(j == 2 && choice == 1) {
+                                    System.out.println("스킬레벨이 상승하였습니다.");
+                                    characterSkills[choice][2] = level;
+                                } else if(j == 4 && choice == 2) {
+                                    System.out.println("스킬레벨이 상승하였습니다.");
+                                    characterSkills[choice][2] = level;
+                                }
+                            } else {
+                                System.out.println(SKILL_NAMES[skillId] + ": " + needAbilities[i][1] + "이 필요합니다.");
+                                System.out.println("능력치가 부족합니다.");
+                            }
+                        }
+                    }
+                    flag = false;
+                }
                 break;
         }
+        return characterSkills;
     }
+
 
     public static void displayCharacterInfo(String name, int classChoice, float[][] abilities, String[][] skills) {
         System.out.println("\n======= 캐릭터 정보 =======");
